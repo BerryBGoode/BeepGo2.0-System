@@ -480,18 +480,16 @@ public Image Logo(){
     }//GEN-LAST:event_btnPark16MouseClicked
 
     private void btnPark17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark17MouseClicked
-        // TODO add your handling code here:
+        modifPanelPark(panelPark17, "PARQUEO 17");
     }//GEN-LAST:event_btnPark17MouseClicked
 
     private void btnPark18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark18MouseClicked
-        // TODO add your handling code here:
+        modifPanelPark(panelPark18, "PARQUEO 18");
     }//GEN-LAST:event_btnPark18MouseClicked
        
-    
-    FrmSetPark park = new FrmSetPark();
-    
+    FrmSetPark park;
     void modifPanelPark(PanelRound pnl, String parkname){        
-        
+        park = new FrmSetPark();
         pnl.setBackground(Color.GRAY);        
         if (park.isVisible()) {
             park.toFront();

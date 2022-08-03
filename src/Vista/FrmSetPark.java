@@ -16,44 +16,61 @@ import java.sql.ResultSet;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
+import Controles_Personalizados.Botones.ButtonGradient;
+import Controles_Personalizados.RenderTable;
+import java.awt.Color;
+import java.awt.Font;
+import Controles_Personalizados.Tables.Table;
+import Controlador.ControllerParqueo;
+
 /**
  *
  * @author ferna
  */
 public class FrmSetPark extends javax.swing.JFrame {
 
+    private final ButtonGradient _btnAgregarCar = new ButtonGradient();
+    private final ButtonGradient _btnAgregarAccs = new ButtonGradient();
+
+    public Font font = new Font("Roboto Black", Font.PLAIN, 18);
+
     /**
      * Creates new form FrmSetPark
      */
     public FrmSetPark() {
-        initComponents();        
+        initComponents();
         setLocationRelativeTo(null);
-        Shape forma= new RoundRectangle2D.Double(0,0, this.getBounds() .width, this.getBounds() .height,40,40);
-        AWTUtilities. setWindowShape(this, forma);
+        Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
+        AWTUtilities.setWindowShape(this, forma);
         setIconImage(Logo());
-        
-        String[] headeracces = {"IDAcceso", "Documento","IDCarnet","Fecha", "IDTipoAcceso",   "Hora","Tipo de acceso", "Notificación", "Agregar"};        
-        String[] headercars = {"IDVehiculo", "Documento","IDPersonal", "Nombres",  "Apellidos",  "Placa", "Color", "Agregar"};
-        
+
+        String[] headeracces = {"IDAcceso", "Documento", "IDCarnet", "Fecha", "IDTipoAcceso", "Hora", "Tipo de acceso", "Notificación", "Agregar"};
+        String[] headercars = {"IDVehiculo", "Documento", "IDPersonal", "Nombres", "Apellidos", "Placa", "Color", "Agregar"};
+
         modeltableaccess = new DefaultTableModel(null, headeracces);
         modeltablecars = new DefaultTableModel(null, headercars);
-        
-        TbAcesosWhite.setModel(modeltableaccess);                       
+
+        TbAcesosWhite.setModel(modeltableaccess);
         TbVehiculosWhite.setModel(modeltablecars);
-        
+
         getAccess();
         //Por alguna razón me omite una columna y pasa a la otra Dx y lo mismo con la tabla vehiculos        
-        TbAcesosWhite.removeColumn(TbAcesosWhite.getColumnModel().getColumn(0));        
+        TbAcesosWhite.removeColumn(TbAcesosWhite.getColumnModel().getColumn(0));
         TbAcesosWhite.removeColumn(TbAcesosWhite.getColumnModel().getColumn(1));
         TbAcesosWhite.removeColumn(TbAcesosWhite.getColumnModel().getColumn(2));
-        
-        TbVehiculosWhite.removeColumn(TbVehiculosWhite.getColumnModel().getColumn(0));               
+
+        TbVehiculosWhite.removeColumn(TbVehiculosWhite.getColumnModel().getColumn(0));
         TbVehiculosWhite.removeColumn(TbVehiculosWhite.getColumnModel().getColumn(1));
+
+        TbAcesosWhite.setDefaultRenderer(Object.class, new RenderTable());
+        TbVehiculosWhite.setDefaultRenderer(Object.class, new RenderTable());
     }
-public Image Logo(){
-    Image retvalue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
-    return retvalue;
-}
+
+    public Image Logo() {
+        Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
+        return retvalue;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -119,12 +136,12 @@ public Image Logo(){
                 btnListoActionPerformed(evt);
             }
         });
-        panelRound1.add(btnListo, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 500, 150, -1));
+        panelRound1.add(btnListo, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 510, 150, -1));
 
         lblParkname.setFont(new java.awt.Font("Roboto Medium", 0, 36)); // NOI18N
         lblParkname.setForeground(new java.awt.Color(253, 255, 254));
         lblParkname.setText("PARKNAME");
-        panelRound1.add(lblParkname, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 210, 40));
+        panelRound1.add(lblParkname, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 320, 40));
 
         lblParkname1.setFont(new java.awt.Font("Roboto Medium", 0, 36)); // NOI18N
         lblParkname1.setForeground(new java.awt.Color(253, 255, 254));
@@ -141,6 +158,7 @@ public Image Logo(){
         panelRound1.add(ScrollTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(1238, 177, 10, 40));
 
         PanelTabla1.setHorizontalScrollBar(null);
+        PanelTabla1.setName(""); // NOI18N
         PanelTabla1.setWheelScrollingEnabled(false);
 
         TbVehiculosWhite = new Controles_Personalizados.Tables.Table(){
@@ -191,6 +209,11 @@ public Image Logo(){
         TbVehiculosWhite.setName(""); // NOI18N
         TbVehiculosWhite.setSelectionBackground(new java.awt.Color(58, 50, 75));
         TbVehiculosWhite.setShowVerticalLines(false);
+        TbVehiculosWhite.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbVehiculosWhiteMouseClicked(evt);
+            }
+        });
         PanelTabla1.setViewportView(TbVehiculosWhite);
 
         panelRound1.add(PanelTabla1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 1030, 160));
@@ -246,6 +269,11 @@ public Image Logo(){
         TbAcesosWhite.setName(""); // NOI18N
         TbAcesosWhite.setSelectionBackground(new java.awt.Color(58, 50, 75));
         TbAcesosWhite.setShowVerticalLines(false);
+        TbAcesosWhite.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbAcesosWhiteMouseClicked(evt);
+            }
+        });
         PanelTabla2.setViewportView(TbAcesosWhite);
 
         panelRound1.add(PanelTabla2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 1030, 160));
@@ -268,16 +296,16 @@ public Image Logo(){
     public static void setParkname(String parkname) {
         FrmSetPark.parkname = parkname;
     }
-    
+
     DefaultTableModel modeltableaccess;
     DefaultTableModel modeltablecars;
-    
+
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
         this.dispose();
     }//GEN-LAST:event_btnCerrarMousePressed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        lblParkname.setText((parkname));        
+        lblParkname.setText((parkname));
     }//GEN-LAST:event_formWindowActivated
 
     private void btnListoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListoActionPerformed
@@ -290,28 +318,107 @@ public Image Logo(){
         this.setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_btnMinimizarMouseClicked
 
-    void getAccess(){
+    private void TbVehiculosWhiteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbVehiculosWhiteMouseClicked
+        int row = evt.getY() / TbVehiculosWhite.getRowHeight();
+        int col = TbVehiculosWhite.getColumnModel().getColumnIndexAtX(evt.getX());
+        try {
+            if (row < TbVehiculosWhite.getRowCount() && row >= 0 && col < TbVehiculosWhite.getColumnCount() && col >= 0) {
+                Object obj = TbVehiculosWhite.getValueAt(row, col);
+                if (obj instanceof ButtonGradient) {
+                    ((ButtonGradient) obj).doClick();
+                    //((ButtonGradient) obj).setText("");                    
+                    ButtonGradient btn = (ButtonGradient) obj;
+
+                    if (btn.getName().equals("btnAgregarCar")) {
+                        setSourceCars(evt);
+                        //btn.setText("");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error do click table cars: " + e.toString());
+        }
+    }//GEN-LAST:event_TbVehiculosWhiteMouseClicked
+
+    void rew(java.awt.event.MouseEvent evt, Table table, String btname) {
+
+    }
+
+    private void TbAcesosWhiteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbAcesosWhiteMouseClicked
+        int row = evt.getY() / TbAcesosWhite.getRowHeight();
+        int col = TbAcesosWhite.getColumnModel().getColumnIndexAtX(evt.getX());
+        try {
+            if (row < TbAcesosWhite.getRowCount() && row >= 0 && col < TbVehiculosWhite.getColumnCount() && col >= 0) {
+                Object obj = TbAcesosWhite.getValueAt(row, col);
+                if (obj instanceof ButtonGradient) {
+                    ((ButtonGradient) obj).doClick();
+                    //((ButtonGradient) obj).setText("");                    
+                    ButtonGradient btn = (ButtonGradient) obj;
+
+                    if (btn.getName().equals("btnAgregarAcceso")) {
+                        setSourceAcces(evt);
+                        //btn.setText("");
+                        ControllerParqueo pr = new ControllerParqueo();
+                        pr.setIDAcceso(setSourceAcces(evt));
+                        TbAcesosWhite.getSelectedRow();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error do click table cars: " + e.toString());
+        }
+        
+    }//GEN-LAST:event_TbAcesosWhiteMouseClicked
+
+    int setSourceCars(java.awt.event.MouseEvent event) {
+        Table tb = (Table) event.getSource();
+        int id = Integer.valueOf(tb.getModel().getValueAt(tb.getSelectedRow(), 0).toString());
+        return id;
+    }
+
+    int setSourceAcces(java.awt.event.MouseEvent evt) {
+        Table tb = (Table) evt.getSource();
+        int id = Integer.valueOf(tb.getModel().getValueAt(tb.getSelectedRow(), 0).toString());
+        return id;
+    }
+
+    void getAccess() {
+
+        _btnAgregarAccs.setName("btnAgregarAcceso");
+        _btnAgregarCar.setName("btnAgregarCar");
+        _btnAgregarAccs.setColor1(new Color(253, 255, 255));
+        _btnAgregarAccs.setColor2(new Color(253, 255, 254));
+        _btnAgregarCar.setColor1(new Color(253, 255, 255));
+        _btnAgregarCar.setColor2(new Color(253, 255, 255));
+        _btnAgregarAccs.setForeground(new Color(58, 50, 75));
+        _btnAgregarCar.setForeground(new Color(58, 50, 75));
+        _btnAgregarAccs.setFont(font);
+        _btnAgregarCar.setFont(font);
+        _btnAgregarAccs.setText("Agregar");
+        _btnAgregarCar.setText("Agregar");
+
         if (modeltableaccess.getRowCount() > 0 || modeltablecars.getRowCount() > 0) {//si en el modelo de la tabla hay datos/filas o los datos son mayores a 0
             modeltableaccess.removeRow(0);//remover las filas a 0
             modeltablecars.removeRow(0);
-        }else{
+        } else {
             try {
                 ResultSet rsAcsess = Controlador.ControllerAccesos.getdata("vwAcessos");
-                while (rsAcsess.next()) {                    
-                    Object[] data = {rsAcsess.getInt("idAcceso"), rsAcsess.getString("numero_carnet"),rsAcsess.getInt("idCarnet"), rsAcsess.getDate("fecha"), rsAcsess.getInt("idTipoAcceso"), rsAcsess.getTime("hora"), rsAcsess.getString("tipo_acceso"), rsAcsess.getString("notificacion")};
+                while (rsAcsess.next()) {
+                    Object[] data = {rsAcsess.getInt("idAcceso"), rsAcsess.getString("numero_carnet"), rsAcsess.getInt("idCarnet"), rsAcsess.getDate("fecha"), rsAcsess.getInt("idTipoAcceso"), rsAcsess.getTime("hora"), rsAcsess.getString("tipo_acceso"), rsAcsess.getString("notificacion"), _btnAgregarAccs};
                     modeltableaccess.addRow(data);
                 }
-                ResultSet rsCar = Controlador.ControllerAccesos.getdata("vwVehiculos");                
-                while (rsCar.next()) {                    
-                    Object[] data = {rsCar.getInt("idVehiculo"), rsCar.getString("nombre_p"), rsCar.getInt("idPersonal"), rsCar.getString("apellido_p"), rsCar.getString("numero_carnet"), rsCar.getString("placa"), rsCar.getString("color")};
+                ResultSet rsCar = Controlador.ControllerAccesos.getdata("vwVehiculos");
+                while (rsCar.next()) {
+                    Object[] data = {rsCar.getInt("idVehiculo"), rsCar.getString("numero_carnet"), rsCar.getInt("idPersonal"), rsCar.getString("nombre_p"), rsCar.getString("apellido_p"), rsCar.getString("placa"), rsCar.getString("color"), _btnAgregarCar};
                     modeltablecars.addRow(data);
                 }
-                
+
             } catch (SQLException e) {
-                System.out.println("Error view: "+e.toString());
+                System.out.println("Error view: " + e.toString());
             }
         }
     }
+
     /**
      * @param args the command line arguments
      */
@@ -342,10 +449,10 @@ public Image Logo(){
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmSetPark().setVisible(true);                
+                new FrmSetPark().setVisible(true);
             }
         });
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

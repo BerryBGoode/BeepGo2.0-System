@@ -34,7 +34,7 @@ import necesario.RSFileChooser;
  */
 public class FrmP_U_Empresa extends javax.swing.JFrame {
 
-   ControllerP_U_Empresa VistapEmpresa = new ControllerP_U_Empresa();
+    ControllerP_U_Empresa VistapEmpresa = new ControllerP_U_Empresa();
 
     byte[] icono;
     ImageIcon logo;
@@ -203,15 +203,15 @@ public class FrmP_U_Empresa extends javax.swing.JFrame {
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         // TODO add your handling code here:
-        if (txtNombreEmpresa.getText().trim().isEmpty()||txtRepresentanteLegal.getText().trim().isEmpty()||txtDireccionEmpresa.getText().trim().isEmpty()||txtNIT.getText().trim().isEmpty()||txtCNR.getText().trim().isEmpty()) {
-           JOptionPane.showMessageDialog(null,"Existen campos vacios","Campos vacios", JOptionPane.OK_OPTION);
-        }else{
+        if (txtNombreEmpresa.getText().trim().isEmpty() || txtRepresentanteLegal.getText().trim().isEmpty() || txtDireccionEmpresa.getText().trim().isEmpty() || txtNIT.getText().trim().isEmpty() || txtCNR.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Existen campos vacios", "Campos vacios", JOptionPane.OK_OPTION);
+        } else {
             IngresarDatos();
             FrmP_U_Personal pu = new FrmP_U_Personal();
             pu.setVisible(true);
             this.dispose();
         }
-        
+
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
@@ -233,7 +233,7 @@ public class FrmP_U_Empresa extends javax.swing.JFrame {
             //Capturar imagen
             try {
                 File rutapath = new File(ruta);
-                icono=new byte[(int) rutapath.length()];
+                icono = new byte[(int) rutapath.length()];
                 InputStream input = new FileInputStream(rutapath);
                 input.read(icono);
                 VistapEmpresa.setLogo(icono);
@@ -242,11 +242,11 @@ public class FrmP_U_Empresa extends javax.swing.JFrame {
             }
             //Mostrar imagen
             try {
-                byte[] bi=VistapEmpresa.getLogo();
-                BufferedImage image=null;
-                InputStream in= new ByteArrayInputStream(bi);
-                image=ImageIO.read(in);
-                logo=new ImageIcon(image.getScaledInstance(220, 250, 0));
+                byte[] bi = VistapEmpresa.getLogo();
+                BufferedImage image = null;
+                InputStream in = new ByteArrayInputStream(bi);
+                image = ImageIO.read(in);
+                logo = new ImageIcon(image.getScaledInstance(220, 250, 0));
                 LblImgLogo.setIcon(logo);
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, e.toString());
@@ -257,17 +257,18 @@ public class FrmP_U_Empresa extends javax.swing.JFrame {
         // TODO add your handling code here:
         cargarImagen();
     }//GEN-LAST:event_btnExaminarActionPerformed
-void IngresarDatos(){
-    VistapEmpresa.nombre_empresa=txtNombreEmpresa.getText();
-    VistapEmpresa.direccion=txtDireccionEmpresa.getText();
-    VistapEmpresa.representante=txtRepresentanteLegal.getText();
-    VistapEmpresa.nit=txtNIT.getText();
-    VistapEmpresa.cnr=txtCNR.getText();
-    VistapEmpresa.logo=icono;
-    if (VistapEmpresa.IngresarP_EmpresaController()==true) {
-        JOptionPane.showMessageDialog(null, "Su registro ha sido ingresado correctamente","Ingreso completado",JOptionPane.INFORMATION_MESSAGE);
+    void IngresarDatos() {
+        VistapEmpresa.nombre_empresa = txtNombreEmpresa.getText();
+        VistapEmpresa.direccion = txtDireccionEmpresa.getText();
+        VistapEmpresa.representante = txtRepresentanteLegal.getText();
+        VistapEmpresa.nit = txtNIT.getText();
+        VistapEmpresa.cnr = txtCNR.getText();
+        VistapEmpresa.logo = icono;
+        if (VistapEmpresa.IngresarP_EmpresaController() == true) {
+            JOptionPane.showMessageDialog(null, "Su registro ha sido ingresado correctamente", "Ingreso completado", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
-}
+
     /**
      * @param args the command line arguments
      */

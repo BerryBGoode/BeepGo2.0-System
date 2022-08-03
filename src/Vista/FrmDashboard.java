@@ -783,8 +783,7 @@ public Image Logo(){
         }        
         /*panelOpcionesPersonal.setVisible(true);*/
         //this.showp
-    }
-    
+    }  
     void Logout(){
         PanelSeleccionDashboard.setVisible(false);
         PanelSeleccionUsuario.setVisible(false);
