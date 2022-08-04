@@ -194,8 +194,7 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
         try {
             ResultSet rs = controlleru.ObtenerIdPersonal();
             if (rs.next()) {
-                controlleru.idPersonal = rs.getInt("idPersonal");
-                System.out.println(rs.getInt("idPersonal"));
+                controlleru.idPersonal = rs.getInt("idPersonal");                
             }
 
         } catch (SQLException exception) {
@@ -212,7 +211,6 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
             ResultSet rs = controllerp.ObteneridEmpresa();
             if (rs.next()) {
                 controllerp.empresa = rs.getInt("idEmpresa");
-                System.out.println(rs.getInt("idEmpresa"));
             }
 
         } catch (SQLException exception) {
@@ -276,10 +274,10 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
                     CmbGenero.setModel(modelcombogenero);
                 } while (rs.next());
             } else {
-                System.out.println("No existen campos");
+                JOptionPane.showMessageDialog(null, "No existen datos sobre los generos", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "No se logro cargar la informacion", "Error al cargar", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se logro cargar la informacion", "Error al cargar", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -295,10 +293,10 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
                     CmbTipoDocumento.setModel(modelocombo);
                 } while (rs.next());
             } else {
-                System.out.println("No existen campos");
+                JOptionPane.showMessageDialog(null, "No existen datos sobre los tipos de documentos", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No se lograron cargar los datos", "Error al cargar", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se lograron cargar los datos", "Error al cargar", JOptionPane.WARNING_MESSAGE);
         }
     }
 

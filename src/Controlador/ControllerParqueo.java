@@ -5,10 +5,58 @@
  */
 package Controlador;
 
+import Modelo.ModelParqueo;
+import java.awt.Color;
+import java.sql.ResultSet;
 /**
  *
  * @author danlo
  */
 public class ControllerParqueo {
+    private int ID;
+    private int IDVehiculo;
+    private int IDAcceso;
+    private static int IDParqueo;
+            
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public int getIDVehiculo() {
+        return IDVehiculo;
+    }
+
+    public void setIDVehiculo(int IDVehiculo) {
+        this.IDVehiculo = IDVehiculo;
+    }
+
+    public int getIDAcceso() {
+        return IDAcceso;
+    }
+
+    public void setIDAcceso(int IDAcceso) {
+        this.IDAcceso = IDAcceso;
+    }
+
+    public static int getIDParqueo() {
+        return IDParqueo;
+    }
+
+    public static void setIDParqueo(int IDParqueo) {
+        ControllerParqueo.IDParqueo = IDParqueo;
+    }   
     
+    ModelParqueo mdpark = new ModelParqueo();
+    
+    public ResultSet getID(int NParqueo){
+        return mdpark.getIDPark(NParqueo);
+    }
+    
+    public boolean insertPark(){
+        return mdpark.insertPark(getIDParqueo(), getIDAcceso(), getIDVehiculo());
+    }
 }
