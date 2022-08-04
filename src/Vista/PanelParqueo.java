@@ -197,7 +197,7 @@ public class PanelParqueo extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnAgregarMouseClicked
 
-    void getdataPark(){
+    public void getdataPark(){
         String tablename = "vwParqueos";
         if (tbpark.getRowCount() > 0) {//si hay columnas antes de cargar 
            tbpark.removeRow(0);      //borre las filas q tenía 
