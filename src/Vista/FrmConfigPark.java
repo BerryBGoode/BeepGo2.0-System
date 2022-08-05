@@ -519,7 +519,11 @@ public class FrmConfigPark extends javax.swing.JFrame {
 
     }
 
-    void checkState(PanelRound pnl) {
+    void checkState(PanelRound pnl, int N) {
+        ControllerParqueo.setNumberPark(N);
+        /*if () {
+            
+        }*/
         pnl.setBackground(Color.GRAY);
     }
 

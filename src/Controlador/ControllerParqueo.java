@@ -17,6 +17,7 @@ public class ControllerParqueo {
     private int IDVehiculo;
     private int IDAcceso;
     private static int IDParqueo;
+    private static int numberPark;
             
     public int getID() {
         return ID;
@@ -49,7 +50,15 @@ public class ControllerParqueo {
     public static void setIDParqueo(int IDParqueo) {
         ControllerParqueo.IDParqueo = IDParqueo;
     }   
-    
+
+    public static int getNumberPark() {
+        return numberPark;
+    }
+
+    public static void setNumberPark(int numberPark) {
+        ControllerParqueo.numberPark = numberPark;
+    }
+        
     ModelParqueo mdpark = new ModelParqueo();
     
     public ResultSet getID(int NParqueo){
@@ -59,4 +68,8 @@ public class ControllerParqueo {
     public boolean insertPark(){
         return mdpark.insertPark(getIDParqueo(), getIDAcceso(), getIDVehiculo());
     }
+    
+    /*public static boolean checkStatePark(){
+        
+    }*/
 }
