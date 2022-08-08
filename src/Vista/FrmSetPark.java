@@ -16,7 +16,6 @@ import java.sql.ResultSet;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
-import Controles_Personalizados.Botones.ButtonGradient;
 import Controles_Personalizados.RenderTable;
 import java.awt.Color;
 import java.awt.Font;
@@ -24,6 +23,7 @@ import Controles_Personalizados.Tables.Table;
 import Controlador.ControllerParqueo;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
+import Controles_Personalizados.Botones.UWPButton;
 
 /**
  *
@@ -31,8 +31,8 @@ import javax.swing.JOptionPane;
  */
 public class FrmSetPark extends javax.swing.JFrame {
 
-    private final ButtonGradient _btnAgregarCar = new ButtonGradient();
-    private final ButtonGradient _btnAgregarAccs = new ButtonGradient();
+    private final UWPButton _btnAgregarCar = new UWPButton();
+    private final UWPButton _btnAgregarAccs = new UWPButton();
 
     public Font font = new Font("Roboto Black", Font.PLAIN, 18);
 
@@ -72,7 +72,14 @@ public class FrmSetPark extends javax.swing.JFrame {
 
         TbAcesosWhite.setDefaultRenderer(Object.class, new RenderTable());
         TbVehiculosWhite.setDefaultRenderer(Object.class, new RenderTable());
-        txtIDPark.setText(ID);       
+        txtIDPark.setText(ID);    
+        txtIDPark.setVisible(false);
+        chkCantbAcess.setFont(font);
+        chkCantbCars.setFont(font);
+        chkCantbAcess.setForeground(Color.GRAY);
+        chkCantbCars.setForeground(Color.gray);
+        chkCantbAcess.setEnabled(false);
+        chkCantbCars.setEnabled(false);
     }
     
     public FrmSetPark() {
@@ -107,6 +114,8 @@ public class FrmSetPark extends javax.swing.JFrame {
         TbAcesosWhite = new Controles_Personalizados.Tables.Table();
         ScrollTablaAcces = new Controles_Personalizados.ScrollBar.ScrollBarCustom();
         txtIDPark = new javax.swing.JTextField();
+        chkCantbAcess = new javax.swing.JCheckBox();
+        chkCantbCars = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -295,7 +304,25 @@ public class FrmSetPark extends javax.swing.JFrame {
         ScrollTablaAcces.setBackground(new java.awt.Color(58, 50, 75));
         ScrollTablaAcces.setForeground(new java.awt.Color(58, 50, 75));
         panelRound1.add(ScrollTablaAcces, new org.netbeans.lib.awtextra.AbsoluteConstraints(1238, 177, 10, 40));
-        panelRound1.add(txtIDPark, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 50, 130, -1));
+        panelRound1.add(txtIDPark, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 40, 130, -1));
+
+        chkCantbAcess.setBackground(new java.awt.Color(58, 50, 75));
+        chkCantbAcess.setText("Cancelar");
+        chkCantbAcess.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkCantbAcessActionPerformed(evt);
+            }
+        });
+        panelRound1.add(chkCantbAcess, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 80, -1, -1));
+
+        chkCantbCars.setBackground(new java.awt.Color(58, 50, 75));
+        chkCantbCars.setText("Cancelar");
+        chkCantbCars.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkCantbCarsActionPerformed(evt);
+            }
+        });
+        panelRound1.add(chkCantbCars, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 300, -1, -1));
 
         getContentPane().add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 580));
 
@@ -344,14 +371,19 @@ public class FrmSetPark extends javax.swing.JFrame {
         try {
             if (row < TbVehiculosWhite.getRowCount() && row >= 0 && col < TbVehiculosWhite.getColumnCount() && col >= 0) {
                 Object obj = TbVehiculosWhite.getValueAt(row, col);
-                if (obj instanceof ButtonGradient) {
-                    ((ButtonGradient) obj).doClick();
+                if (obj instanceof UWPButton) {
+                    ((UWPButton) obj).doClick();
+                    chkCantbCars.setEnabled(true);
+                    chkCantbCars.setForeground(Color.WHITE);
                     //((ButtonGradient) obj).setText("");                    
-                    ButtonGradient btn = (ButtonGradient) obj;
+                    UWPButton btn = (UWPButton) obj;
 
                     if (btn.getName().equals("btnAgregarCar")) {
                         park.setIDVehiculo(setSourceCars(evt));
                         //btn.setText("");
+                        //park.setIDAcceso(setSourceAcces(evt)); 
+                        TbVehiculosWhite.setVisible(false);
+                        chkCantbCars.setSelected(Boolean.FALSE);
                     }
                 }
             }
@@ -366,16 +398,19 @@ public class FrmSetPark extends javax.swing.JFrame {
         try {
             if (row < TbAcesosWhite.getRowCount() && row >= 0 && col < TbVehiculosWhite.getColumnCount() && col >= 0) {
                 Object obj = TbAcesosWhite.getValueAt(row, col);
-                if (obj instanceof ButtonGradient) {
-                    ((ButtonGradient) obj).doClick();
+                if (obj instanceof UWPButton) {
+                    chkCantbAcess.setEnabled(true);
+                    chkCantbAcess.setForeground(Color.WHITE);
+                    //((ButtonGradient) obj).doClick();
                     //((ButtonGradient) obj).setText("");                    
-                    ButtonGradient btn = (ButtonGradient) obj;
+                    UWPButton btn = (UWPButton) obj;
 
                     if (btn.getName().equals("btnAgregarAcceso")) {
                         setSourceAcces(evt);
-                        //btn.setText("");
-                        ControllerParqueo pr = new ControllerParqueo();
-                        park.setIDAcceso(setSourceAcces(evt));   
+                        //btn.setText("");                        
+                        park.setIDAcceso(setSourceAcces(evt)); 
+                        TbAcesosWhite.setVisible(false);
+                        chkCantbAcess.setSelected(false);
                     }
                 }
             }
@@ -384,6 +419,18 @@ public class FrmSetPark extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_TbAcesosWhiteMouseClicked
+
+    private void chkCantbAcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCantbAcessActionPerformed
+        if (chkCantbAcess.isSelected()) {
+            TbAcesosWhite.setVisible(true);
+        }
+    }//GEN-LAST:event_chkCantbAcessActionPerformed
+
+    private void chkCantbCarsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCantbCarsActionPerformed
+        if (chkCantbCars.isSelected()) {
+            TbVehiculosWhite.setVisible(true);
+        }
+    }//GEN-LAST:event_chkCantbCarsActionPerformed
 
     int setSourceCars(java.awt.event.MouseEvent event) {
         Table tb = (Table) event.getSource();
@@ -401,10 +448,10 @@ public class FrmSetPark extends javax.swing.JFrame {
 
         _btnAgregarAccs.setName("btnAgregarAcceso");
         _btnAgregarCar.setName("btnAgregarCar");
-        _btnAgregarAccs.setColor1(new Color(253, 255, 255));
-        _btnAgregarAccs.setColor2(new Color(253, 255, 254));
-        _btnAgregarCar.setColor1(new Color(253, 255, 255));
-        _btnAgregarCar.setColor2(new Color(253, 255, 255));
+        _btnAgregarAccs.setBackground(new Color(253, 255, 255));
+        //_btnAgregarAccs.setColor2(new Color(253, 255, 254));
+        _btnAgregarCar.setBackground(new Color(253, 255, 255));
+        //_btnAgregarCar.setColor2(new Color(253, 255, 255));
         _btnAgregarAccs.setForeground(new Color(58, 50, 75));
         _btnAgregarCar.setForeground(new Color(58, 50, 75));
         _btnAgregarAccs.setFont(font);
@@ -417,7 +464,7 @@ public class FrmSetPark extends javax.swing.JFrame {
             modeltablecars.removeRow(0);
         } else {
             try {
-                ResultSet rsAcsess = Controlador.ControllerAccesos.getdata("vwAcessos");
+                ResultSet rsAcsess = Controlador.ControllerAccesos.getdata("vwAccesos");
                 while (rsAcsess.next()) {
                     Object[] data = {rsAcsess.getInt("idAcceso"), rsAcsess.getString("numero_carnet"), rsAcsess.getInt("idCarnet"), rsAcsess.getDate("fecha"), rsAcsess.getInt("idTipoAcceso"), rsAcsess.getTime("hora"), rsAcsess.getString("tipo_acceso"), rsAcsess.getString("notificacion"), _btnAgregarAccs};
                     modeltableaccess.addRow(data);
@@ -461,10 +508,8 @@ public class FrmSetPark extends javax.swing.JFrame {
         if (ControllerParqueo.getIDParqueo() > 0 && park.getIDAcceso() > 0 && park.getIDVehiculo() > 0) {
             if (park.insertPark() == true) {
                 confir = true;
-                System.out.println(confir);
             }else{
                 confir = false;
-                System.out.println(confir);
             }
         }else{
             JOptionPane.showMessageDialog(null, "No se permiten valores nulos.\nAgregar correctamente los datos", "Error", JOptionPane.ERROR_MESSAGE);
@@ -517,6 +562,8 @@ public class FrmSetPark extends javax.swing.JFrame {
     private javax.swing.JLabel btnCerrar;
     private Controles_Personalizados.Botones.ButtonGradient btnListo;
     private javax.swing.JLabel btnMinimizar;
+    private javax.swing.JCheckBox chkCantbAcess;
+    private javax.swing.JCheckBox chkCantbCars;
     private javax.swing.JLabel lblParkname;
     private javax.swing.JLabel lblParkname1;
     private javax.swing.JLabel lblParkname2;

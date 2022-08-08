@@ -19,7 +19,9 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
-
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
 
 /**
  *
@@ -53,8 +55,7 @@ public class FrmDashboard extends javax.swing.JFrame{
          panelSeleccionAccesos.setVisible(false);
          panelSeleccionContactos.setVisible(false);
          panelSeleccionAjustes.setVisible(false);
-         panelSeleccionLogout.setVisible(false);
-         panelOpcionesPersonal.setVisible(false);         
+         panelSeleccionLogout.setVisible(false);     
          
          PanelDashboard pl = new PanelDashboard();
          pl.setSize(1270,620);
@@ -85,7 +86,10 @@ public Image Logo(){
     private void initComponents() {
 
         panelFondo = new Controles_Personalizados.Paneles.PanelRound();
+        jPanel3 = new javax.swing.JPanel();
         PanelContenedor = new Controles_Personalizados.Paneles.PanelRound();
+        PanelContenedorForms = new Controles_Personalizados.Paneles.PanelRound();
+        jPanel9 = new javax.swing.JPanel();
         txtBuscar = new Controles_Personalizados.BarraBusqueda.TextFieldAnimation();
         PanelFecha = new Controles_Personalizados.Paneles.PanelRound();
         lblHora = new javax.swing.JLabel();
@@ -101,44 +105,52 @@ public Image Logo(){
         lblTipo = new javax.swing.JLabel();
         lblUsuarioDark = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
-        PanelContenedorForms = new Controles_Personalizados.Paneles.PanelRound();
-        panelOpcionesPersonal = new Controles_Personalizados.Paneles.PanelRound();
-        PanelSeleccionEstudiantes = new Controles_Personalizados.Paneles.PanelRound();
-        btnEstudiantes = new javax.swing.JLabel();
-        btnProfesores = new javax.swing.JLabel();
-        panelSeleccionProfesores = new Controles_Personalizados.Paneles.PanelRound();
+        pnlWest = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
         btnDashboard = new javax.swing.JLabel();
-        PanelSeleccionDashboard = new Controles_Personalizados.Paneles.PanelRound();
         btnUsuarios = new javax.swing.JLabel();
         btnPersonal = new javax.swing.JLabel();
         btnCarnets = new javax.swing.JLabel();
         btnVehiculos = new javax.swing.JLabel();
-        PanelSeleccionUsuario = new Controles_Personalizados.Paneles.PanelRound();
-        panelSeleccionPersonal = new Controles_Personalizados.Paneles.PanelRound();
-        panelSeleccionCarnets = new Controles_Personalizados.Paneles.PanelRound();
         panelSeleccionVehiculos = new Controles_Personalizados.Paneles.PanelRound();
         btnParqueo = new javax.swing.JLabel();
-        panelSeleccionParqueo = new Controles_Personalizados.Paneles.PanelRound();
-        btnContactos = new javax.swing.JLabel();
         btnAjustes = new javax.swing.JLabel();
         panelSeleccionAjustes = new Controles_Personalizados.Paneles.PanelRound();
-        panelSeleccionContactos = new Controles_Personalizados.Paneles.PanelRound();
         btnAccesos = new javax.swing.JLabel();
-        panelSeleccionAccesos = new Controles_Personalizados.Paneles.PanelRound();
-        btnCerrar = new javax.swing.JLabel();
-        btnMinimizar = new javax.swing.JLabel();
         btnLogOut = new javax.swing.JLabel();
         panelSeleccionLogout = new Controles_Personalizados.Paneles.PanelRound();
+        btnContactos = new javax.swing.JLabel();
+        panelSeleccionContactos = new Controles_Personalizados.Paneles.PanelRound();
+        panelSeleccionAccesos = new Controles_Personalizados.Paneles.PanelRound();
+        panelSeleccionParqueo = new Controles_Personalizados.Paneles.PanelRound();
+        panelSeleccionCarnets = new Controles_Personalizados.Paneles.PanelRound();
+        panelSeleccionPersonal = new Controles_Personalizados.Paneles.PanelRound();
+        PanelSeleccionUsuario = new Controles_Personalizados.Paneles.PanelRound();
+        PanelSeleccionDashboard = new Controles_Personalizados.Paneles.PanelRound();
+        jPanel7 = new javax.swing.JPanel();
+        pnlNorth = new javax.swing.JPanel();
+        pnlModifWin = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        btnMinimizar = new javax.swing.JLabel();
+        btnMaximizar = new javax.swing.JLabel();
+        btnCerrar = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        pnlFilled = new javax.swing.JPanel();
+        pnlSourth = new javax.swing.JPanel();
+        pnlEast = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1373, 768));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
         });
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelFondo.setBackground(new java.awt.Color(42, 36, 56));
         panelFondo.setPreferredSize(new java.awt.Dimension(1366, 768));
@@ -146,7 +158,10 @@ public Image Logo(){
         panelFondo.setRoundBottomRight(40);
         panelFondo.setRoundTopLeft(40);
         panelFondo.setRoundTopRight(40);
-        panelFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelFondo.setLayout(new java.awt.BorderLayout());
+
+        jPanel3.setBackground(new java.awt.Color(42, 36, 56));
+        jPanel3.setLayout(new java.awt.BorderLayout());
 
         PanelContenedor.setBackground(new java.awt.Color(231, 234, 239));
         PanelContenedor.setPreferredSize(new java.awt.Dimension(1155, 729));
@@ -154,7 +169,15 @@ public Image Logo(){
         PanelContenedor.setRoundBottomRight(30);
         PanelContenedor.setRoundTopLeft(30);
         PanelContenedor.setRoundTopRight(30);
-        PanelContenedor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        PanelContenedor.setLayout(new java.awt.BorderLayout());
+
+        PanelContenedorForms.setBackground(new java.awt.Color(231, 234, 239));
+        PanelContenedorForms.setRoundBottomLeft(30);
+        PanelContenedorForms.setRoundBottomRight(30);
+        PanelContenedorForms.setLayout(new java.awt.BorderLayout());
+        PanelContenedor.add(PanelContenedorForms, java.awt.BorderLayout.CENTER);
+
+        jPanel9.setBackground(new java.awt.Color(231, 234, 239));
 
         txtBuscar.setBackground(new java.awt.Color(253, 255, 254));
         txtBuscar.setForeground(new java.awt.Color(42, 36, 56));
@@ -167,7 +190,7 @@ public Image Logo(){
                 txtBuscarActionPerformed(evt);
             }
         });
-        PanelContenedor.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 810, 50));
+        jPanel9.add(txtBuscar);
 
         PanelFecha.setBackground(new java.awt.Color(253, 255, 254));
         PanelFecha.setPreferredSize(new java.awt.Dimension(152, 52));
@@ -196,7 +219,7 @@ public Image Logo(){
         lblSunset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/sunset.png"))); // NOI18N
         PanelFecha.add(lblSunset, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, -2, -1, 60));
 
-        PanelContenedor.add(PanelFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 30, 160, 60));
+        jPanel9.add(PanelFecha);
 
         PanelMO.setBackground(new java.awt.Color(253, 255, 254));
         PanelMO.setPreferredSize(new java.awt.Dimension(57, 54));
@@ -213,7 +236,7 @@ public Image Logo(){
                 lblNormalMouseClicked(evt);
             }
         });
-        PanelMO.add(lblNormal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 40, 40));
+        PanelMO.add(lblNormal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 7, 40, 40));
 
         btnMO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/bxs-moon.png"))); // NOI18N
         btnMO.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -222,9 +245,9 @@ public Image Logo(){
                 btnMOMouseClicked(evt);
             }
         });
-        PanelMO.add(btnMO, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 40, 40));
+        PanelMO.add(btnMO, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 7, 40, 40));
 
-        PanelContenedor.add(PanelMO, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 30, 70, 60));
+        jPanel9.add(PanelMO);
 
         PanelDatosUs.setBackground(new java.awt.Color(253, 255, 254));
         PanelDatosUs.setPreferredSize(new java.awt.Dimension(174, 55));
@@ -250,51 +273,27 @@ public Image Logo(){
         lblUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/bxs-user-circle.png"))); // NOI18N
         PanelDatosUs.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 40, 60));
 
-        PanelContenedor.add(PanelDatosUs, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 30, 170, 60));
+        jPanel9.add(PanelDatosUs);
 
-        PanelContenedorForms.setBackground(new java.awt.Color(231, 234, 239));
-        PanelContenedorForms.setRoundBottomLeft(30);
-        PanelContenedorForms.setRoundBottomRight(30);
-        PanelContenedorForms.setLayout(null);
+        PanelContenedor.add(jPanel9, java.awt.BorderLayout.NORTH);
 
-        panelOpcionesPersonal.setBackground(new java.awt.Color(58, 50, 75));
-        panelOpcionesPersonal.setRoundBottomLeft(20);
-        panelOpcionesPersonal.setRoundBottomRight(20);
-        panelOpcionesPersonal.setRoundTopLeft(20);
-        panelOpcionesPersonal.setRoundTopRight(20);
-        panelOpcionesPersonal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel3.add(PanelContenedor, java.awt.BorderLayout.CENTER);
 
-        PanelSeleccionEstudiantes.setBackground(new java.awt.Color(42, 36, 56));
-        PanelSeleccionEstudiantes.setPreferredSize(new java.awt.Dimension(122, 67));
-        PanelSeleccionEstudiantes.setRoundBottomLeft(20);
-        PanelSeleccionEstudiantes.setRoundBottomRight(20);
-        PanelSeleccionEstudiantes.setRoundTopLeft(20);
-        PanelSeleccionEstudiantes.setRoundTopRight(20);
-        PanelSeleccionEstudiantes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelFondo.add(jPanel3, java.awt.BorderLayout.CENTER);
 
-        btnEstudiantes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/bxs-graduation 1.png"))); // NOI18N
-        PanelSeleccionEstudiantes.add(btnEstudiantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 7, -1, -1));
+        pnlWest.setBackground(new java.awt.Color(42, 36, 56));
+        pnlWest.setLayout(new java.awt.BorderLayout());
 
-        panelOpcionesPersonal.add(PanelSeleccionEstudiantes, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 50, 50));
+        jPanel4.setBackground(new java.awt.Color(42, 36, 56));
+        pnlWest.add(jPanel4, java.awt.BorderLayout.SOUTH);
 
-        btnProfesores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/chalkboard-user-solid 1.png"))); // NOI18N
-        panelOpcionesPersonal.add(btnProfesores, new org.netbeans.lib.awtextra.AbsoluteConstraints(79, 22, -1, -1));
+        jPanel5.setBackground(new java.awt.Color(42, 36, 56));
+        pnlWest.add(jPanel5, java.awt.BorderLayout.PAGE_START);
 
-        panelSeleccionProfesores.setBackground(new java.awt.Color(42, 36, 56));
-        panelSeleccionProfesores.setPreferredSize(new java.awt.Dimension(122, 67));
-        panelSeleccionProfesores.setRoundBottomLeft(20);
-        panelSeleccionProfesores.setRoundBottomRight(20);
-        panelSeleccionProfesores.setRoundTopLeft(20);
-        panelSeleccionProfesores.setRoundTopRight(20);
-        panelSeleccionProfesores.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelOpcionesPersonal.add(panelSeleccionProfesores, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 50, 50));
+        jPanel6.setLayout(new java.awt.BorderLayout());
 
-        PanelContenedorForms.add(panelOpcionesPersonal);
-        panelOpcionesPersonal.setBounds(10, 150, 130, 70);
-
-        PanelContenedor.add(PanelContenedorForms, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1270, 630));
-
-        panelFondo.add(PanelContenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 29, 1270, 720));
+        jPanel8.setBackground(new java.awt.Color(42, 36, 56));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/casita-menu.png"))); // NOI18N
         btnDashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -303,16 +302,7 @@ public Image Logo(){
                 btnDashboardMouseClicked(evt);
             }
         });
-        panelFondo.add(btnDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 117, -1, -1));
-
-        PanelSeleccionDashboard.setBackground(new java.awt.Color(58, 50, 75));
-        PanelSeleccionDashboard.setPreferredSize(new java.awt.Dimension(122, 67));
-        PanelSeleccionDashboard.setRoundBottomLeft(20);
-        PanelSeleccionDashboard.setRoundBottomRight(20);
-        PanelSeleccionDashboard.setRoundTopLeft(20);
-        PanelSeleccionDashboard.setRoundTopRight(20);
-        PanelSeleccionDashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelFondo.add(PanelSeleccionDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 50, 50));
+        jPanel8.add(btnDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 75, -1, -1));
 
         btnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/usuario-menu.png"))); // NOI18N
         btnUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -321,7 +311,7 @@ public Image Logo(){
                 btnUsuariosMouseClicked(evt);
             }
         });
-        panelFondo.add(btnUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 177, -1, -1));
+        jPanel8.add(btnUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 135, -1, -1));
 
         btnPersonal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/personal-menu.png"))); // NOI18N
         btnPersonal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -333,7 +323,7 @@ public Image Logo(){
                 btnPersonalMouseExited(evt);
             }
         });
-        panelFondo.add(btnPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 237, -1, -1));
+        jPanel8.add(btnPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 195, -1, -1));
 
         btnCarnets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/carnets-menu.png"))); // NOI18N
         btnCarnets.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -342,7 +332,7 @@ public Image Logo(){
                 btnCarnetsMouseClicked(evt);
             }
         });
-        panelFondo.add(btnCarnets, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 297, -1, -1));
+        jPanel8.add(btnCarnets, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 255, -1, -1));
 
         btnVehiculos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/vehiculo-menu.png"))); // NOI18N
         btnVehiculos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -351,34 +341,7 @@ public Image Logo(){
                 btnVehiculosMouseClicked(evt);
             }
         });
-        panelFondo.add(btnVehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 354, -1, 40));
-
-        PanelSeleccionUsuario.setBackground(new java.awt.Color(58, 50, 75));
-        PanelSeleccionUsuario.setPreferredSize(new java.awt.Dimension(122, 67));
-        PanelSeleccionUsuario.setRoundBottomLeft(20);
-        PanelSeleccionUsuario.setRoundBottomRight(20);
-        PanelSeleccionUsuario.setRoundTopLeft(20);
-        PanelSeleccionUsuario.setRoundTopRight(20);
-        PanelSeleccionUsuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelFondo.add(PanelSeleccionUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 50, 50));
-
-        panelSeleccionPersonal.setBackground(new java.awt.Color(58, 50, 75));
-        panelSeleccionPersonal.setPreferredSize(new java.awt.Dimension(122, 67));
-        panelSeleccionPersonal.setRoundBottomLeft(20);
-        panelSeleccionPersonal.setRoundBottomRight(20);
-        panelSeleccionPersonal.setRoundTopLeft(20);
-        panelSeleccionPersonal.setRoundTopRight(20);
-        panelSeleccionPersonal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelFondo.add(panelSeleccionPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 50, 50));
-
-        panelSeleccionCarnets.setBackground(new java.awt.Color(58, 50, 75));
-        panelSeleccionCarnets.setPreferredSize(new java.awt.Dimension(122, 67));
-        panelSeleccionCarnets.setRoundBottomLeft(20);
-        panelSeleccionCarnets.setRoundBottomRight(20);
-        panelSeleccionCarnets.setRoundTopLeft(20);
-        panelSeleccionCarnets.setRoundTopRight(20);
-        panelSeleccionCarnets.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelFondo.add(panelSeleccionCarnets, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 50, 50));
+        jPanel8.add(btnVehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 315, -1, 40));
 
         panelSeleccionVehiculos.setBackground(new java.awt.Color(58, 50, 75));
         panelSeleccionVehiculos.setPreferredSize(new java.awt.Dimension(122, 67));
@@ -387,7 +350,7 @@ public Image Logo(){
         panelSeleccionVehiculos.setRoundTopLeft(20);
         panelSeleccionVehiculos.setRoundTopRight(20);
         panelSeleccionVehiculos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelFondo.add(panelSeleccionVehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 50, 50));
+        jPanel8.add(panelSeleccionVehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 50, 50));
 
         btnParqueo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/parqueo-menu.png"))); // NOI18N
         btnParqueo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -396,25 +359,7 @@ public Image Logo(){
                 btnParqueoMouseClicked(evt);
             }
         });
-        panelFondo.add(btnParqueo, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 417, 30, -1));
-
-        panelSeleccionParqueo.setBackground(new java.awt.Color(58, 50, 75));
-        panelSeleccionParqueo.setPreferredSize(new java.awt.Dimension(122, 67));
-        panelSeleccionParqueo.setRoundBottomLeft(20);
-        panelSeleccionParqueo.setRoundBottomRight(20);
-        panelSeleccionParqueo.setRoundTopLeft(20);
-        panelSeleccionParqueo.setRoundTopRight(20);
-        panelSeleccionParqueo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelFondo.add(panelSeleccionParqueo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, 50, 50));
-
-        btnContactos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/contactos-menu.png"))); // NOI18N
-        btnContactos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnContactos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnContactosMouseClicked(evt);
-            }
-        });
-        panelFondo.add(btnContactos, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 535, 40, 40));
+        jPanel8.add(btnParqueo, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 375, 30, -1));
 
         btnAjustes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/ajustes.png"))); // NOI18N
         btnAjustes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -423,7 +368,7 @@ public Image Logo(){
                 btnAjustesMouseClicked(evt);
             }
         });
-        panelFondo.add(btnAjustes, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 625, 40, 40));
+        jPanel8.add(btnAjustes, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 595, 40, 40));
 
         panelSeleccionAjustes.setBackground(new java.awt.Color(58, 50, 75));
         panelSeleccionAjustes.setPreferredSize(new java.awt.Dimension(122, 67));
@@ -432,16 +377,7 @@ public Image Logo(){
         panelSeleccionAjustes.setRoundTopLeft(20);
         panelSeleccionAjustes.setRoundTopRight(20);
         panelSeleccionAjustes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelFondo.add(panelSeleccionAjustes, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 620, 50, 50));
-
-        panelSeleccionContactos.setBackground(new java.awt.Color(58, 50, 75));
-        panelSeleccionContactos.setPreferredSize(new java.awt.Dimension(122, 67));
-        panelSeleccionContactos.setRoundBottomLeft(20);
-        panelSeleccionContactos.setRoundBottomRight(20);
-        panelSeleccionContactos.setRoundTopLeft(20);
-        panelSeleccionContactos.setRoundTopRight(20);
-        panelSeleccionContactos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelFondo.add(panelSeleccionContactos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 530, 50, 50));
+        jPanel8.add(panelSeleccionAjustes, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 590, 50, 50));
 
         btnAccesos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/accesos-menu.png"))); // NOI18N
         btnAccesos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -450,34 +386,7 @@ public Image Logo(){
                 btnAccesosMouseClicked(evt);
             }
         });
-        panelFondo.add(btnAccesos, new org.netbeans.lib.awtextra.AbsoluteConstraints(17, 476, 40, 40));
-
-        panelSeleccionAccesos.setBackground(new java.awt.Color(58, 50, 75));
-        panelSeleccionAccesos.setPreferredSize(new java.awt.Dimension(122, 67));
-        panelSeleccionAccesos.setRoundBottomLeft(20);
-        panelSeleccionAccesos.setRoundBottomRight(20);
-        panelSeleccionAccesos.setRoundTopLeft(20);
-        panelSeleccionAccesos.setRoundTopRight(20);
-        panelSeleccionAccesos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelFondo.add(panelSeleccionAccesos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 470, 50, 50));
-
-        btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/CerrarLogin.png"))); // NOI18N
-        btnCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btnCerrarMousePressed(evt);
-            }
-        });
-        panelFondo.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 10, -1, -1));
-
-        btnMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/Maximizar.png"))); // NOI18N
-        btnMinimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnMinimizar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnMinimizarMouseClicked(evt);
-            }
-        });
-        panelFondo.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 10, -1, -1));
+        jPanel8.add(btnAccesos, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 435, 40, 40));
 
         btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/log-out.png"))); // NOI18N
         btnLogOut.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -487,7 +396,7 @@ public Image Logo(){
                 btnLogOutMouseClicked(evt);
             }
         });
-        panelFondo.add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 687, -1, -1));
+        jPanel8.add(btnLogOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 658, -1, -1));
 
         panelSeleccionLogout.setBackground(new java.awt.Color(58, 50, 75));
         panelSeleccionLogout.setPreferredSize(new java.awt.Dimension(122, 67));
@@ -496,9 +405,157 @@ public Image Logo(){
         panelSeleccionLogout.setRoundTopLeft(20);
         panelSeleccionLogout.setRoundTopRight(20);
         panelSeleccionLogout.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panelFondo.add(panelSeleccionLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 680, 50, 50));
+        jPanel8.add(panelSeleccionLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 650, 50, 50));
 
-        getContentPane().add(panelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        btnContactos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/contactos-menu.png"))); // NOI18N
+        btnContactos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnContactos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnContactosMouseClicked(evt);
+            }
+        });
+        jPanel8.add(btnContactos, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 495, 40, 40));
+
+        panelSeleccionContactos.setBackground(new java.awt.Color(58, 50, 75));
+        panelSeleccionContactos.setPreferredSize(new java.awt.Dimension(122, 67));
+        panelSeleccionContactos.setRoundBottomLeft(20);
+        panelSeleccionContactos.setRoundBottomRight(20);
+        panelSeleccionContactos.setRoundTopLeft(20);
+        panelSeleccionContactos.setRoundTopRight(20);
+        panelSeleccionContactos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel8.add(panelSeleccionContactos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 490, 50, 50));
+
+        panelSeleccionAccesos.setBackground(new java.awt.Color(58, 50, 75));
+        panelSeleccionAccesos.setPreferredSize(new java.awt.Dimension(122, 67));
+        panelSeleccionAccesos.setRoundBottomLeft(20);
+        panelSeleccionAccesos.setRoundBottomRight(20);
+        panelSeleccionAccesos.setRoundTopLeft(20);
+        panelSeleccionAccesos.setRoundTopRight(20);
+        panelSeleccionAccesos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel8.add(panelSeleccionAccesos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 430, 50, 50));
+
+        panelSeleccionParqueo.setBackground(new java.awt.Color(58, 50, 75));
+        panelSeleccionParqueo.setPreferredSize(new java.awt.Dimension(122, 67));
+        panelSeleccionParqueo.setRoundBottomLeft(20);
+        panelSeleccionParqueo.setRoundBottomRight(20);
+        panelSeleccionParqueo.setRoundTopLeft(20);
+        panelSeleccionParqueo.setRoundTopRight(20);
+        panelSeleccionParqueo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel8.add(panelSeleccionParqueo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 50, 50));
+
+        panelSeleccionCarnets.setBackground(new java.awt.Color(58, 50, 75));
+        panelSeleccionCarnets.setPreferredSize(new java.awt.Dimension(122, 67));
+        panelSeleccionCarnets.setRoundBottomLeft(20);
+        panelSeleccionCarnets.setRoundBottomRight(20);
+        panelSeleccionCarnets.setRoundTopLeft(20);
+        panelSeleccionCarnets.setRoundTopRight(20);
+        panelSeleccionCarnets.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel8.add(panelSeleccionCarnets, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 50, 50));
+
+        panelSeleccionPersonal.setBackground(new java.awt.Color(58, 50, 75));
+        panelSeleccionPersonal.setPreferredSize(new java.awt.Dimension(122, 67));
+        panelSeleccionPersonal.setRoundBottomLeft(20);
+        panelSeleccionPersonal.setRoundBottomRight(20);
+        panelSeleccionPersonal.setRoundTopLeft(20);
+        panelSeleccionPersonal.setRoundTopRight(20);
+        panelSeleccionPersonal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel8.add(panelSeleccionPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 50, 50));
+
+        PanelSeleccionUsuario.setBackground(new java.awt.Color(58, 50, 75));
+        PanelSeleccionUsuario.setPreferredSize(new java.awt.Dimension(122, 67));
+        PanelSeleccionUsuario.setRoundBottomLeft(20);
+        PanelSeleccionUsuario.setRoundBottomRight(20);
+        PanelSeleccionUsuario.setRoundTopLeft(20);
+        PanelSeleccionUsuario.setRoundTopRight(20);
+        PanelSeleccionUsuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel8.add(PanelSeleccionUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 50, 50));
+
+        PanelSeleccionDashboard.setBackground(new java.awt.Color(58, 50, 75));
+        PanelSeleccionDashboard.setPreferredSize(new java.awt.Dimension(122, 67));
+        PanelSeleccionDashboard.setRoundBottomLeft(20);
+        PanelSeleccionDashboard.setRoundBottomRight(20);
+        PanelSeleccionDashboard.setRoundTopLeft(20);
+        PanelSeleccionDashboard.setRoundTopRight(20);
+        PanelSeleccionDashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel8.add(PanelSeleccionDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 50, 50));
+
+        jPanel6.add(jPanel8, java.awt.BorderLayout.CENTER);
+
+        pnlWest.add(jPanel6, java.awt.BorderLayout.CENTER);
+
+        jPanel7.setBackground(new java.awt.Color(42, 36, 56));
+        pnlWest.add(jPanel7, java.awt.BorderLayout.LINE_END);
+
+        panelFondo.add(pnlWest, java.awt.BorderLayout.WEST);
+
+        pnlNorth.setBackground(new java.awt.Color(42, 36, 56));
+        pnlNorth.setPreferredSize(new java.awt.Dimension(100, 25));
+        pnlNorth.setLayout(new java.awt.BorderLayout());
+
+        pnlModifWin.setBackground(new java.awt.Color(42, 36, 56));
+        pnlModifWin.setPreferredSize(new java.awt.Dimension(55, 100));
+        pnlModifWin.setRequestFocusEnabled(false);
+        pnlModifWin.setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setBackground(new java.awt.Color(42, 36, 56));
+        jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
+
+        btnMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/Maximizar.png"))); // NOI18N
+        btnMinimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMinimizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnMinimizarMousePressed(evt);
+            }
+        });
+        jPanel1.add(btnMinimizar);
+
+        btnMaximizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/MinimizarLogin.png"))); // NOI18N
+        btnMaximizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMaximizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnMaximizarMousePressed(evt);
+            }
+        });
+        jPanel1.add(btnMaximizar);
+
+        btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/CerrarLogin.png"))); // NOI18N
+        btnCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMinimizarMousePressed(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCerrarMousePressed(evt);
+            }
+        });
+        jPanel1.add(btnCerrar);
+
+        pnlModifWin.add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        jPanel2.setBackground(new java.awt.Color(42, 36, 56));
+        jPanel2.setPreferredSize(new java.awt.Dimension(100, 5));
+        pnlModifWin.add(jPanel2, java.awt.BorderLayout.PAGE_START);
+
+        pnlNorth.add(pnlModifWin, java.awt.BorderLayout.EAST);
+
+        pnlFilled.setBackground(new java.awt.Color(42, 36, 56));
+        pnlFilled.setPreferredSize(new java.awt.Dimension(1000, 100));
+        pnlFilled.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlNorth.add(pnlFilled, java.awt.BorderLayout.CENTER);
+
+        panelFondo.add(pnlNorth, java.awt.BorderLayout.NORTH);
+
+        pnlSourth.setBackground(new java.awt.Color(42, 36, 56));
+        pnlSourth.setPreferredSize(new java.awt.Dimension(0, 15));
+        pnlSourth.setLayout(new java.awt.BorderLayout());
+        panelFondo.add(pnlSourth, java.awt.BorderLayout.SOUTH);
+
+        pnlEast.setBackground(new java.awt.Color(42, 36, 56));
+        pnlEast.setPreferredSize(new java.awt.Dimension(10, 100));
+        pnlEast.setLayout(new java.awt.BorderLayout());
+        panelFondo.add(pnlEast, java.awt.BorderLayout.EAST);
+
+        getContentPane().add(panelFondo, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -768,7 +825,15 @@ public Image Logo(){
          PanelContenedorForms.add(pl);
          PanelContenedorForms.revalidate();
          PanelContenedorForms.repaint();
-    }   
+    }  
+    void showPnlOptionsPers(/*double x, double y*/ Point p){
+        if (_oppersonal.isShowing()) {
+            _oppersonal.setVisible(true);
+        }else{
+            _oppersonal.setVisible(true);
+            _oppersonal.setLocation(p);
+        }
+    }
     public void showPanelOptionPers(){//obtiene donde esta el boton y muestra el JFrame en la posición cercana del button
 
         if (_oppersonal.isShowing()) {
@@ -835,11 +900,22 @@ public Image Logo(){
     }//GEN-LAST:event_btnDashboardMouseClicked
 
     private void btnUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMouseClicked
-        this.showPanelUsers();
+                this.showPanelUsers();
     }//GEN-LAST:event_btnUsuariosMouseClicked
 
     private void btnPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPersonalMouseClicked
-        showPanelOptionPers(); 
+        //showPanelOptionPers(); 
+        /*if (getState() == MAXIMIZED_BOTH) {
+            int x = btnPersonal.getX();
+            int y = btnPersonal.getY();
+            showPnlOptionsPers(x, y);
+        }else{
+            showPanelOptionPers();
+        }*/
+        PointerInfo pi = MouseInfo.getPointerInfo();
+        Point p = pi.getLocation();
+        System.out.println(p.getLocation());
+        showPnlOptionsPers(p.getLocation());
     }//GEN-LAST:event_btnPersonalMouseClicked
 
     private void btnCarnetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCarnetsMouseClicked
@@ -866,9 +942,10 @@ public Image Logo(){
         this.showPanelAcces();
     }//GEN-LAST:event_btnAccesosMouseClicked
 
-    private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
-        System.exit(0);
-    }//GEN-LAST:event_btnCerrarMousePressed
+    private void btnMinimizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMousePressed
+        //System.exit(0);
+        setState(ICONIFIED);
+    }//GEN-LAST:event_btnMinimizarMousePressed
 
     private void btnPersonalMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPersonalMouseExited
         // TODO add your handling code here:
@@ -894,8 +971,8 @@ public Image Logo(){
             case 1:
                 break;
         }
-        
-        /*PanelParqueo pnlPark = new PanelParqueo();
+         
+       /*PanelParqueo pnlPark = new PanelParqueo();
         pnlPark.getdataPark();*/
     }//GEN-LAST:event_formWindowActivated
 
@@ -903,10 +980,14 @@ public Image Logo(){
         Logout();
     }//GEN-LAST:event_btnLogOutMouseClicked
 
-    private void btnMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseClicked
-        // TODO add your handling code here:
-        this.setExtendedState(JFrame.ICONIFIED);
-    }//GEN-LAST:event_btnMinimizarMouseClicked
+    private void btnMaximizarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMaximizarMousePressed
+        setExtendedState(MAXIMIZED_BOTH);
+        //setSize(2373, 1768);
+    }//GEN-LAST:event_btnMaximizarMousePressed
+
+    private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
+        System.exit(0);
+    }//GEN-LAST:event_btnCerrarMousePressed
 
     /**
      * @param args the command line arguments
@@ -951,7 +1032,6 @@ public Image Logo(){
     private Controles_Personalizados.Paneles.PanelRound PanelFecha;
     private Controles_Personalizados.Paneles.PanelRound PanelMO;
     private Controles_Personalizados.Paneles.PanelRound PanelSeleccionDashboard;
-    private Controles_Personalizados.Paneles.PanelRound PanelSeleccionEstudiantes;
     private Controles_Personalizados.Paneles.PanelRound PanelSeleccionUsuario;
     private javax.swing.JLabel btnAccesos;
     private javax.swing.JLabel btnAjustes;
@@ -959,15 +1039,23 @@ public Image Logo(){
     private javax.swing.JLabel btnCerrar;
     private javax.swing.JLabel btnContactos;
     private javax.swing.JLabel btnDashboard;
-    private javax.swing.JLabel btnEstudiantes;
     private javax.swing.JLabel btnLogOut;
     private javax.swing.JLabel btnMO;
+    private javax.swing.JLabel btnMaximizar;
     private javax.swing.JLabel btnMinimizar;
     private javax.swing.JLabel btnParqueo;
     private javax.swing.JLabel btnPersonal;
-    private javax.swing.JLabel btnProfesores;
     private javax.swing.JLabel btnUsuarios;
     private javax.swing.JLabel btnVehiculos;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblDia;
     private javax.swing.JLabel lblHora;
     private javax.swing.JLabel lblNight;
@@ -979,7 +1067,6 @@ public Image Logo(){
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JLabel lblUsuarioDark;
     private Controles_Personalizados.Paneles.PanelRound panelFondo;
-    private Controles_Personalizados.Paneles.PanelRound panelOpcionesPersonal;
     private Controles_Personalizados.Paneles.PanelRound panelSeleccionAccesos;
     private Controles_Personalizados.Paneles.PanelRound panelSeleccionAjustes;
     private Controles_Personalizados.Paneles.PanelRound panelSeleccionCarnets;
@@ -987,8 +1074,13 @@ public Image Logo(){
     private Controles_Personalizados.Paneles.PanelRound panelSeleccionLogout;
     private Controles_Personalizados.Paneles.PanelRound panelSeleccionParqueo;
     private Controles_Personalizados.Paneles.PanelRound panelSeleccionPersonal;
-    private Controles_Personalizados.Paneles.PanelRound panelSeleccionProfesores;
     private Controles_Personalizados.Paneles.PanelRound panelSeleccionVehiculos;
+    private javax.swing.JPanel pnlEast;
+    private javax.swing.JPanel pnlFilled;
+    private javax.swing.JPanel pnlModifWin;
+    private javax.swing.JPanel pnlNorth;
+    private javax.swing.JPanel pnlSourth;
+    private javax.swing.JPanel pnlWest;
     private Controles_Personalizados.BarraBusqueda.TextFieldAnimation txtBuscar;
     // End of variables declaration//GEN-END:variables
 
