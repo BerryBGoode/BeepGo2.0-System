@@ -15,7 +15,9 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import Controlador.ControllerParqueo;
+import java.awt.EventQueue;
 import java.awt.HeadlessException;
+import sun.security.util.SecurityConstants.AWT;
 
 /**
  *
@@ -403,7 +405,11 @@ public class FrmConfigPark extends javax.swing.JFrame {
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         PanelOpcionesPersonal.showinter = 0;
         this.dispose();
-        park.dispose();
+        try {
+            park.dispose();
+        } catch (Exception e) {
+
+        }
     }//GEN-LAST:event_btnContinuarActionPerformed
     //PARA GUARDAR LOS ESTACIONAMIENTOS OCUPADOS, SE HARÁ POR MEDIO DE UNA CONSULTA
     private void btnPark1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark1MouseClicked
@@ -442,7 +448,7 @@ public class FrmConfigPark extends javax.swing.JFrame {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
         //AQUÍ LOS VERIFICA Y LOS ESTACIONAMIENTOS ÚTILIZADOS Y POR MEDIO DEL SIGUIENTE MÉTODO "checkState"
-        
+
     }//GEN-LAST:event_formWindowActivated
 
     private void btnPark8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark8MouseClicked
@@ -476,7 +482,11 @@ public class FrmConfigPark extends javax.swing.JFrame {
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
         this.dispose();
         PanelOpcionesPersonal.showinter = 0;
-        park.dispose();
+        try {
+            park.dispose();
+        } catch (Exception e) {
+            
+        }
     }//GEN-LAST:event_btnCerrarMousePressed
 
     private void btnMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseClicked
@@ -495,7 +505,7 @@ public class FrmConfigPark extends javax.swing.JFrame {
         modifPanelPark(panelPark18, "PARQUEO 18", 18);
 
     }//GEN-LAST:event_btnPark18MouseClicked
-    
+
     void modifPanelPark(PanelRound pnl, String parkname, int N) {
         try {
             park = new FrmSetPark(String.valueOf(N));
