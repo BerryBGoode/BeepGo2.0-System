@@ -6,6 +6,8 @@
 package Controlador;
 
 import Modelo.ModelParqueo;
+import java.awt.Color;
+import java.sql.ResultSet;
 /**
  *
  * @author danlo
@@ -14,8 +16,8 @@ public class ControllerParqueo {
     private int ID;
     private int IDVehiculo;
     private int IDAcceso;
-    private int IDParqueo;
-
+    private static int IDParqueo;
+            
     public int getID() {
         return ID;
     }
@@ -40,13 +42,21 @@ public class ControllerParqueo {
         this.IDAcceso = IDAcceso;
     }
 
-    public int getIDParqueo() {
+    public static int getIDParqueo() {
         return IDParqueo;
     }
 
-    public void setIDParqueo(int IDParqueo) {
-        this.IDParqueo = IDParqueo;
+    public static void setIDParqueo(int IDParqueo) {
+        ControllerParqueo.IDParqueo = IDParqueo;
+    }   
+    
+    ModelParqueo mdpark = new ModelParqueo();
+    
+    public ResultSet getID(int NParqueo){
+        return mdpark.getIDPark(NParqueo);
     }
     
-    
+    public boolean insertPark(){
+        return mdpark.insertPark(getIDParqueo(), getIDAcceso(), getIDVehiculo());
+    }
 }

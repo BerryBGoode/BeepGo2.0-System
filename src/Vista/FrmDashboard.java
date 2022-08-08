@@ -894,6 +894,9 @@ public Image Logo(){
             case 1:
                 break;
         }
+        
+        /*PanelParqueo pnlPark = new PanelParqueo();
+        pnlPark.getdataPark();*/
     }//GEN-LAST:event_formWindowActivated
 
     private void btnLogOutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogOutMouseClicked

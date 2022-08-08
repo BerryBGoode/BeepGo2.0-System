@@ -14,6 +14,8 @@ import java.awt.Toolkit;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import Controlador.ControllerParqueo;
+import java.awt.HeadlessException;
 
 /**
  *
@@ -21,20 +23,25 @@ import javax.swing.JOptionPane;
  */
 public class FrmConfigPark extends javax.swing.JFrame {
 
+    public ControllerParqueo controllerpark = new ControllerParqueo();
+    FrmSetPark park;
+
     /**
      * Creates new form FrmConfigPark
      */
     public FrmConfigPark() {
         initComponents();
         setLocationRelativeTo(null);
-        Shape forma= new RoundRectangle2D.Double(0,0, this.getBounds() .width, this.getBounds() .height,40,40);
-        AWTUtilities. setWindowShape(this, forma);
+        Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
+        AWTUtilities.setWindowShape(this, forma);
         setIconImage(Logo());
     }
-public Image Logo(){
-    Image retvalue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/LogoB&GDash.png"));
-    return retvalue;
-}
+
+    public Image Logo() {
+        Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/LogoB&GDash.png"));
+        return retvalue;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -394,75 +401,76 @@ public Image Logo(){
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
-        PanelOpcionesPersonal.showinter =0;
+        PanelOpcionesPersonal.showinter = 0;
         this.dispose();
         park.dispose();
     }//GEN-LAST:event_btnContinuarActionPerformed
     //PARA GUARDAR LOS ESTACIONAMIENTOS OCUPADOS, SE HARÁ POR MEDIO DE UNA CONSULTA
     private void btnPark1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark1MouseClicked
-        modifPanelPark(panelPark1, "PARQUEO 1");        
+        modifPanelPark(panelPark1, "PARQUEO 1", 1);
     }//GEN-LAST:event_btnPark1MouseClicked
 
     private void btnPark2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark2MouseClicked
-        modifPanelPark(panelPark2, "PARQUEO 2");
+        modifPanelPark(panelPark2, "PARQUEO 2", 2);
     }//GEN-LAST:event_btnPark2MouseClicked
 
     private void btnPark3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark3MouseClicked
-        modifPanelPark(panelPark3, "PARQUEO 3");
+        modifPanelPark(panelPark3, "PARQUEO 3", 3);
     }//GEN-LAST:event_btnPark3MouseClicked
 
     private void btnPark4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark4MouseClicked
-        modifPanelPark(panelPark4, "PARQUEO 4");
+        modifPanelPark(panelPark4, "PARQUEO 4", 4);
     }//GEN-LAST:event_btnPark4MouseClicked
 
     private void btnPark11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark11MouseClicked
-        modifPanelPark(panelPark11,"PARQUEO 11");
+        modifPanelPark(panelPark11, "PARQUEO 11", 11);
     }//GEN-LAST:event_btnPark11MouseClicked
 
     private void btnPark12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark12MouseClicked
-        modifPanelPark(panelPark12, "PARQUEO 12");
+        modifPanelPark(panelPark12, "PARQUEO 12", 12);
     }//GEN-LAST:event_btnPark12MouseClicked
 
     private void btnPark10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark10MouseClicked
-        modifPanelPark(panelPark13, "PARQUEO 10");
+        modifPanelPark(panelPark13, "PARQUEO 10", 10);
     }//GEN-LAST:event_btnPark10MouseClicked
 
     private void btnPark9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark9MouseClicked
-        modifPanelPark(panelPark10, "PARQUEO 9");
+        modifPanelPark(panelPark10, "PARQUEO 9", 9);
     }//GEN-LAST:event_btnPark9MouseClicked
 
-    
+
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
         //AQUÍ LOS VERIFICA Y LOS ESTACIONAMIENTOS ÚTILIZADOS Y POR MEDIO DEL SIGUIENTE MÉTODO "checkState"
+        
     }//GEN-LAST:event_formWindowActivated
 
     private void btnPark8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark8MouseClicked
-        modifPanelPark(panelPark8, "PARQUEO 8");
+        modifPanelPark(panelPark8, "PARQUEO 8", 8);
     }//GEN-LAST:event_btnPark8MouseClicked
 
     private void btnPark7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark7MouseClicked
-        modifPanelPark(panelPark7,"PARQUEO 7");
+        modifPanelPark(panelPark7, "PARQUEO 7", 7);
     }//GEN-LAST:event_btnPark7MouseClicked
 
     private void btnPark6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark6MouseClicked
-        modifPanelPark(panelPark6, "PARQUEO 6");
+        modifPanelPark(panelPark6, "PARQUEO 6", 6);
     }//GEN-LAST:event_btnPark6MouseClicked
 
     private void btnPark5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark5MouseClicked
-        modifPanelPark(panelPark5, "PARQUEO 5");
+        modifPanelPark(panelPark5, "PARQUEO 5", 5);
     }//GEN-LAST:event_btnPark5MouseClicked
 
     private void btnPark15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark15MouseClicked
-        modifPanelPark(panelPark15, "PARQUEO 15");
+        modifPanelPark(panelPark15, "PARQUEO 15", 15);
     }//GEN-LAST:event_btnPark15MouseClicked
 
     private void btnPark14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark14MouseClicked
-        modifPanelPark(panelPark14, "PARQUEO 14");
+        modifPanelPark(panelPark14, "PARQUEO 14", 14);
     }//GEN-LAST:event_btnPark14MouseClicked
 
     private void btnPark13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark13MouseClicked
-        modifPanelPark(panelPark13, "PARQUEO 13");
+        modifPanelPark(panelPark13, "PARQUEO 13", 13);
     }//GEN-LAST:event_btnPark13MouseClicked
 
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
@@ -476,36 +484,45 @@ public Image Logo(){
     }//GEN-LAST:event_btnMinimizarMouseClicked
 
     private void btnPark16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark16MouseClicked
-        modifPanelPark(panelPark16, "PARQUEO 16");
+        modifPanelPark(panelPark16, "PARQUEO 16", 16);
     }//GEN-LAST:event_btnPark16MouseClicked
 
     private void btnPark17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark17MouseClicked
-        modifPanelPark(panelPark17, "PARQUEO 17");
+        modifPanelPark(panelPark17, "PARQUEO 17", 17);
     }//GEN-LAST:event_btnPark17MouseClicked
 
     private void btnPark18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPark18MouseClicked
-        modifPanelPark(panelPark18, "PARQUEO 18");
+        modifPanelPark(panelPark18, "PARQUEO 18", 18);
+
     }//GEN-LAST:event_btnPark18MouseClicked
-       
-    FrmSetPark park;
-    void modifPanelPark(PanelRound pnl, String parkname){        
-        park = new FrmSetPark();
-        pnl.setBackground(Color.GRAY);        
-        if (park.isVisible()) {
-            park.toFront();
-            park.setVisible(false);
-            JOptionPane.showMessageDialog(null, "Se cerro el formulario anterior,\ndebido a que no puede tenerlos \nal mismo tiempo abiertos", "Formulario cerrado", JOptionPane.WARNING_MESSAGE);
-        }else{
-            park.setVisible(true);
-            FrmSetPark.setParkname(parkname);
-            
+    
+    void modifPanelPark(PanelRound pnl, String parkname, int N) {
+        try {
+            park = new FrmSetPark(String.valueOf(N));
+            FrmSetPark park2 = new FrmSetPark();
+            if (park2.viewIDPark(N) == true) {
+                ControllerParqueo.setIDParqueo(N);
+                //pnl.setBackground(Color.GRAY);
+                if (park.isVisible()) {
+                    park.toFront();
+                    park.setVisible(false);
+                    JOptionPane.showMessageDialog(null, "Se cerro el formulario anterior,\ndebido a que no puede tenerlos \nal mismo tiempo abiertos", "Formulario cerrado", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    park.setVisible(true);
+                    FrmSetPark.setParkname(parkname);
+
+                }
+            }
+        } catch (HeadlessException e) {
+            System.out.println("Exeception: " + e.toString());
         }
-        
+
     }
-    void checkState(PanelRound pnl){
+
+    void checkState(PanelRound pnl) {
         pnl.setBackground(Color.GRAY);
     }
-            
+
     /**
      * @param args the command line arguments
      */
