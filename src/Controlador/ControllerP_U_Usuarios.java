@@ -19,9 +19,18 @@ public class ControllerP_U_Usuarios {
     }
     public String Usuario;
     public int idPersonal;
+    public int PIN;
     public String Clave;
     public int idusuario;
     public byte[] foto;
+
+    public int getPIN() {
+        return PIN;
+    }
+
+    public void setPIN(int PIN) {
+        this.PIN = PIN;
+    }
 
     public int getIdusuario() {
         return idusuario;
@@ -65,7 +74,7 @@ public class ControllerP_U_Usuarios {
     }
     
     public boolean IngresarPUsuarioController(){
-        return objController.IngresarPUsuario(Usuario, foto, Clave,idPersonal);
+        return objController.IngresarPUsuario(Usuario, foto, Clave,PIN,idPersonal);
     }
     public ResultSet ObtenerIdPersonal(){
         return objController.GetIdPersonal();

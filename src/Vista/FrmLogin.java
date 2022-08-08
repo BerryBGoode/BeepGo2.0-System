@@ -13,6 +13,7 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.ResultSet;
+import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -27,21 +28,32 @@ public class FrmLogin extends javax.swing.JFrame {
      */
     public FrmLogin() {
         initComponents();
-         this.setLocationRelativeTo(null); 
-         Shape forma= new RoundRectangle2D.Double(0,0, this.getBounds() .width, this.getBounds() .height,40,40);
-         AWTUtilities. setWindowShape(this, forma);
-         this.setIconImage(Logo());
+        this.setLocationRelativeTo(null);
+        Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
+        AWTUtilities.setWindowShape(this, forma);
+        this.setIconImage(Logo());
+
     }
-    
+
     public int ID;
     private String nombre;
-    private String tipo; 
+    private String tipo;
     private int intentos;
-    
-public Image Logo(){
-    Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
-    return retvalue;
-}
+
+    private void NumeroAleatorio() {
+        int min = 1000;
+        int max = 10000;
+        Random random = new Random();
+        int valor = random.nextInt(10);
+        
+        System.out.println(valor);
+    }
+
+    public Image Logo() {
+        Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
+        return retvalue;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -181,7 +193,7 @@ public Image Logo(){
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    void Login(){
+    void Login() {
         if (txtUsuario.getText().equals("") || txtContra.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Existen campos vacios", "Error de procesamiento", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -190,57 +202,57 @@ public Image Logo(){
             String contra = ValidacionesSistema.ValidacionesBeep_Go.EncriptarContra(String.valueOf(txtContra.getPassword()));
 
             objc.contraseña = contra;
-            
+
             int respuesta0 = objc.validarUsuarioController();
-            
-            if(respuesta0 == 1){
+
+            if (respuesta0 == 1) {
                 int respuesta1 = objc.ValidarUsuarioActivoController();
 
-                if(respuesta1 == 1){
+                if (respuesta1 == 1) {
                     int respuesta2 = objc.validarLoginC();
 
                     if (respuesta2 == 1) {
                         CargarDatos();
-                        if(txtContra.getText().equals(txtUsuario.getText() + "123")){
+                        if (txtContra.getText().equals(txtUsuario.getText() + "123")) {
                             FrmRestablecimiento frm = new FrmRestablecimiento(nombre);
                             frm.setVisible(true);
                             this.dispose();
-                        }else{
+                        } else {
                             FrmDashboard frm = new FrmDashboard(nombre, tipo);
                             frm.setVisible(true);
                             this.dispose();
                         }
-                    }else{
+                    } else {
                         ResultSet rs;
                         rs = objc.CapturarIntentosController();
-                        try{
-                            if(rs.next()){
+                        try {
+                            if (rs.next()) {
                                 intentos = rs.getInt("intentos");
                             }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, "Error al validar las credenciales");
                         }
-                        if(intentos >= 1){
+                        if (intentos >= 1) {
                             int intentosf = intentos - 1;
                             objc.IntentosController(intentosf);
                             JOptionPane.showMessageDialog(null, "Credenciales incorrectas, intentos restantes: " + intentosf);
-                        }else{
+                        } else {
                             objc.BloquearUsuarioController();
                             JOptionPane.showMessageDialog(null, "Usuario bloqueado");
                         }
                     }
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Usuario bloqueado");
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Usuario inexistente");
             }
         }
     }
-    
+
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        Login();
+        Login();   
     }//GEN-LAST:event_btnLoginActionPerformed
 
     void CargarDatos() {
@@ -259,7 +271,7 @@ public Image Logo(){
 
         }
     }
-    
+
     private void lblOlvideMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblOlvideMouseClicked
         // TODO add your handling code here:
         MenuRecu rec = new MenuRecu();
@@ -278,14 +290,14 @@ public Image Logo(){
 
     private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
         // TODO add your handling code here:
-        if (evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             Login();
         }
     }//GEN-LAST:event_txtUsuarioKeyPressed
 
     private void txtContraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraKeyPressed
         // TODO add your handling code here:
-        if (evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             Login();
         }
     }//GEN-LAST:event_txtContraKeyPressed
@@ -293,15 +305,14 @@ public Image Logo(){
     private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
         // TODO add your handling code here:
         char car = evt.getKeyChar();
-        if(txtUsuario.getText().length() >= 15)
-        {
+        if (txtUsuario.getText().length() >= 15) {
             evt.consume();
-        }else{
-            if(txtUsuario.getText().equals("") && car == 95){
+        } else {
+            if (txtUsuario.getText().equals("") && car == 95) {
                 evt.consume();
-            }else if(txtUsuario.getText().contains("_") && car == 95){
+            } else if (txtUsuario.getText().contains("_") && car == 95) {
                 evt.consume();
-            }else{
+            } else {
                 ValidacionesSistema.ValidacionesBeep_Go.SinEspacios(evt);
                 ValidacionesSistema.ValidacionesBeep_Go.SoloLetrasNumerosGuionBajo(evt);
             }
@@ -310,9 +321,9 @@ public Image Logo(){
 
     private void txtContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraKeyTyped
         // TODO add your handling code here:
-        if(txtContra.getText().length() >= 20){
+        if (txtContra.getText().length() >= 20) {
             evt.consume();
-        }else{
+        } else {
             ValidacionesSistema.ValidacionesBeep_Go.SinEspacios(evt);
         }
     }//GEN-LAST:event_txtContraKeyTyped

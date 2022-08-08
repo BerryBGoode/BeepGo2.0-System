@@ -5,10 +5,28 @@
  */
 package Modelo;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 /**
  *
  * @author danlo
  */
 public class ModelCarnets {
+    PreparedStatement ps;
+    Connection con;
+    public ResultSet cargarTabla(){
+        try {
+           con=ModelConexion.getConnection(); 
+            String query="SELECT * FROM vwCarnet";
+            ps=con.prepareStatement(query);
+            ResultSet rs= ps.executeQuery();
+           return rs;           
+        } catch (Exception e) {
+            System.out.println("No se logro cargar la informacion de la tabla");
+            return null;
+        }
+    }
     
 }

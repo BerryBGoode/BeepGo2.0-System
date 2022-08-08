@@ -44,21 +44,22 @@ public class ModelP_U_Usuarios {
         }
     }
 
-    public boolean IngresarPUsuario(String Usuario, byte[] perfil, String Contra, int personal) {
+    public boolean IngresarPUsuario(String Usuario, byte[] perfil, String Contra,int pin, int personal) {
         int idtipousuario = 1;
         int idestadousuario = 1;
         int intentos = 5;
         try {
             con = ModelConexion.getConnection();
-            String querys = "INSERT INTO tbUsuarios (idPersonal, nombre_usuario, contraseña, idTipoUsuario, idEstadoUsuario, imagen , intentos) VALUES (?,?,?,?,?,?,?)";
+            String querys = "INSERT INTO tbUsuarios (idPersonal, nombre_usuario, contraseña,PIN, idTipoUsuario, idEstadoUsuario, imagen , intentos) VALUES (?,?,?,?,?,?,?,?)";
             ps = con.prepareStatement(querys);
             ps.setInt(1, personal);
             ps.setString(2, Usuario);
             ps.setString(3, Contra);
-            ps.setInt(4, idtipousuario);
-            ps.setInt(5, idestadousuario);
-            ps.setBytes(6, perfil);
-            ps.setInt(7, intentos);
+            ps.setInt(4, pin);
+            ps.setInt(5, idtipousuario);
+            ps.setInt(6, idestadousuario);
+            ps.setBytes(7, perfil);
+            ps.setInt(8, intentos);
             ps.execute();
             return true;
         } catch (SQLException e) {

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -178,6 +179,12 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
             controlleru.setUsuario(TxtUsuario.getText());
             String clave = TxtUsuario.getText() + "123";
             controlleru.setClave(ValidacionesBeep_Go.EncriptarContra(clave));
+            int min=999;
+            int max=9999;
+            Random random = new Random();
+            int valor = random.nextInt(max+min)+min;
+             controlleru.setPIN(valor);   
+            
             controlleru.setFoto(fotou);
             if (controlleru.IngresarPUsuarioController() == true) {
                 JOptionPane.showMessageDialog(null, "Su usuario ha sido ingresado correctamente", "Proceso Completado", JOptionPane.INFORMATION_MESSAGE);
@@ -194,7 +201,7 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
         try {
             ResultSet rs = controlleru.ObtenerIdPersonal();
             if (rs.next()) {
-                controlleru.idPersonal = rs.getInt("idPersonal");                
+                controlleru.idPersonal = rs.getInt("idPersonal");
             }
 
         } catch (SQLException exception) {
