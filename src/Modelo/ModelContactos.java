@@ -30,6 +30,32 @@ public class ModelContactos {
         
     }
     
+    public static ResultSet CargarTablaPersonal() {
+        Connection connect;
+        try{
+            connect = ModelConexion.getConnection();
+            String query = "SELECT idPersonal, nombre_p, apellido_p, fecha_nacimiento, documento, idTipoDocumento FROM tbPersonal";
+            ps = connect.prepareStatement(query);
+            rs = ps.executeQuery();
+            return rs;
+        }catch(Exception e){
+            return null;
+        }
+    }
+    
+    public static ResultSet Capturar_IdPersonal() {
+        Connection connect;
+        try {
+            connect = ModelConexion.getConnection();
+            String query = "SELECT idPersonal FROM tbPersonal";
+            ps = connect.prepareStatement(query);
+            rs = ps.executeQuery();
+            return rs;
+        } catch(Exception e){
+            return null;
+        }
+    }
+    
     public static ResultSet CargarCMBPersonal() {
         
         Connection connect;
@@ -53,7 +79,7 @@ public class ModelContactos {
         
         try {
             connect = ModelConexion.getConnection();
-            String query = "SELECT * tbTipoContacto";
+            String query = "SELECT * FROM tbTipoContacto";
             ps = connect.prepareStatement(query);
             rs = ps.executeQuery();
             return rs;

@@ -6,10 +6,14 @@
 package Vista;
 
 import Controlador.ControllerContactos;
+import Controles_Personalizados.Botones.UWPButton;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import javax.swing.table.DefaultTableModel;
@@ -27,28 +31,40 @@ public class PanelContactos extends javax.swing.JPanel {
         initComponents();
         
         String[] headerContactos = {"Id Contacto", "contacto", "id Personal", "id TipoContacto", "Modificar", "Eliminar"};
-        model = new DefaultTableModel(null, headerContactos);
+        model = new DefaultTableModel(null, headerContactos){
+            @Override
+            public boolean isCellEditable(int row, int column){ // aqui esta
+                return false;
+            }
+        };
         CargarTabla();
-        CenterTableContent();
     }
     
     DefaultTableModel model;
+    UWPButton btnModificar = new UWPButton(); 
+    UWPButton btnEliminar = new UWPButton();
+    ImageIcon Modificar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/editar.png"));
+    ImageIcon Eliminar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/Eliminar.png"));
+
     DefaultComboBoxModel<String> modelcombo = new DefaultComboBoxModel<>();
     ArrayList list;
     int tipo_contacto = 0;
     int idpersonal = 0;
     
+    
     final void CargarTabla() {
-        
         tbContactos.setModel(model);
-        
         while(model.getRowCount() > 0){
             model.removeRow(0);
         }
         try {
-            ResultSet rs = ControllerContactos.CargarTablaContactos_Controller();
+            ResultSet rs = ControllerContactos.CargarTablaContactos_Controller();           
             while(rs.next()){
-                Object[] oValues = {rs.getInt("idContacto"), rs.getString("contacto"), rs.getInt("idPersonal"), rs.getInt("idTipoContacto")};
+                btnModificar.setIcon(Modificar);
+                btnEliminar.setIcon(Eliminar);
+                btnModificar.setBackground(new Color(231,234,239));
+                btnEliminar.setBackground(new Color(231,234,239));
+                Object[] oValues = {rs.getInt("idContacto"), rs.getString("contacto"), rs.getInt("idPersonal"), rs.getInt("idTipoContacto"), btnModificar, btnEliminar};
                 model.addRow(oValues);
             }
         } catch(Exception e){
@@ -66,6 +82,20 @@ public class PanelContactos extends javax.swing.JPanel {
         tbContactos.getColumnModel().getColumn(4).setCellRenderer(centerRende);
         tbContactos.getColumnModel().getColumn(5).setCellRenderer(centerRende);
 
+    }
+    
+    final void EliminarContacto() {
+        int confirmacion = JOptionPane.YES_NO_OPTION;
+        JOptionPane.showMessageDialog(this, "Estas seguro que deseas eliminar el registro", "Confirmacion de eliminacion", confirmacion);
+        if(confirmacion == JOptionPane.YES_OPTION){
+//            ControllerContactos.idcontacto = Integer.parseInt(lblID.getText());
+            boolean respuesta = ControllerContactos.EliminarContactos_Controller();
+            if(respuesta == true) {
+                ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Eliminacion de registro", "Contacto eliminado con exito", 1);
+            } else {
+                ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Eliminacion de registro", "Contacto no fue eliminado", 2);
+            }
+        }
     }
 
     /**
@@ -168,6 +198,11 @@ public class PanelContactos extends javax.swing.JPanel {
         tbContactos.setName(""); // NOI18N
         tbContactos.setSelectionBackground(new java.awt.Color(58, 50, 75));
         tbContactos.setShowVerticalLines(false);
+        tbContactos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbContactosMouseClicked(evt);
+            }
+        });
         PanelTabla.setViewportView(tbContactos);
 
         PanelFondo.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 1230, 480));
@@ -212,6 +247,31 @@ public class PanelContactos extends javax.swing.JPanel {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    FrmAgg_Contacto frmContactos = new FrmAgg_Contacto();
+    
+    private void tbContactosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbContactosMouseClicked
+        int column = tbContactos.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / tbContactos.getRowHeight();
+        btnModificar.setName("btnModificar");
+        btnEliminar.setName("btnEliminar");
+        if(row < tbContactos.getRowCount() || row >= 0 || column < tbContactos.getColumnCount() || column >= 0){
+            Object vals = tbContactos.getValueAt(row, column);
+            if (vals instanceof UWPButton){
+                ((UWPButton) vals).doClick(); // aqui esta
+                UWPButton btns = (UWPButton) vals;
+                if (btns.getName().equals("btnModificar")){
+                    frmContactos.show();
+                    //Actualizar Contacto metodo
+                }
+                if (btns.getName().equals("btnEliminar")){
+                    // Eliminar Contacto metodo
+                    EliminarContacto();
+                    CargarTabla();
+                }
+            }
+        }
+    }//GEN-LAST:event_tbContactosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

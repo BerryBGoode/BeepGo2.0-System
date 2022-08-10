@@ -61,6 +61,14 @@ public class ControllerContactos {
         return ModelContactos.CargarTablaContactos();
     }
     
+    public static ResultSet CargarTablaPersonal_Controller() {
+        return ModelContactos.CargarTablaPersonal();
+    }
+    
+    public static ResultSet Obtener_IdPersonal() {
+        return ModelContactos.Capturar_IdPersonal();
+    }
+    
     public static ResultSet CargarCMBPersonal_Controller() {
         return ModelContactos.CargarCMBPersonal();
     }
