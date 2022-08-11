@@ -207,7 +207,7 @@ public Image Logo(){
 
     private void txtPINKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPINKeyTyped
         // TODO add your handling code here:
-        if(txtPIN.getText().length() >= 6){
+        if(txtPIN.getText().length() >= 4){
             evt.consume();
         }else{
             ValidacionesSistema.ValidacionesBeep_Go.SinEspacios(evt);
@@ -227,14 +227,14 @@ public Image Logo(){
             JOptionPane.showMessageDialog(null, "Existen campos vacios", "Error de procesamiento", JOptionPane.WARNING_MESSAGE);
         } else {
             ControllerRecuperacionContra obj = new ControllerRecuperacionContra();
-            obj.usuario = txtUsuario.getText();
+            obj.setUsuario(txtUsuario.getText());
             String PIN = ValidacionesSistema.ValidacionesBeep_Go.EncriptarContra(String.valueOf(txtPIN.getText()));
-            obj.PIN = PIN;
+            obj.setPIN(PIN); 
             
             int respuesta = obj.RecuperarContraPINController();
 
             if (respuesta == 1) {
-                obj.contra = ValidacionesSistema.ValidacionesBeep_Go.EncriptarContra(txtUsuario.getText() + "123");
+                obj.setContra(ValidacionesSistema.ValidacionesBeep_Go.EncriptarContra(txtUsuario.getText() + "123"));
                 boolean respuesta2 = obj.RecuperarContraController();
                 if(respuesta2 == true){
                     ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Proceso completado", "La contraseña ha sido actualizada", 1);

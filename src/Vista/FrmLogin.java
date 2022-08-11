@@ -13,7 +13,6 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.ResultSet;
-import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -225,7 +224,7 @@ public class FrmLogin extends javax.swing.JFrame {
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, "Error al validar las credenciales");
                         }
-                        if (intentos >= 1) {
+                        if (intentos > 1) {
                             int intentosf = intentos - 1;
                             objc.setIntentos(intentosf);
                             objc.IntentosController();
