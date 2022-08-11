@@ -24,7 +24,7 @@ import Controlador.ControllerParqueo;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import Controles_Personalizados.Botones.UWPButton;
-
+import javax.swing.ImageIcon;
 /**
  *
  * @author ferna
@@ -33,6 +33,7 @@ public class FrmSetPark extends javax.swing.JFrame {
 
     private final UWPButton _btnAgregarCar = new UWPButton();
     private final UWPButton _btnAgregarAccs = new UWPButton();
+    ImageIcon iconAdd = new ImageIcon(getClass().getResource("/Recursos_Proyecto/Agregar.png"));
 
     public Font font = new Font("Roboto Black", Font.PLAIN, 18);
 
@@ -52,8 +53,8 @@ public class FrmSetPark extends javax.swing.JFrame {
         AWTUtilities.setWindowShape(this, forma);
         setIconImage(Logo());
 
-        String[] headeracces = {"IDAcceso", "Documento", "IDCarnet", "Fecha", "IDTipoAcceso", "Hora", "Tipo de acceso", "Notificación", "Agregar"};
-        String[] headercars = {"IDVehiculo", "Documento", "IDPersonal", "Nombres", "Apellidos", "Placa", "Color", "Agregar"};
+        String[] headeracces = {"IDAcceso", "Carnet", "IDCarnet", "Fecha", "IDTipoAcceso", "Hora", "Tipo de acceso", "Notificación", "Agregar"};
+        String[] headercars = {"IDVehiculo", "Carnet", "IDPersonal", "Nombres", "Apellidos", "Placa", "Color", "Agregar"};
 
         modeltableaccess = new DefaultTableModel(null, headeracces);
         modeltablecars = new DefaultTableModel(null, headercars);
@@ -448,16 +449,18 @@ public class FrmSetPark extends javax.swing.JFrame {
 
         _btnAgregarAccs.setName("btnAgregarAcceso");
         _btnAgregarCar.setName("btnAgregarCar");
-        _btnAgregarAccs.setBackground(new Color(253, 255, 255));
+        _btnAgregarAccs.setBackground(new Color(231,234,239));
+        _btnAgregarAccs.setIcon(iconAdd);
         //_btnAgregarAccs.setColor2(new Color(253, 255, 254));
-        _btnAgregarCar.setBackground(new Color(253, 255, 255));
+        _btnAgregarCar.setBackground(new Color(231,234,239));
+        _btnAgregarCar.setIcon(iconAdd);
         //_btnAgregarCar.setColor2(new Color(253, 255, 255));
-        _btnAgregarAccs.setForeground(new Color(58, 50, 75));
+        /*_btnAgregarAccs.setForeground(new Color(58, 50, 75));        
         _btnAgregarCar.setForeground(new Color(58, 50, 75));
         _btnAgregarAccs.setFont(font);
         _btnAgregarCar.setFont(font);
         _btnAgregarAccs.setText("Agregar");
-        _btnAgregarCar.setText("Agregar");
+        _btnAgregarCar.setText("Agregar");*/
 
         if (modeltableaccess.getRowCount() > 0 || modeltablecars.getRowCount() > 0) {//si en el modelo de la tabla hay datos/filas o los datos son mayores a 0
             modeltableaccess.removeRow(0);//remover las filas a 0

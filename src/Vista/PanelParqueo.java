@@ -8,9 +8,10 @@ package Vista;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import Controles_Personalizados.Botones.ButtonGradient;
+import Controles_Personalizados.Botones.UWPButton;
 import Controles_Personalizados.RenderTable;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 import java.awt.Font;
 /**
  *
@@ -18,16 +19,18 @@ import java.awt.Font;
  */
 public class PanelParqueo extends javax.swing.JPanel {
 
-    private final ButtonGradient btnupdate = new ButtonGradient();
-    private final ButtonGradient btndelete = new ButtonGradient();
-    
+    private final UWPButton btnupdate = new UWPButton();
+    private final UWPButton btndelete = new UWPButton();
+    private final ImageIcon modifIcon = new ImageIcon(getClass().getResource("/Recursos_Proyecto/editar.png"));
+    private final ImageIcon deleteIcon = new ImageIcon(getClass().getResource("/Recursos_Proyecto/eliminar.png"));
+            
     public Font font = new Font("Roboto Black", Font.PLAIN, 18);
     /**
      * Creates new form PanelParqueo
      */
     public PanelParqueo() {
         initComponents();
-        String[] headerpark = {"IDDetalleAcceso","Fecha", "IDAcceso", "Hora", "IDParqueo","Documento", "IDVehiculo",  "Nombres", "Apellidos", "Placa", "Color", "Nº Estacionamiento",  "Modificar", "Eliminar"};
+        String[] headerpark = {"IDDetalleAcceso","Fecha", "IDAcceso", "Hora", "IDParqueo","Carnet", "IDVehiculo",  "Nombres", "Apellidos", "Placa", "Color", "Nº Estacionamiento",  "Modificar", "Eliminar"};
         tbpark = new DefaultTableModel(null, headerpark);
         TbParqueosWhite.setModel(tbpark);
         getdataPark();
@@ -37,16 +40,10 @@ public class PanelParqueo extends javax.swing.JPanel {
         TbParqueosWhite.removeColumn(TbParqueosWhite.getColumnModel().getColumn(3));
         //TbParqueosWhite.removeColumn(TbParqueosWhite.getColumnModel().getColumn(11));
         TbParqueosWhite.setDefaultRenderer(Object.class, new RenderTable());
-        btndelete.setColor1(new Color(253,255,255));
-        btndelete.setColor2(new Color(253,255,255));        
-        btnupdate.setColor1(new Color(253,255,255));
-        btnupdate.setColor2(new Color(253,255,255));
-        btndelete.setFont(font);
-        btnupdate.setFont(font);
-        btndelete.setForeground(new Color(58,50,75));
-        btnupdate.setForeground(new Color(58,50,75));
-        btndelete.setText("Eliminar");
-        btnupdate.setText("Modificar");
+        btndelete.setBackground(new Color(231,234,239));
+        btnupdate.setBackground(new Color(231,234,239));
+        btndelete.setIcon(deleteIcon);
+        btnupdate.setIcon(modifIcon);
     }
 
     /**

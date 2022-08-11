@@ -14,6 +14,7 @@ import Controles_Personalizados.Botones.UWPButton;
 import Controles_Personalizados.RenderTable;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -26,7 +27,9 @@ public class PanelAccesos extends javax.swing.JPanel {
 
     UWPButton btnupdate = new UWPButton();
     UWPButton btndelete = new UWPButton();
-
+    ImageIcon modifIcon = new ImageIcon(getClass().getResource("/Recursos_Proyecto/editar.png"));
+    ImageIcon deleteIcon = new ImageIcon(getClass().getResource("/Recursos_Proyecto/eliminar.png"));
+    
     public Font font = new Font("Roboto Black", Font.PLAIN, 18);
     /**
      * Creates new form PanelAccesos
@@ -190,27 +193,22 @@ public class PanelAccesos extends javax.swing.JPanel {
         if (row < TbAccesosWhite4.getRowCount() && row > 0 && col > 0 && col< TbAccesosWhite4.getColumnCount()) {
             Object value = TbAccesosWhite4.getValueAt(row, col);
             if (value instanceof UWPButton) {
-                ((UWPButton)value).setEffectColor(new Color(254,254,254));
+                ((UWPButton)value).doClick();
                 UWPButton btn = (UWPButton) value;
-                btn.setEffectColor(new Color(254,254,254));
+                
             }
         }
     }//GEN-LAST:event_TbAccesosWhite4MouseEntered
 
     void loadTable() {
         btnupdate.setName("btnUpdate");
-        btnupdate.setText("Modificar");
-        btnupdate.setBackground(new Color(254,254,254));
-        btnupdate.setEffectColor(new Color(255,255,255));
-        btnupdate.setForeground(new Color(42,36,56));
-        btnupdate.setFont(font);
+        btnupdate.setBackground(new Color(231,234,239));
+        btnupdate.setIcon(modifIcon);
         
         btndelete.setName("btnDelete");
-        btndelete.setText("Eliminar");
-        btndelete.setBackground(new Color(254,254,254));
-        btndelete.setEffectColor(new Color(255,255,255));
-        btndelete.setForeground(new Color(42, 36, 56));
-        btndelete.setFont(font);
+        btndelete.setBackground(new Color(231,234,239));
+        btndelete.setIcon(deleteIcon);
+        
         ResultSet rs;
         try {
             while (tb.getRowCount() > 0) {

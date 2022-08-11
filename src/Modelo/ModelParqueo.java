@@ -32,12 +32,14 @@ public class ModelParqueo {
     }
     
     public boolean insertPark(int idpark, int idacces, int idcar){
+        int busy = 2;
         try {
             con = ModelConexion.getConnection();
-            sql = con.prepareStatement("INSERT INTO tbDetallesAccesos VALUES (?,?,?)");
+            sql = con.prepareStatement("INSERT INTO tbDetallesAccesos VALUES (?,?,?,?)");
             sql.setInt(1, idcar);
             sql.setInt(2, idacces);
             sql.setInt(3, idpark);            
+            sql.setInt(4, busy);
             sql.execute();
             return true;
         } catch (SQLException e) {
