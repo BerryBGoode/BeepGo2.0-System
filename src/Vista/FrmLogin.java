@@ -13,7 +13,6 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.ResultSet;
-import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -39,15 +38,6 @@ public class FrmLogin extends javax.swing.JFrame {
     private String nombre;
     private String tipo;
     private int intentos;
-
-    private void NumeroAleatorio() {
-        int min = 1000;
-        int max = 10000;
-        Random random = new Random();
-        int valor = random.nextInt(10);
-        
-        System.out.println(valor);
-    }
 
     public Image Logo() {
         Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
@@ -198,10 +188,10 @@ public class FrmLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Existen campos vacios", "Error de procesamiento", JOptionPane.WARNING_MESSAGE);
         } else {
             ControllerLogin objc = new ControllerLogin();
-            ControllerLogin.usuario = txtUsuario.getText();
             String contra = ValidacionesSistema.ValidacionesBeep_Go.EncriptarContra(String.valueOf(txtContra.getPassword()));
 
-            objc.contraseña = contra;
+            objc.setUsuario(txtUsuario.getText());
+            objc.setContraseña(contra);
 
             int respuesta0 = objc.validarUsuarioController();
 
@@ -212,6 +202,8 @@ public class FrmLogin extends javax.swing.JFrame {
                     int respuesta2 = objc.validarLoginC();
 
                     if (respuesta2 == 1) {
+                        objc.setIntentos(5);
+                        objc.IntentosController();                    
                         CargarDatos();
                         if (txtContra.getText().equals(txtUsuario.getText() + "123")) {
                             FrmRestablecimiento frm = new FrmRestablecimiento(nombre);
@@ -232,9 +224,10 @@ public class FrmLogin extends javax.swing.JFrame {
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, "Error al validar las credenciales");
                         }
-                        if (intentos >= 1) {
+                        if (intentos > 1) {
                             int intentosf = intentos - 1;
-                            objc.IntentosController(intentosf);
+                            objc.setIntentos(intentosf);
+                            objc.IntentosController();
                             JOptionPane.showMessageDialog(null, "Credenciales incorrectas, intentos restantes: " + intentosf);
                         } else {
                             objc.BloquearUsuarioController();
@@ -258,7 +251,7 @@ public class FrmLogin extends javax.swing.JFrame {
     void CargarDatos() {
         ControllerLogin objc = new ControllerLogin();
         ResultSet rs;
-        objc.usuario = txtUsuario.getText();
+        objc.setUsuario(txtUsuario.getText());
         rs = objc.CapturarDatosController();
 
         try {
