@@ -44,7 +44,7 @@ public class ModelP_U_Usuarios {
         }
     }
 
-    public boolean IngresarPUsuario(String Usuario, byte[] perfil, String Contra,int pin, int personal) {
+    public boolean IngresarPUsuario(String Usuario, byte[] perfil, String Contra,String pin, int personal) {
         int idtipousuario = 1;
         int idestadousuario = 1;
         int intentos = 5;
@@ -55,7 +55,7 @@ public class ModelP_U_Usuarios {
             ps.setInt(1, personal);
             ps.setString(2, Usuario);
             ps.setString(3, Contra);
-            ps.setInt(4, pin);
+            ps.setString(4, pin);
             ps.setInt(5, idtipousuario);
             ps.setInt(6, idestadousuario);
             ps.setBytes(7, perfil);

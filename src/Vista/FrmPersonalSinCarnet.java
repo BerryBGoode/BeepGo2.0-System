@@ -5,12 +5,28 @@
  */
 package Vista;
 
+import Controlador.ControllerCarnets;
+import Controles_Personalizados.Botones.ButtonGradient;
+import Controles_Personalizados.Botones.UWPButton;
+import Controles_Personalizados.Paneles.PanelRound;
+import Controles_Personalizados.RenderTable;
+import Controles_Personalizados.ScrollBar.ScrollBarCustom;
+import Controles_Personalizados.Tables.Table;
 import com.sun.awt.AWTUtilities;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GraphicsConfiguration;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.RoundRectangle2D;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,20 +34,40 @@ import javax.swing.JFrame;
  */
 public class FrmPersonalSinCarnet extends javax.swing.JFrame {
 
+    DefaultTableModel model;
+    private final UWPButton btnupdate = new UWPButton();
+    private final UWPButton btndelete = new UWPButton();
+    ControllerCarnets objController = new ControllerCarnets();
+    public Font font = new Font("Roboto Black", Font.PLAIN, 18);
+
     /**
      * Creates new form FrmAgg_Carnets
      */
     public FrmPersonalSinCarnet() {
         initComponents();
+        String[] Titulos = {"Nombre", "Apellido", "Actualizar", "Eliminar"};
+        model = new DefaultTableModel(null, Titulos);
+        TbPersonalSC.setModel(model);
+        TbPersonalSC.setDefaultRenderer(Object.class, new RenderTable());
+        btnupdate.setBackground(new Color(231,235,239));
+        btndelete.setForeground(new Color(58, 50, 75));
+        btnupdate.setForeground(new Color(58, 50, 75));
+        btndelete.setFont(font);
+        btnupdate.setFont(font);
+        btndelete.setText("Eliminar");
+        btnupdate.setText("Generar Carné");
         setLocationRelativeTo(null);
-        Shape forma= new RoundRectangle2D.Double(0,0, this.getBounds() .width, this.getBounds() .height,40,40);
-        AWTUtilities. setWindowShape(this, forma);
+        Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
+        AWTUtilities.setWindowShape(this, forma);
         setIconImage(Logo());
+        cargarTabla();
     }
-public Image Logo(){
-    Image retvalue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
-    return retvalue;
-}
+
+    public Image Logo() {
+        Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
+        return retvalue;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,7 +80,7 @@ public Image Logo(){
         panelRound1 = new Controles_Personalizados.Paneles.PanelRound();
         lblVehiculos = new javax.swing.JLabel();
         PanelTabla = new javax.swing.JScrollPane();
-        TbUsuariosWhite4 = new Controles_Personalizados.Tables.Table();
+        TbPersonalSC = new Controles_Personalizados.Tables.Table();
         ScrollTabla = new Controles_Personalizados.ScrollBar.ScrollBarCustom();
         btnCerrar = new javax.swing.JLabel();
         btnMinimizar = new javax.swing.JLabel();
@@ -67,8 +103,8 @@ public Image Logo(){
         PanelTabla.setVerticalScrollBar(ScrollTabla);
         PanelTabla.setWheelScrollingEnabled(false);
 
-        TbUsuariosWhite4.setBackground(new java.awt.Color(231, 234, 239));
-        TbUsuariosWhite4.setModel(new javax.swing.table.DefaultTableModel(
+        TbPersonalSC.setBackground(new java.awt.Color(231, 234, 239));
+        TbPersonalSC.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -105,12 +141,12 @@ public Image Logo(){
                 return canEdit [columnIndex];
             }
         });
-        TbUsuariosWhite4.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        TbUsuariosWhite4.setGridColor(new java.awt.Color(58, 50, 75));
-        TbUsuariosWhite4.setName(""); // NOI18N
-        TbUsuariosWhite4.setSelectionBackground(new java.awt.Color(58, 50, 75));
-        TbUsuariosWhite4.setShowVerticalLines(false);
-        PanelTabla.setViewportView(TbUsuariosWhite4);
+        TbPersonalSC.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        TbPersonalSC.setGridColor(new java.awt.Color(58, 50, 75));
+        TbPersonalSC.setName(""); // NOI18N
+        TbPersonalSC.setSelectionBackground(new java.awt.Color(58, 50, 75));
+        TbPersonalSC.setShowVerticalLines(false);
+        PanelTabla.setViewportView(TbPersonalSC);
 
         panelRound1.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 980, 460));
 
@@ -142,13 +178,26 @@ public Image Logo(){
     }// </editor-fold>//GEN-END:initComponents
 
     FrmAgg_Carnet add = new FrmAgg_Carnet();
-    
+
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
         PanelOpcionesPersonal.showinter = 0;
         this.dispose();
         add.dispose();
     }//GEN-LAST:event_btnCerrarMousePressed
-
+    void cargarTabla() {
+        while (model.getRowCount() > 0) {
+            model.removeRow(0);
+        }
+        try {
+            ResultSet rs = objController.SinCarnetController();
+            while (rs.next()) {
+                Object[] Valores = {rs.getString("nombre_p"), rs.getString("apellido_p"), btnupdate, btndelete};
+                model.addRow(Valores);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al cargar, Error de vista" + e.toString());
+        }
+    }
     private void btnMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseClicked
         // TODO add your handling code here:
         this.setExtendedState(JFrame.ICONIFIED);
@@ -193,7 +242,7 @@ public Image Logo(){
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane PanelTabla;
     private Controles_Personalizados.ScrollBar.ScrollBarCustom ScrollTabla;
-    private Controles_Personalizados.Tables.Table TbUsuariosWhite4;
+    private Controles_Personalizados.Tables.Table TbPersonalSC;
     private javax.swing.JLabel btnCerrar;
     private javax.swing.JLabel btnMinimizar;
     private javax.swing.JLabel lblVehiculos;

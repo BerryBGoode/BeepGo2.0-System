@@ -40,15 +40,6 @@ public class FrmLogin extends javax.swing.JFrame {
     private String tipo;
     private int intentos;
 
-    private void NumeroAleatorio() {
-        int min = 1000;
-        int max = 10000;
-        Random random = new Random();
-        int valor = random.nextInt(10);
-        
-        System.out.println(valor);
-    }
-
     public Image Logo() {
         Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
         return retvalue;
@@ -78,6 +69,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1291, 760));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -167,7 +159,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
         PanelFondo.add(PanelContenedorCampos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 760));
 
-        ImagenLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/imagenlogin.png"))); // NOI18N
+        ImagenLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/Login-amico.png"))); // NOI18N
         PanelFondo.add(ImagenLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 120, -1, -1));
 
         btnMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/Maximizar.png"))); // NOI18N
@@ -177,7 +169,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 btnMinimizarMouseClicked(evt);
             }
         });
-        PanelFondo.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 20, -1, -1));
+        PanelFondo.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 21, -1, -1));
 
         btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/CerrarLogin.png"))); // NOI18N
         btnCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -186,7 +178,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 btnCerrarMousePressed(evt);
             }
         });
-        PanelFondo.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 20, -1, -1));
+        PanelFondo.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1258, 20, -1, -1));
 
         getContentPane().add(PanelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 760));
 

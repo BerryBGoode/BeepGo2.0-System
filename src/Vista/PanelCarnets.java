@@ -7,10 +7,18 @@ package Vista;
 
 import Controlador.ControllerCarnets;
 import Controles_Personalizados.Botones.ButtonGradient;
+import Controles_Personalizados.Botones.UWPButton;
 import Controles_Personalizados.RenderTable;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,8 +29,7 @@ public class PanelCarnets extends javax.swing.JPanel {
 
     DefaultTableModel model;
     ControllerCarnets ObjController = new ControllerCarnets();
-    private final ButtonGradient btnupdate = new ButtonGradient();
-    private final ButtonGradient btndelete = new ButtonGradient();
+    private final UWPButton btnGenerar = new UWPButton();
     public Font font = new Font("Roboto Black", Font.PLAIN, 18);
 
     /**
@@ -30,23 +37,18 @@ public class PanelCarnets extends javax.swing.JPanel {
      */
     public PanelCarnets() {
         initComponents();
-        String[] TitulosCarnets = {"Nombre", "Apellido", "Carné", "Tipo de usuario", "Modificar", "Eliminar"};
+        String[] TitulosCarnets = {"Nombre", "Apellido", "Carné", "Tipo de usuario", "Codigo de barra"};
         model = new DefaultTableModel(null, TitulosCarnets);
         TbCarnets.setModel(model);
         TbCarnets.setDefaultRenderer(Object.class, new RenderTable());
-        btndelete.setColor1(new Color(253, 255, 255));
-        btndelete.setColor2(new Color(253, 255, 255));
-        btnupdate.setColor1(new Color(253, 255, 255));
-        btnupdate.setColor2(new Color(253, 255, 255));
-        btndelete.setForeground(new Color(58, 50, 75));
-        btnupdate.setForeground(new Color(58, 50, 75));
-        btndelete.setFont(font);
-        btnupdate.setFont(font);
-        btndelete.setText("Eliminar");
-        btnupdate.setText("Modificar");
+        btnGenerar.setBackground(new Color(253,255,255));
+        ImageIcon modificar;
+        btnGenerar.setForeground(new Color(58, 50, 75));
+        btnGenerar.setFont(font);
+        btnGenerar.setText("Generar");
         cargarTabla();
     }
-
+      
     void cargarTabla() {
         while (model.getRowCount() > 0) {
             model.removeRow(0);
@@ -54,13 +56,14 @@ public class PanelCarnets extends javax.swing.JPanel {
         try {
             ResultSet rs = ObjController.cargarTablaController();
             while (rs.next()) {
-                Object[] Valores = {rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getInt("numero_carnet"), rs.getString("tipo_usuario"),btnupdate,btndelete};
+                Object[] Valores = {rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("Carnet"), rs.getString("tipo_personal"),btnGenerar};
                 model.addRow(Valores);
             }
-        } catch (Exception e) {
-            System.out.println("Error al cargar, Error de vista");
+        } catch (SQLException e) {
+            System.out.println("Error al cargar, Error de vista" + e.toString());
         }
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

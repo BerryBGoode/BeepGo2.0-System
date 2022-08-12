@@ -32,6 +32,7 @@ public class ModelP_U_Empresa {
             return false;
         }
     }
+    //Crear parametro tipo byte
     public boolean IngresarPEmpresa(String nombre, String representante_Legal, String direccion, String NIT, String CNR, byte[] logo) {
         
         try {
