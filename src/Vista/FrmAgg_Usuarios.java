@@ -45,12 +45,14 @@ public Image Logo(){
         btnMinimizar = new javax.swing.JLabel();
         btnCerrar = new javax.swing.JLabel();
         txtUsuario = new Controles_Personalizados.textfields.TextField();
-        txtContraseña = new Controles_Personalizados.textfields.TextField();
-        txtPIN = new Controles_Personalizados.textfields.TextField();
         CmbTipo = new Controles_Personalizados.ComboBox.combobox();
-        CmbEstado = new Controles_Personalizados.ComboBox.combobox();
+        CmbPersonal = new Controles_Personalizados.ComboBox.combobox();
         btnContinuar = new Controles_Personalizados.Botones.ButtonGradient();
         jLabel2 = new javax.swing.JLabel();
+        CmbEstado = new Controles_Personalizados.ComboBox.combobox();
+        jLabel3 = new javax.swing.JLabel();
+        uWPButton1 = new Controles_Personalizados.Botones.UWPButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -84,7 +86,7 @@ public Image Logo(){
         panelRound1.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 10, -1, -1));
 
         txtUsuario.setBackground(new java.awt.Color(58, 50, 75));
-        txtUsuario.setForeground(new java.awt.Color(253, 255, 254));
+        txtUsuario.setForeground(new java.awt.Color(254, 254, 254));
         txtUsuario.setCaretColor(new java.awt.Color(253, 255, 254));
         txtUsuario.setDisabledTextColor(new java.awt.Color(253, 255, 254));
         txtUsuario.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
@@ -92,43 +94,21 @@ public Image Logo(){
         txtUsuario.setLineColor(new java.awt.Color(253, 255, 254));
         txtUsuario.setSelectedTextColor(new java.awt.Color(58, 50, 75));
         txtUsuario.setSelectionColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 310, 70));
-
-        txtContraseña.setBackground(new java.awt.Color(58, 50, 75));
-        txtContraseña.setForeground(new java.awt.Color(253, 255, 254));
-        txtContraseña.setCaretColor(new java.awt.Color(253, 255, 254));
-        txtContraseña.setDisabledTextColor(new java.awt.Color(253, 255, 254));
-        txtContraseña.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        txtContraseña.setLabelText("Contraseña");
-        txtContraseña.setLineColor(new java.awt.Color(253, 255, 254));
-        txtContraseña.setSelectedTextColor(new java.awt.Color(58, 50, 75));
-        txtContraseña.setSelectionColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(txtContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 310, 70));
-
-        txtPIN.setBackground(new java.awt.Color(58, 50, 75));
-        txtPIN.setForeground(new java.awt.Color(253, 255, 254));
-        txtPIN.setCaretColor(new java.awt.Color(253, 255, 254));
-        txtPIN.setDisabledTextColor(new java.awt.Color(253, 255, 254));
-        txtPIN.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        txtPIN.setLabelText("PIN (Combinacion Propia)");
-        txtPIN.setLineColor(new java.awt.Color(253, 255, 254));
-        txtPIN.setSelectedTextColor(new java.awt.Color(58, 50, 75));
-        txtPIN.setSelectionColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(txtPIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 310, 70));
+        panelRound1.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 340, 70));
 
         CmbTipo.setBackground(new java.awt.Color(58, 50, 75));
         CmbTipo.setForeground(new java.awt.Color(42, 36, 56));
         CmbTipo.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
         CmbTipo.setLabeText("Tipo - Usuario");
         CmbTipo.setLineColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(CmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 310, 80));
+        panelRound1.add(CmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 340, 80));
 
-        CmbEstado.setBackground(new java.awt.Color(58, 50, 75));
-        CmbEstado.setForeground(new java.awt.Color(42, 36, 56));
-        CmbEstado.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        CmbEstado.setLabeText("Estado - Usuario");
-        CmbEstado.setLineColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(CmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 400, 310, 80));
+        CmbPersonal.setBackground(new java.awt.Color(58, 50, 75));
+        CmbPersonal.setForeground(new java.awt.Color(42, 36, 56));
+        CmbPersonal.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        CmbPersonal.setLabeText("Personal");
+        CmbPersonal.setLineColor(new java.awt.Color(253, 255, 254));
+        panelRound1.add(CmbPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 350, 340, 80));
 
         btnContinuar.setBackground(new java.awt.Color(253, 255, 254));
         btnContinuar.setForeground(new java.awt.Color(58, 50, 75));
@@ -143,10 +123,32 @@ public Image Logo(){
         });
         panelRound1.add(btnContinuar, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 500, 150, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/UserImg.png"))); // NOI18N
-        panelRound1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, 490, 420));
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254), 3));
+        panelRound1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 100, 220, 235));
 
-        getContentPane().add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 580));
+        CmbEstado.setBackground(new java.awt.Color(58, 50, 75));
+        CmbEstado.setForeground(new java.awt.Color(42, 36, 56));
+        CmbEstado.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        CmbEstado.setLabeText("Estado - Usuario");
+        CmbEstado.setLineColor(new java.awt.Color(253, 255, 254));
+        panelRound1.add(CmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 340, 80));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/imagenlogin2.png"))); // NOI18N
+        panelRound1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 90, 330, 350));
+
+        uWPButton1.setBackground(new java.awt.Color(254, 254, 254));
+        uWPButton1.setForeground(new java.awt.Color(58, 50, 75));
+        uWPButton1.setText("Examinar");
+        uWPButton1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        panelRound1.add(uWPButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 350, 220, 50));
+
+        jLabel1.setBackground(new java.awt.Color(51, 255, 51));
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel1.setText("Foto (Opcional)");
+        panelRound1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 60, -1, -1));
+
+        getContentPane().add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 570));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -204,14 +206,16 @@ public Image Logo(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Controles_Personalizados.ComboBox.combobox CmbEstado;
+    private Controles_Personalizados.ComboBox.combobox CmbPersonal;
     private Controles_Personalizados.ComboBox.combobox CmbTipo;
     private javax.swing.JLabel btnCerrar;
     private Controles_Personalizados.Botones.ButtonGradient btnContinuar;
     private javax.swing.JLabel btnMinimizar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private Controles_Personalizados.Paneles.PanelRound panelRound1;
-    private Controles_Personalizados.textfields.TextField txtContraseña;
-    private Controles_Personalizados.textfields.TextField txtPIN;
     private Controles_Personalizados.textfields.TextField txtUsuario;
+    private Controles_Personalizados.Botones.UWPButton uWPButton1;
     // End of variables declaration//GEN-END:variables
 }

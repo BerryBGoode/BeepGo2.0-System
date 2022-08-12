@@ -19,16 +19,16 @@ public class ControllerP_U_Usuarios {
     }
     public String Usuario;
     public int idPersonal;
-    public int PIN;
+    public String PIN;
     public String Clave;
     public int idusuario;
     public byte[] foto;
 
-    public int getPIN() {
+    public String getPIN() {
         return PIN;
     }
 
-    public void setPIN(int PIN) {
+    public void setPIN(String PIN) {
         this.PIN = PIN;
     }
 

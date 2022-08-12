@@ -75,7 +75,7 @@ public class ModelP_U_Personal {
         try {
             int idtipopersonal = 2;
             con = ModelConexion.getConnection();
-            String query = "INSERT INTO tbPersonal VALUES (?,?,?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO tbPersonal (nombre_p,apellido_p,fecha_nacimiento, correo, direccion, documento, idTipoDocumento, idTipoPersonal, idGenero, idEmpresa)VALUES (?,?,?,?,?,?,?,?,?,?)";
             ps = con.prepareStatement(query);
             ps.setString(1, nombrep);
             ps.setString(2, apellidop);
@@ -91,6 +91,9 @@ public class ModelP_U_Personal {
             return true;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al realizar el proceso" + e.toString(), "Proceso incompleto", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }catch(Exception ex){
+            System.out.println(ex.toString());
             return false;
         }
     }

@@ -15,7 +15,9 @@ import java.sql.ResultSet;
 public class ControllerCarnets {
     ModelCarnets ObjModel=new ModelCarnets();
     public ResultSet cargarTablaController(){
-        return ObjModel.cargarTabla();
+        return ObjModel.cargarTablaConCarnet();
     }
-    
+    public ResultSet SinCarnetController(){
+        return ObjModel.cargarTablaSinCarnet();
+    }
 }
