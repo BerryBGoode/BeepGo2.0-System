@@ -18,6 +18,10 @@ import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 
@@ -25,7 +29,7 @@ import javax.swing.JFrame;
  *
  * @author danlo and ferna
  */
-public class FrmDashboard extends javax.swing.JFrame{
+public class FrmDashboard extends javax.swing.JFrame implements Runnable{
     
     /**
      * Creates new form Dashboard
@@ -65,6 +69,8 @@ public class FrmDashboard extends javax.swing.JFrame{
          PanelContenedorForms.revalidate();
          PanelContenedorForms.repaint();
         
+         h1 = new Thread(this);
+         h1.start();
     }
     
     public FrmDashboard() {
@@ -511,6 +517,38 @@ public Image Logo(){
     FrmAgg_Personal addPersonal = new FrmAgg_Personal();
     FrmPersonal_AggVehiculo addVehiculo = new FrmPersonal_AggVehiculo();
     
+    @Override
+    public void run() {
+        Thread ct = Thread.currentThread();
+        while(ct == h1) {   
+        CalcularHora();
+        lblHora.setText(hora + ":" + minutos + " "+ampm);
+        try {
+        Thread.sleep(1000);
+        }catch(InterruptedException e) {}
+        }
+    }
+
+    String hora, minutos, ampm;
+    Thread h1;
+    ImageIcon hourstate = new ImageIcon(getClass().getResource("/Recursos_Proyecto/Night.png"));
+
+    final void CalcularHora() {
+        Calendar cal = new GregorianCalendar();
+        Date fechaHoraActual = new Date();
+
+
+        cal.setTime(fechaHoraActual);
+        ampm = cal.get(Calendar.AM_PM)==Calendar.AM?"am":"pm";
+
+        if(ampm.equals("pm")){
+            int h = cal.get(Calendar.HOUR_OF_DAY)-12;
+            hora = h > 9? "" + h : "0" + h;
+        }else{
+            hora = cal.get(Calendar.HOUR_OF_DAY)>9?""+cal.get(Calendar.HOUR_OF_DAY):"0"+cal.get(Calendar.HOUR_OF_DAY);
+        }
+        minutos = cal.get(Calendar.MINUTE)>9?""+cal.get(Calendar.MINUTE):"0"+cal.get(Calendar.MINUTE);
+    }
     
     //Interface mode
     void DarkMode(){

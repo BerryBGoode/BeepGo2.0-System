@@ -7,6 +7,7 @@ package Vista;
 
 import Controlador.ControllerContactos;
 import Controles_Personalizados.Botones.UWPButton;
+import Controles_Personalizados.Tables.Renderer;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class PanelContactos extends javax.swing.JPanel {
     public PanelContactos() {
         initComponents();
         
+        tbContactos.setDefaultRenderer(Object.class, new Renderer());
         String[] headerContactos = {"Id Contacto", "contacto", "id Personal", "id TipoContacto", "Modificar", "Eliminar"};
         model = new DefaultTableModel(null, headerContactos){
             @Override
