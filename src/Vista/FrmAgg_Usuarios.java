@@ -5,12 +5,20 @@
  */
 package Vista;
 
+import Controlador.ControllerUsuarios;
 import com.sun.awt.AWTUtilities;
 import java.awt.Image;
 import java.awt.Shape;
 import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,17 +29,33 @@ public class FrmAgg_Usuarios extends javax.swing.JFrame {
     /**
      * Creates new form FrmAgg_Usuarios
      */
-    public FrmAgg_Usuarios() {
+    public FrmAgg_Usuarios(String titulo) {
         initComponents();
+        CargarCmbs();
+        this.setTitle(titulo);
         this.setLocationRelativeTo(null); 
          Shape forma= new RoundRectangle2D.Double(0,0, this.getBounds() .width, this.getBounds() .height,40,40);
          AWTUtilities. setWindowShape(this, forma);
          setIconImage(Logo());
     }
-public Image Logo(){
+
+    public FrmAgg_Usuarios() {
+        initComponents();
+        CargarCmbs();
+    }
+    
+    public Image Logo(){
     Image retvalue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
     return retvalue;
-}
+    }
+    DefaultComboBoxModel<String> modelocombo;
+    private List myArrayListTU;
+    private List myArrayListEU;
+    private List myArrayListPE;
+    private int tipoUsu;
+    private int estadoUsu;
+    private int personal;
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,14 +69,14 @@ public Image Logo(){
         btnMinimizar = new javax.swing.JLabel();
         btnCerrar = new javax.swing.JLabel();
         txtUsuario = new Controles_Personalizados.textfields.TextField();
-        CmbTipo = new Controles_Personalizados.ComboBox.combobox();
-        CmbPersonal = new Controles_Personalizados.ComboBox.combobox();
+        cmbPersonal = new Controles_Personalizados.ComboBox.combobox();
         btnContinuar = new Controles_Personalizados.Botones.ButtonGradient();
         jLabel2 = new javax.swing.JLabel();
-        CmbEstado = new Controles_Personalizados.ComboBox.combobox();
+        cmbEstado = new Controles_Personalizados.ComboBox.combobox();
         jLabel3 = new javax.swing.JLabel();
         uWPButton1 = new Controles_Personalizados.Botones.UWPButton();
         jLabel1 = new javax.swing.JLabel();
+        cmbTipo = new Controles_Personalizados.ComboBox.combobox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -96,19 +120,17 @@ public Image Logo(){
         txtUsuario.setSelectionColor(new java.awt.Color(253, 255, 254));
         panelRound1.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 340, 70));
 
-        CmbTipo.setBackground(new java.awt.Color(58, 50, 75));
-        CmbTipo.setForeground(new java.awt.Color(42, 36, 56));
-        CmbTipo.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        CmbTipo.setLabeText("Tipo - Usuario");
-        CmbTipo.setLineColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(CmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 340, 80));
-
-        CmbPersonal.setBackground(new java.awt.Color(58, 50, 75));
-        CmbPersonal.setForeground(new java.awt.Color(42, 36, 56));
-        CmbPersonal.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        CmbPersonal.setLabeText("Personal");
-        CmbPersonal.setLineColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(CmbPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 350, 340, 80));
+        cmbPersonal.setBackground(new java.awt.Color(58, 50, 75));
+        cmbPersonal.setForeground(new java.awt.Color(255, 255, 255));
+        cmbPersonal.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        cmbPersonal.setLabeText("Personal");
+        cmbPersonal.setLineColor(new java.awt.Color(253, 255, 254));
+        cmbPersonal.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbPersonalItemStateChanged(evt);
+            }
+        });
+        panelRound1.add(cmbPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 350, 340, 80));
 
         btnContinuar.setBackground(new java.awt.Color(253, 255, 254));
         btnContinuar.setForeground(new java.awt.Color(58, 50, 75));
@@ -126,12 +148,17 @@ public Image Logo(){
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254), 3));
         panelRound1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 100, 220, 235));
 
-        CmbEstado.setBackground(new java.awt.Color(58, 50, 75));
-        CmbEstado.setForeground(new java.awt.Color(42, 36, 56));
-        CmbEstado.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        CmbEstado.setLabeText("Estado - Usuario");
-        CmbEstado.setLineColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(CmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 340, 80));
+        cmbEstado.setBackground(new java.awt.Color(58, 50, 75));
+        cmbEstado.setForeground(new java.awt.Color(42, 36, 56));
+        cmbEstado.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        cmbEstado.setLabeText("Estado - Usuario");
+        cmbEstado.setLineColor(new java.awt.Color(253, 255, 254));
+        cmbEstado.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbEstadoItemStateChanged(evt);
+            }
+        });
+        panelRound1.add(cmbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 340, 80));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/imagenlogin2.png"))); // NOI18N
         panelRound1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 90, 330, 350));
@@ -147,6 +174,18 @@ public Image Logo(){
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
         jLabel1.setText("Foto (Opcional)");
         panelRound1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 60, -1, -1));
+
+        cmbTipo.setBackground(new java.awt.Color(58, 50, 75));
+        cmbTipo.setForeground(new java.awt.Color(255, 255, 255));
+        cmbTipo.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        cmbTipo.setLabeText("Tipo - Usuario");
+        cmbTipo.setLineColor(new java.awt.Color(253, 255, 254));
+        cmbTipo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbTipoItemStateChanged(evt);
+            }
+        });
+        panelRound1.add(cmbTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 340, 80));
 
         getContentPane().add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 570));
 
@@ -169,6 +208,57 @@ public Image Logo(){
         this.setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_btnMinimizarMouseClicked
 
+    
+    private void cmbPersonalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbPersonalItemStateChanged
+        // TODO add your handling code here:
+        if(evt.getStateChange() == ItemEvent.SELECTED){
+            int pos = cmbPersonal.getSelectedIndex();
+            if(pos == 0){
+                personal = 0;
+            }else{
+                int dim = myArrayListPE.size();
+                for(int i = 0; i < dim; i++){
+                    if(i == pos-1){
+                        personal = (int) myArrayListPE.get(i);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_cmbPersonalItemStateChanged
+
+    private void cmbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEstadoItemStateChanged
+        // TODO add your handling code here:
+            if(evt.getStateChange() == ItemEvent.SELECTED){
+            int pos = cmbEstado.getSelectedIndex();
+            if(pos == 0){
+                estadoUsu = 0;
+            }else{
+                int dim = myArrayListEU.size();
+                for(int i = 0; i < dim; i++){
+                    if(i == pos-1){
+                        estadoUsu = (int) myArrayListEU.get(i);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_cmbEstadoItemStateChanged
+
+    private void cmbTipoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbTipoItemStateChanged
+        // TODO add your handling code here:
+        if(evt.getStateChange() == ItemEvent.SELECTED){
+            int pos = cmbTipo.getSelectedIndex();
+            if(pos == 0){
+                tipoUsu = 0;
+            }else{
+                int dim = myArrayListTU.size();
+                for(int i = 0; i < dim; i++){
+                    if(i == pos-1){
+                        tipoUsu = (int) myArrayListTU.get(i);
+                    }
+                }
+            }
+    }//GEN-LAST:event_cmbTipoItemStateChanged
+    }    
     /**
      * @param args the command line arguments
      */
@@ -203,14 +293,83 @@ public Image Logo(){
             }
         });
     }
+    
+        final void CargarTipoUsuarios(){
+            ControllerUsuarios objc = new ControllerUsuarios();
+            myArrayListTU = new ArrayList();
+            try{
+                ResultSet rs = objc.CargarTipoUsuarios_C();
+                if(rs.next()){
+                    modelocombo = new DefaultComboBoxModel<>();
+                    modelocombo.addElement("");
+                    do{
+                        myArrayListTU.add(rs.getInt("idTipoUsuario"));
+                        modelocombo.addElement(rs.getString("tipo_usuario"));
+                        cmbTipo.setModel(modelocombo);
+                    }while(rs.next());
+                }else{
+                    JOptionPane.showMessageDialog(null, "No existen tipos de usuario por cargar.", "Mensaje", JOptionPane.WARNING_MESSAGE);
+                }  
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, "No se han podido cargar los datos, favor consulta con el administrador del sistema", "Error critico", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+        final void CargarEstadoUsuarios(){
+            ControllerUsuarios objc = new ControllerUsuarios();
+            myArrayListEU = new ArrayList();
+            try{
+                ResultSet rs = objc.CargarEstadoUsuarios_C();
+                if(rs.next()){
+                    modelocombo = new DefaultComboBoxModel<>();
+                    modelocombo.addElement("");
+                    do{
+                        myArrayListEU.add(rs.getInt("idEstadoUsuario"));
+                        modelocombo.addElement(rs.getString("estado_usuario"));
+                        cmbEstado.setModel(modelocombo);
+                    }while(rs.next());
+                }else{
+                    JOptionPane.showMessageDialog(null, "No existen estados de usuario por cargar.", "Mensaje", JOptionPane.WARNING_MESSAGE);
+                }  
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, "No se han podido cargar los datos, favor consulta con el administrador del sistema", "Error critico", JOptionPane.ERROR_MESSAGE);
+            }    
+        }
+        
+        final void CargarPersonal(){
+            ControllerUsuarios objc = new ControllerUsuarios();
+            myArrayListPE = new ArrayList();
+            try{
+                ResultSet rs = objc.CargarPersonal_C();
+                if(rs.next()){
+                    modelocombo = new DefaultComboBoxModel<>();
+                    modelocombo.addElement("");
+                    do{
+                        myArrayListPE.add(rs.getInt("idPersonal"));
+                        modelocombo.addElement(rs.getString("nombre_completo"));
+                        cmbPersonal.setModel(modelocombo);
+                    }while(rs.next());
+                }else{
+                    JOptionPane.showMessageDialog(null, "No existe ningún personal por cargar.", "Mensaje", JOptionPane.WARNING_MESSAGE);
+                }  
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, "No se han podido cargar los datos, favor consulta con el administrador del sistema", "Error critico", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+        void CargarCmbs(){
+            CargarTipoUsuarios();
+            CargarEstadoUsuarios();
+            CargarPersonal();
+        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Controles_Personalizados.ComboBox.combobox CmbEstado;
-    private Controles_Personalizados.ComboBox.combobox CmbPersonal;
-    private Controles_Personalizados.ComboBox.combobox CmbTipo;
     private javax.swing.JLabel btnCerrar;
     private Controles_Personalizados.Botones.ButtonGradient btnContinuar;
     private javax.swing.JLabel btnMinimizar;
+    private Controles_Personalizados.ComboBox.combobox cmbEstado;
+    private Controles_Personalizados.ComboBox.combobox cmbPersonal;
+    private Controles_Personalizados.ComboBox.combobox cmbTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
