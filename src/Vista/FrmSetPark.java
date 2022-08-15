@@ -25,6 +25,7 @@ import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import Controles_Personalizados.Botones.UWPButton;
 import javax.swing.ImageIcon;
+
 /**
  *
  * @author ferna
@@ -39,22 +40,24 @@ public class FrmSetPark extends javax.swing.JFrame {
 
     FrmConfigPark controllerPark = new FrmConfigPark();
     ControllerParqueo park = new ControllerParqueo();
+
     /**
      * Creates new form FrmSetPark
      */
-    /***
-     * 
-     * @param ID 
+    /**
+     * *
+     *
+     * @param ID
      */
-    public FrmSetPark(String ID){
+    public FrmSetPark(String ID) {
         initComponents();
         setLocationRelativeTo(null);
         Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
         AWTUtilities.setWindowShape(this, forma);
         setIconImage(Logo());
 
-        String[] headeracces = {"IDAcceso", "Carnet", "IDCarnet", "Fecha", "IDTipoAcceso", "Hora", "Tipo de acceso", "Notificación", "Agregar"};
-        String[] headercars = {"IDVehiculo", "Carnet", "IDPersonal", "Nombres", "Apellidos", "Placa", "Color", "Agregar"};
+        String[] headeracces = {"IDAcceso", "Carnet", "Fecha", "IDCarnet", "Hora", "Acceso", "Notificación", "Agregar"};
+        String[] headercars = {"IDPersonal", "Carnet", "IDVehiculo", "Nombres", "Apellidos", "Placa", "Color", "Agregar"};
 
         modeltableaccess = new DefaultTableModel(null, headeracces);
         modeltablecars = new DefaultTableModel(null, headercars);
@@ -64,8 +67,7 @@ public class FrmSetPark extends javax.swing.JFrame {
 
         getAccess();
         //Por alguna razón me omite una columna y pasa a la otra Dx y lo mismo con la tabla vehiculos        
-        TbAcesosWhite.removeColumn(TbAcesosWhite.getColumnModel().getColumn(0));
-        TbAcesosWhite.removeColumn(TbAcesosWhite.getColumnModel().getColumn(1));
+        TbAcesosWhite.removeColumn(TbAcesosWhite.getColumnModel().getColumn(0));        
         TbAcesosWhite.removeColumn(TbAcesosWhite.getColumnModel().getColumn(2));
 
         TbVehiculosWhite.removeColumn(TbVehiculosWhite.getColumnModel().getColumn(0));
@@ -73,7 +75,7 @@ public class FrmSetPark extends javax.swing.JFrame {
 
         TbAcesosWhite.setDefaultRenderer(Object.class, new RenderTable());
         TbVehiculosWhite.setDefaultRenderer(Object.class, new RenderTable());
-        txtIDPark.setText(ID);    
+        txtIDPark.setText(ID);
         txtIDPark.setVisible(false);
         chkCantbAcess.setFont(font);
         chkCantbCars.setFont(font);
@@ -82,11 +84,11 @@ public class FrmSetPark extends javax.swing.JFrame {
         chkCantbAcess.setEnabled(false);
         chkCantbCars.setEnabled(false);
     }
-    
+
     public FrmSetPark() {
         initComponents();
     }
-    
+
     public Image Logo() {
         Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
         return retvalue;
@@ -332,7 +334,7 @@ public class FrmSetPark extends javax.swing.JFrame {
 
     public static String parkname;
     public boolean confir;
-    
+
     public static String getParkname() {
         return parkname;
     }
@@ -340,7 +342,7 @@ public class FrmSetPark extends javax.swing.JFrame {
     public static void setParkname(String parkname) {
         FrmSetPark.parkname = parkname;
     }
-    
+
     DefaultTableModel modeltableaccess;
     DefaultTableModel modeltablecars;
 
@@ -358,7 +360,7 @@ public class FrmSetPark extends javax.swing.JFrame {
         if (confir == true) {
             this.dispose();
         }
-  
+
     }//GEN-LAST:event_btnListoActionPerformed
 
     private void btnMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseClicked
@@ -409,7 +411,7 @@ public class FrmSetPark extends javax.swing.JFrame {
                     if (btn.getName().equals("btnAgregarAcceso")) {
                         setSourceAcces(evt);
                         //btn.setText("");                        
-                        park.setIDAcceso(setSourceAcces(evt)); 
+                        park.setIDAcceso(setSourceAcces(evt));
                         TbAcesosWhite.setVisible(false);
                         chkCantbAcess.setSelected(false);
                     }
@@ -418,7 +420,7 @@ public class FrmSetPark extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Error do click table cars: " + e.toString());
         }
-        
+
     }//GEN-LAST:event_TbAcesosWhiteMouseClicked
 
     private void chkCantbAcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCantbAcessActionPerformed
@@ -449,10 +451,10 @@ public class FrmSetPark extends javax.swing.JFrame {
 
         _btnAgregarAccs.setName("btnAgregarAcceso");
         _btnAgregarCar.setName("btnAgregarCar");
-        _btnAgregarAccs.setBackground(new Color(231,234,239));
+        _btnAgregarAccs.setBackground(new Color(231, 234, 239));
         _btnAgregarAccs.setIcon(iconAdd);
         //_btnAgregarAccs.setColor2(new Color(253, 255, 254));
-        _btnAgregarCar.setBackground(new Color(231,234,239));
+        _btnAgregarCar.setBackground(new Color(231, 234, 239));
         _btnAgregarCar.setIcon(iconAdd);
         //_btnAgregarCar.setColor2(new Color(253, 255, 255));
         /*_btnAgregarAccs.setForeground(new Color(58, 50, 75));        
@@ -469,12 +471,12 @@ public class FrmSetPark extends javax.swing.JFrame {
             try {
                 ResultSet rsAcsess = Controlador.ControllerAccesos.getdata("vwAccesos");
                 while (rsAcsess.next()) {
-                    Object[] data = {rsAcsess.getInt("idAcceso"), rsAcsess.getString("numero_carnet"), rsAcsess.getInt("idCarnet"), rsAcsess.getDate("fecha"), rsAcsess.getInt("idTipoAcceso"), rsAcsess.getTime("hora"), rsAcsess.getString("tipo_acceso"), rsAcsess.getString("notificacion"), _btnAgregarAccs};
+                    Object[] data = {rsAcsess.getInt("idAcceso"), rsAcsess.getString("Carnet"), rsAcsess.getDate("fecha"), rsAcsess.getInt("idTipoAcceso"), rsAcsess.getTime("hora"), rsAcsess.getString("tipo_acceso"), rsAcsess.getString("notificacion"), _btnAgregarAccs};
                     modeltableaccess.addRow(data);
                 }
                 ResultSet rsCar = Controlador.ControllerAccesos.getdata("vwVehiculos");
                 while (rsCar.next()) {
-                    Object[] data = {rsCar.getInt("idVehiculo"), rsCar.getString("numero_carnet"), rsCar.getInt("idPersonal"), rsCar.getString("nombre_p"), rsCar.getString("apellido_p"), rsCar.getString("placa"), rsCar.getString("color"), _btnAgregarCar};
+                    Object[] data = {rsCar.getInt("idVehiculo"), rsCar.getString("Carnet"), rsCar.getInt("idPersonal"), rsCar.getString("nombre_p"), rsCar.getString("apellido_p"), rsCar.getString("placa"), rsCar.getString("color"), _btnAgregarCar};
                     modeltablecars.addRow(data);
                 }
 
@@ -484,7 +486,7 @@ public class FrmSetPark extends javax.swing.JFrame {
         }
     }
 
-    boolean viewIDPark(int NParqueo){
+    boolean viewIDPark(int NParqueo) {
         Boolean result;
         ResultSet rs;
         try {
@@ -492,33 +494,34 @@ public class FrmSetPark extends javax.swing.JFrame {
             if (rs.next()) {
                 ControllerParqueo.setIDParqueo(rs.getInt("idParqueo"));
                 result = true;
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Por el momento no existe ningún parqueo registrado\nIngrese un parqueo y vuelva a intentarlo", "Datos inexistentes", JOptionPane.ERROR_MESSAGE);
                 result = false;
-            }            
+            }
             return result;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error grave al cargar información sobre los parqueos", "Error grave", JOptionPane.WARNING_MESSAGE);
             return false;
-        } catch(HeadlessException r){
-            System.out.println("Exception: "+r.toString());
+        } catch (HeadlessException r) {
+            System.out.println("Exception: " + r.toString());
             return false;
         }
     }
-            
-    void insertPark(){
+
+    void insertPark() {
         ControllerParqueo.setIDParqueo(Integer.valueOf(txtIDPark.getText()));
         if (ControllerParqueo.getIDParqueo() > 0 && park.getIDAcceso() > 0 && park.getIDVehiculo() > 0) {
             if (park.insertPark() == true) {
                 confir = true;
-            }else{
+            } else {
                 confir = false;
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "No se permiten valores nulos.\nAgregar correctamente los datos", "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println(ControllerParqueo.getIDParqueo()+" "+park.getIDAcceso()+" "+park.getIDVehiculo());
+            System.out.println(ControllerParqueo.getIDParqueo() + " " + park.getIDAcceso() + " " + park.getIDVehiculo());
         }
     }
+
     /**
      * @param args the command line arguments
      */

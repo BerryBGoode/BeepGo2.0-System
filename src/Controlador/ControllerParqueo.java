@@ -65,6 +65,14 @@ public class ControllerParqueo {
         return mdpark.getIDPark(NParqueo);
     }
     
+    public ResultSet loadPark(){
+        return mdpark.loadPark();
+    }
+    
+    public ResultSet getLocationPark(String park){
+        return mdpark.getLocation(park);
+    }
+    
     public boolean insertPark(){
         return mdpark.insertPark(getIDParqueo(), getIDAcceso(), getIDVehiculo());
     }

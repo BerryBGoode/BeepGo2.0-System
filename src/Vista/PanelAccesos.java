@@ -36,13 +36,12 @@ public class PanelAccesos extends javax.swing.JPanel {
      */
     public PanelAccesos() {
         initComponents();
-        String[] header = {"IDAcceso", "Documento", "IDCarnet", "Fecha", "IDTipoAcceso", "Hora", "Tipo de acceso", "Notificación", "Modificar", "Eliminar"};
+        String[] header = {"IDAcceso", "Carnet", "Fecha", "IDTipoAcceso", "Hora", "Acceso", "Notificación", "Modificar", "Eliminar"};
         tb = new DefaultTableModel(null, header);
         loadTable();
         TbAccesosWhite4.setDefaultRenderer(Object.class, new RenderTable());
         TbAccesosWhite4.setModel(tb);
         TbAccesosWhite4.removeColumn(TbAccesosWhite4.getColumnModel().getColumn(0));
-        TbAccesosWhite4.removeColumn(TbAccesosWhite4.getColumnModel().getColumn(1));
         TbAccesosWhite4.removeColumn(TbAccesosWhite4.getColumnModel().getColumn(2));
 
     }
@@ -99,6 +98,12 @@ public class PanelAccesos extends javax.swing.JPanel {
         PanelTabla.setVerticalScrollBar(ScrollTabla);
         PanelTabla.setWheelScrollingEnabled(false);
 
+        TbAccesosWhite4 = new Controles_Personalizados.Tables.Table(){
+
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+        };
         TbAccesosWhite4.setBackground(new java.awt.Color(231, 234, 239));
         TbAccesosWhite4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -216,7 +221,7 @@ public class PanelAccesos extends javax.swing.JPanel {
             }
             rs = ControllerAccesos.getdata("vwAccesos");
             while (rs.next()) {
-                Object[] data = {rs.getInt("idAcceso"), rs.getString("numero_carnet"), rs.getInt("idCarnet"), rs.getDate("fecha"), rs.getInt("idTipoAcceso"), rs.getTime("hora"), rs.getString("tipo_acceso"), rs.getString("notificacion"), btnupdate, btndelete};
+                Object[] data = {rs.getInt("idAcceso"), rs.getString("Carnet"),rs.getDate("fecha"), rs.getInt("idTipoAcceso"), rs.getTime("hora"), rs.getString("tipo_acceso"), rs.getString("notificacion"), btnupdate, btndelete};
                 tb.addRow(data);
             }
         } catch (SQLException e) {

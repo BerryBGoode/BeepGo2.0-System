@@ -30,7 +30,7 @@ public class PanelParqueo extends javax.swing.JPanel {
      */
     public PanelParqueo() {
         initComponents();
-        String[] headerpark = {"IDDetalleAcceso","Fecha", "IDAcceso", "Hora", "IDParqueo","Carnet", "IDVehiculo",  "Nombres", "Apellidos", "Placa", "Color", "Nº Estacionamiento",  "Modificar", "Eliminar"};
+        String[] headerpark = {"IDDetalleAcceso","Fecha", "IDAcceso", "Hora", "IDParqueo","Carnet", "IDVehiculo",  "Nombres", "Apellidos", "Placa", "Color", "Estacionamiento",  "Modificar", "Eliminar"};
         tbpark = new DefaultTableModel(null, headerpark);
         TbParqueosWhite.setModel(tbpark);
         getdataPark();
@@ -202,7 +202,7 @@ public class PanelParqueo extends javax.swing.JPanel {
             try {
               ResultSet rs = Controlador.ControllerAccesos.getdata(tablename);  
                 while (rs.next()) {                    
-                    Object [] data = {rs.getInt("idDetalleAcceso"), rs.getDate("fecha"), rs.getInt("idAcceso"), rs.getTime("hora"), rs.getInt("idParqueo"), rs.getString("numero_carnet"), rs.getInt("idVehiculo"), rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("placa"), rs.getString("color"), rs.getInt("numero_parqueo"), btnupdate, btndelete};
+                    Object [] data = {rs.getInt("idDetalleAcceso"), rs.getDate("fecha"), rs.getInt("idAcceso"), rs.getTime("hora"), rs.getInt("idParqueo"), rs.getString("Carnet"), rs.getInt("idVehiculo"), rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("placa"), rs.getString("color"), rs.getInt("numero_parqueo"), btnupdate, btndelete};
                     tbpark.addRow(data);
                 //que recupere los datos q especifico con la columname y los guarde en un object
                 }

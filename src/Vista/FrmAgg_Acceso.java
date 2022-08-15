@@ -21,6 +21,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import Controles_Personalizados.Botones.UWPButton;
 import javax.swing.ImageIcon;
+import Controlador.ControllerAccesos;
+import Controles_Personalizados.Tables.Table;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  *
@@ -31,7 +36,7 @@ public class FrmAgg_Acceso extends javax.swing.JFrame {
     ButtonGroup grpAccess = new ButtonGroup();
     public Font font = new Font("Roboto Black", Font.PLAIN, 18);
     DefaultTableModel tbmodel;
-    UWPButton btnagregar = new UWPButton();
+    UWPButton btnagregar = new UWPButton();    
     private ImageIcon iconAdd = new ImageIcon(getClass().getResource("/Recursos_Proyecto/Agregar.png"));
     
     /**
@@ -45,6 +50,9 @@ public class FrmAgg_Acceso extends javax.swing.JFrame {
         setIconImage(Logo());
         load();
         loadTable();
+        chkCancelar.setFont(font);
+        chkCancelar.setForeground(Color.GRAY);
+        chkCancelar.setEnabled(false);
     }
 
     public Image Logo() {
@@ -62,13 +70,14 @@ public class FrmAgg_Acceso extends javax.swing.JFrame {
         jLabel1.setFont(font);
         jLabel1.setForeground(Color.white);
 
-        String[] headers = {"ID Personal", "Nombres", "Apellidos", "Correo", "Documento", "Carnet", "ID Tipo de personal", "Personal", "Seleccionar"};
+        String[ ] headers = {"ID Personal", "Nombres", "Apellidos", "Correo", "Carnet", "ID Tipo de personal","Tipo de personal", "Seleccionar"};
         tbmodel = new DefaultTableModel(null, headers);
         tbPersonal.setModel(tbmodel);
         tbPersonal.removeColumn(tbPersonal.getColumnModel().getColumn(0));
-        tbPersonal.removeColumn(tbPersonal.getColumnModel().getColumn(5));
+        tbPersonal.removeColumn(tbPersonal.getColumnModel().getColumn(4));
         tbPersonal.setDefaultRenderer(Object.class, new Controles_Personalizados.RenderTable());
         
+        btnagregar.setName("btnAgregar");
     }
 
     /**
@@ -87,11 +96,12 @@ public class FrmAgg_Acceso extends javax.swing.JFrame {
         PanelTabla = new javax.swing.JScrollPane();
         tbPersonal = new Controles_Personalizados.Tables.Table();
         ScrollTabla = new Controles_Personalizados.ScrollBar.ScrollBarCustom();
-        txtBuscar = new Controles_Personalizados.BarraBusqueda.TextFieldAnimation();
         btnListo = new Controles_Personalizados.Botones.ButtonGradient();
         rbtnEntrada = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         rbtnSalida = new javax.swing.JRadioButton();
+        chkCancelar = new javax.swing.JCheckBox();
+        txtJustificacion = new Controles_Personalizados.textfields.TextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -177,26 +187,18 @@ public class FrmAgg_Acceso extends javax.swing.JFrame {
         tbPersonal.setName(""); // NOI18N
         tbPersonal.setSelectionBackground(new java.awt.Color(58, 50, 75));
         tbPersonal.setShowVerticalLines(false);
+        tbPersonal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbPersonalMouseClicked(evt);
+            }
+        });
         PanelTabla.setViewportView(tbPersonal);
 
-        panelRound1.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 1130, 370));
+        panelRound1.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 1130, 440));
 
         ScrollTabla.setBackground(new java.awt.Color(58, 50, 75));
         ScrollTabla.setForeground(new java.awt.Color(58, 50, 75));
         panelRound1.add(ScrollTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 160, 10, 40));
-
-        txtBuscar.setBackground(new java.awt.Color(253, 255, 254));
-        txtBuscar.setForeground(new java.awt.Color(42, 36, 56));
-        txtBuscar.setAnimationColor(new java.awt.Color(42, 36, 56));
-        txtBuscar.setHintText("Buscar");
-        txtBuscar.setPreferredSize(new java.awt.Dimension(712, 52));
-        txtBuscar.setSelectionColor(new java.awt.Color(42, 36, 56));
-        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBuscarActionPerformed(evt);
-            }
-        });
-        panelRound1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 1130, 40));
 
         btnListo.setBackground(new java.awt.Color(42, 36, 56));
         btnListo.setForeground(new java.awt.Color(58, 50, 75));
@@ -214,16 +216,36 @@ public class FrmAgg_Acceso extends javax.swing.JFrame {
         rbtnEntrada.setBackground(new java.awt.Color(58, 50, 75));
         rbtnEntrada.setText("Entrada");
         rbtnEntrada.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        panelRound1.add(rbtnEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 580, 100, 30));
+        panelRound1.add(rbtnEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 570, 100, 30));
 
         jLabel1.setBackground(new java.awt.Color(58, 50, 75));
         jLabel1.setText("Tipo de acceso");
-        panelRound1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 550, -1, -1));
+        panelRound1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 540, -1, -1));
 
         rbtnSalida.setBackground(new java.awt.Color(58, 50, 75));
         rbtnSalida.setText("Salida");
         rbtnSalida.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        panelRound1.add(rbtnSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 580, 100, 30));
+        panelRound1.add(rbtnSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 610, 100, 30));
+
+        chkCancelar.setBackground(new java.awt.Color(58, 50, 75));
+        chkCancelar.setLabel("Cancelar");
+        chkCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkCancelarActionPerformed(evt);
+            }
+        });
+        panelRound1.add(chkCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 50, -1, -1));
+
+        txtJustificacion.setBackground(new java.awt.Color(58, 50, 75));
+        txtJustificacion.setForeground(new java.awt.Color(253, 255, 254));
+        txtJustificacion.setCaretColor(new java.awt.Color(253, 255, 254));
+        txtJustificacion.setDisabledTextColor(new java.awt.Color(253, 255, 254));
+        txtJustificacion.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        txtJustificacion.setLabelText("Justificación");
+        txtJustificacion.setLineColor(new java.awt.Color(253, 255, 254));
+        txtJustificacion.setSelectedTextColor(new java.awt.Color(58, 50, 75));
+        txtJustificacion.setSelectionColor(new java.awt.Color(253, 255, 254));
+        panelRound1.add(txtJustificacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 570, 620, 70));
 
         getContentPane().add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 690));
 
@@ -236,19 +258,84 @@ public class FrmAgg_Acceso extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnCerrarMousePressed
 
-    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBuscarActionPerformed
-
+    void insert(){
+        Date today = new Date();
+        today.getTime();
+        
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatHour = new SimpleDateFormat("hh:mm:ss");
+        String date = formatDate.format(today);
+        String hour = formatHour.format(today);
+        
+        ControllerAccesos.setDate(date);
+        ControllerAccesos.setHour(hour);
+        ControllerAccesos.setJustification(txtJustificacion.getText());
+    }
+    
     private void btnListoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListoActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        if (ControllerAccesos.getID() != 0 && (rbtnEntrada.isSelected() || rbtnSalida.isSelected())) {
+            if (rbtnEntrada.isSelected()) {
+                ControllerAccesos.setTypeAccess(1);//intro
+                insert();
+                if (ControllerAccesos.insertAccess() == true) {
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se ha podido ingresar el dato", "Error", JOptionPane.WARNING_MESSAGE);
+                }
+            }else{
+                ControllerAccesos.setTypeAccess(2);//out
+                insert();
+                if (ControllerAccesos.insertAccess() == true) {
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se ha podido ingresar el dato", "Error", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Existen campos vacios, porfavor llenarlos", "Campos vacios", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnListoActionPerformed
 
     private void btnMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseClicked
         // TODO add your handling code here:
         this.setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_btnMinimizarMouseClicked
+
+    private void tbPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPersonalMouseClicked
+        
+        Table tb = (Table)evt.getSource();
+        int id = Integer.valueOf(tb.getModel().getValueAt(tb.getSelectedRow(), 0).toString());
+        
+        int col = tbPersonal.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY()/ tbPersonal.getRowHeight();
+        try {
+            if (row < tbPersonal.getRowCount() && row >= 0 && col < tbPersonal.getColumnCount() && col >= 0) {
+                Object obj = tbPersonal.getValueAt(row, col);
+                if (obj instanceof  UWPButton) {
+                    ((UWPButton) obj).doClick();
+                    chkCancelar.setEnabled(Boolean.TRUE);
+                    chkCancelar.setForeground(Color.WHITE);
+                    chkCancelar.setEnabled(true);
+                    
+                    UWPButton btn = (UWPButton) obj;
+                    if (btn.getName().equals("btnAgregar")) {
+                        ControllerAccesos.setID(id);
+                        tbPersonal.setVisible(false);
+                        chkCancelar.setSelected(false);                        
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error do click in table: "+e.toString());
+        }
+    }//GEN-LAST:event_tbPersonalMouseClicked
+
+    private void chkCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCancelarActionPerformed
+        if (chkCancelar.isSelected()) {
+            tbPersonal.setVisible(true);
+        }
+    }//GEN-LAST:event_chkCancelarActionPerformed
 
     private void loadTable() {
         btnagregar.setName("btnAgregar");
@@ -263,7 +350,7 @@ public class FrmAgg_Acceso extends javax.swing.JFrame {
                 rs = Controlador.ControllerAccesos.getdata("vwPersonales");
 
                 while (rs.next()) {
-                    Object[] data = {rs.getInt("idPersonal"), rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("correo"), rs.getString("documento"), rs.getString("numero_carnet"), rs.getInt("idTipoPersonal"), rs.getString("tipo_personal"), btnagregar};
+                    Object[] data = {rs.getInt("idPersonal"), rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("correo"), rs.getString("Carnet"), rs.getInt("idTipoPersonal"), rs.getString("tipo_personal"), btnagregar};
                     tbmodel.addRow(data);
                 }
 
@@ -315,13 +402,14 @@ public class FrmAgg_Acceso extends javax.swing.JFrame {
     private javax.swing.JLabel btnCerrar;
     private Controles_Personalizados.Botones.ButtonGradient btnListo;
     private javax.swing.JLabel btnMinimizar;
+    private javax.swing.JCheckBox chkCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblVehiculos;
     private Controles_Personalizados.Paneles.PanelRound panelRound1;
     private javax.swing.JRadioButton rbtnEntrada;
     private javax.swing.JRadioButton rbtnSalida;
     private Controles_Personalizados.Tables.Table tbPersonal;
-    private Controles_Personalizados.BarraBusqueda.TextFieldAnimation txtBuscar;
+    private Controles_Personalizados.textfields.TextField txtJustificacion;
     // End of variables declaration//GEN-END:variables
 
 }
