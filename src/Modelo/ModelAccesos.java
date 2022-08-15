@@ -27,4 +27,21 @@ public class ModelAccesos {
             return null;
         }
     }    
+    //Method for insert access of staff
+    public static boolean insertAccess(int ID, int typeaccess, String date, String hour, String justif){
+        try {
+            con  = ModelConexion.getConnection();
+            sql = con.prepareStatement("INSERT INTO tbAccesos VALUES (?,?,?,?,?)");
+            sql.setInt(1, ID);
+            sql.setString(2, date);
+            sql.setString(3, hour);
+            sql.setInt(4, typeaccess);
+            sql.setString(5, justif);
+            sql.execute();
+            return  true;
+        } catch (SQLException e) {
+            System.out.println("Error "+e.toString());
+            return false;
+        }
+    }
 }

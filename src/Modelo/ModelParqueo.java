@@ -30,14 +30,41 @@ public class ModelParqueo {
             return null;
         }
     }
+   
+    public ResultSet loadPark(){
+        try {
+                con = ModelConexion.getConnection();
+                sql = con.prepareStatement("SELECT idParqueo, numero_parqueo FROM tbParqueos");
+                rs = sql .executeQuery();                                               
+                return rs;
+        } catch (SQLException e) {
+            System.out.println("Erorr: "+e.toString());
+            return null;
+        }
+    }    
     
-    public boolean insertPark(int idpark, int idacces, int idcar){
+    public ResultSet getLocation(String parkString){
         try {
             con = ModelConexion.getConnection();
-            sql = con.prepareStatement("INSERT INTO tbDetallesAccesos VALUES (?,?,?)");
+            sql = con.prepareStatement("SELECT Ubicacion FROM tbParqueos WHERE numero_parqueo = ? ");
+            sql.setString(1, parkString);
+            rs = sql.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            System.out.println("Error: "+e.toString());
+            return null;
+        }
+    }
+    
+    public boolean insertPark(int idpark, int idacces, int idcar){
+        int busy = 2;
+        try {
+            con = ModelConexion.getConnection();
+            sql = con.prepareStatement("INSERT INTO tbDetallesAccesos VALUES (?,?,?,?)");
             sql.setInt(1, idcar);
             sql.setInt(2, idacces);
             sql.setInt(3, idpark);            
+            sql.setInt(4, busy);
             sql.execute();
             return true;
         } catch (SQLException e) {
@@ -48,4 +75,6 @@ public class ModelParqueo {
             return false;
         }
     }
+    
+    
 }

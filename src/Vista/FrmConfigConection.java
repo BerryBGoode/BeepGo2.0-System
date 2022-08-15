@@ -40,7 +40,7 @@ public class FrmConfigConection extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
         AWTUtilities.setWindowShape(this, forma);
-        setIconImage(Logo());
+        setIconImage(Logo());                
     }
 
     public Image Logo() {
@@ -183,7 +183,7 @@ public class FrmConfigConection extends javax.swing.JFrame {
             if (ControllerConexion.getConnectionModel() != null) {
                 createFile();
                 writeFile();
-                JOptionPane.showMessageDialog(null, "Se guardo un archivo con\n los datos de la conexón", "Archivo guardado", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Se guardo un archivo con\nlos datos de la conexón", "Archivo guardado", JOptionPane.INFORMATION_MESSAGE);
                 if (verficarpu.checkEnterprise() == false) {
                     FrmP_U_Empresa cargarempresa = new FrmP_U_Empresa();
                     cargarempresa.setVisible(true);
@@ -195,11 +195,11 @@ public class FrmConfigConection extends javax.swing.JFrame {
                 ControllerP_U_Empresa VistapEmpresa = new ControllerP_U_Empresa();
                 ControllerP_U_Personal PrimerPersonal = new ControllerP_U_Personal();
                 ControllerP_U_Usuarios primerUsuarios = new ControllerP_U_Usuarios();
-                
+
                 if (VistapEmpresa.checkEnterprise() == false) {
                     FrmP_U_Empresa emp = new FrmP_U_Empresa();
                     emp.setVisible(true);
-                    
+
                 } else if (VistapEmpresa.checkEnterprise() == true && PrimerPersonal.checkcontrollerPersonal() == false) {
                     FrmP_U_Personal cargarpersonal = new FrmP_U_Personal();
                     cargarpersonal.setVisible(true);

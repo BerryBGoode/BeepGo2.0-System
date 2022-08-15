@@ -27,6 +27,10 @@ public class FrmLogin extends javax.swing.JFrame {
      */
     public FrmLogin() {
         initComponents();
+         this.setLocationRelativeTo(null); 
+         Shape forma= new RoundRectangle2D.Double(0,0, this.getBounds() .width, this.getBounds() .height,40,40);
+         AWTUtilities. setWindowShape(this, forma);
+         this.setIconImage(Logo());               
         this.setLocationRelativeTo(null);
         this.setTitle("Login");
         Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);

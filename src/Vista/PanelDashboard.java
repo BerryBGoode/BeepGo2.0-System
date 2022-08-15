@@ -69,17 +69,50 @@ public class PanelDashboard extends javax.swing.JPanel {
     private void initComponents() {
 
         PanelFondo = new Controles_Personalizados.Paneles.PanelRound();
+        pnlCenter = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
         PanelGrafica1 = new Controles_Personalizados.Paneles.PanelRound();
+        jPanel14 = new javax.swing.JPanel();
         PanelGrafica2 = new Controles_Personalizados.Paneles.PanelRound();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        PanelGrafica3 = new Controles_Personalizados.Paneles.PanelRound();
+        jPanel11 = new javax.swing.JPanel();
+        pnlEast = new javax.swing.JPanel();
+        jPanel16 = new javax.swing.JPanel();
         PanelNotificaciones = new Controles_Personalizados.Paneles.PanelRound();
         lblNoti = new javax.swing.JLabel();
-        PanelGrafica3 = new Controles_Personalizados.Paneles.PanelRound();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel15 = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(231, 234, 239));
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setLayout(new java.awt.BorderLayout());
 
         PanelFondo.setBackground(new java.awt.Color(231, 234, 239));
-        PanelFondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        PanelFondo.setLayout(new java.awt.BorderLayout());
+
+        pnlCenter.setBackground(new java.awt.Color(231, 234, 239));
+        pnlCenter.setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel5.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel5.setLayout(new java.awt.BorderLayout());
+
+        jPanel12.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel5.add(jPanel12, java.awt.BorderLayout.CENTER);
+
+        jPanel13.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel13.setPreferredSize(new java.awt.Dimension(650, 100));
+        jPanel13.setLayout(new java.awt.BorderLayout());
 
         PanelGrafica1.setBackground(new java.awt.Color(253, 255, 254));
         PanelGrafica1.setPreferredSize(new java.awt.Dimension(562, 293));
@@ -88,7 +121,13 @@ public class PanelDashboard extends javax.swing.JPanel {
         PanelGrafica1.setRoundTopLeft(20);
         PanelGrafica1.setRoundTopRight(20);
         PanelGrafica1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        PanelFondo.add(PanelGrafica1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 680, 300));
+        jPanel13.add(PanelGrafica1, java.awt.BorderLayout.CENTER);
+
+        jPanel5.add(jPanel13, java.awt.BorderLayout.WEST);
+
+        jPanel14.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel14.setPreferredSize(new java.awt.Dimension(400, 100));
+        jPanel14.setLayout(new java.awt.BorderLayout());
 
         PanelGrafica2.setBackground(new java.awt.Color(253, 255, 254));
         PanelGrafica2.setPreferredSize(new java.awt.Dimension(361, 292));
@@ -97,7 +136,59 @@ public class PanelDashboard extends javax.swing.JPanel {
         PanelGrafica2.setRoundTopLeft(20);
         PanelGrafica2.setRoundTopRight(20);
         PanelGrafica2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        PanelFondo.add(PanelGrafica2, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 10, -1, 300));
+        jPanel14.add(PanelGrafica2, java.awt.BorderLayout.CENTER);
+
+        jPanel5.add(jPanel14, java.awt.BorderLayout.EAST);
+
+        jPanel1.add(jPanel5, java.awt.BorderLayout.CENTER);
+
+        jPanel6.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel6.setPreferredSize(new java.awt.Dimension(100, 5));
+        jPanel1.add(jPanel6, java.awt.BorderLayout.PAGE_START);
+
+        jPanel7.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel7.setPreferredSize(new java.awt.Dimension(30, 100));
+        jPanel1.add(jPanel7, java.awt.BorderLayout.WEST);
+
+        pnlCenter.add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jPanel10.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel10.setPreferredSize(new java.awt.Dimension(30, 100));
+        jPanel2.add(jPanel10, java.awt.BorderLayout.WEST);
+
+        jPanel9.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel2.add(jPanel9, java.awt.BorderLayout.NORTH);
+
+        jPanel8.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel8.setLayout(new java.awt.BorderLayout());
+
+        PanelGrafica3.setBackground(new java.awt.Color(253, 255, 254));
+        PanelGrafica3.setPreferredSize(new java.awt.Dimension(938, 293));
+        PanelGrafica3.setRoundBottomLeft(20);
+        PanelGrafica3.setRoundBottomRight(20);
+        PanelGrafica3.setRoundTopLeft(20);
+        PanelGrafica3.setRoundTopRight(20);
+        PanelGrafica3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel8.add(PanelGrafica3, java.awt.BorderLayout.CENTER);
+
+        jPanel2.add(jPanel8, java.awt.BorderLayout.CENTER);
+
+        jPanel11.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel11.setPreferredSize(new java.awt.Dimension(100, 10));
+        jPanel2.add(jPanel11, java.awt.BorderLayout.PAGE_END);
+
+        pnlCenter.add(jPanel2, java.awt.BorderLayout.SOUTH);
+
+        PanelFondo.add(pnlCenter, java.awt.BorderLayout.CENTER);
+
+        pnlEast.setBackground(new java.awt.Color(231, 234, 239));
+        pnlEast.setLayout(new java.awt.BorderLayout());
+
+        jPanel16.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel16.setPreferredSize(new java.awt.Dimension(5, 100));
+        pnlEast.add(jPanel16, java.awt.BorderLayout.LINE_END);
 
         PanelNotificaciones.setBackground(new java.awt.Color(253, 255, 254));
         PanelNotificaciones.setPreferredSize(new java.awt.Dimension(165, 602));
@@ -112,18 +203,21 @@ public class PanelDashboard extends javax.swing.JPanel {
         lblNoti.setText("Notificaciones");
         PanelNotificaciones.add(lblNoti, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        PanelFondo.add(PanelNotificaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 13, 180, 600));
+        pnlEast.add(PanelNotificaciones, java.awt.BorderLayout.CENTER);
 
-        PanelGrafica3.setBackground(new java.awt.Color(253, 255, 254));
-        PanelGrafica3.setPreferredSize(new java.awt.Dimension(938, 293));
-        PanelGrafica3.setRoundBottomLeft(20);
-        PanelGrafica3.setRoundBottomRight(20);
-        PanelGrafica3.setRoundTopLeft(20);
-        PanelGrafica3.setRoundTopRight(20);
-        PanelGrafica3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        PanelFondo.add(PanelGrafica3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 1050, -1));
+        jPanel3.setBackground(new java.awt.Color(231, 234, 239));
+        pnlEast.add(jPanel3, java.awt.BorderLayout.WEST);
 
-        add(PanelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1270, 620));
+        jPanel4.setBackground(new java.awt.Color(231, 234, 239));
+        jPanel4.setPreferredSize(new java.awt.Dimension(100, 5));
+        pnlEast.add(jPanel4, java.awt.BorderLayout.PAGE_START);
+
+        jPanel15.setBackground(new java.awt.Color(231, 234, 239));
+        pnlEast.add(jPanel15, java.awt.BorderLayout.PAGE_END);
+
+        PanelFondo.add(pnlEast, java.awt.BorderLayout.EAST);
+
+        add(PanelFondo, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     
@@ -133,6 +227,24 @@ public class PanelDashboard extends javax.swing.JPanel {
     private Controles_Personalizados.Paneles.PanelRound PanelGrafica2;
     private Controles_Personalizados.Paneles.PanelRound PanelGrafica3;
     private Controles_Personalizados.Paneles.PanelRound PanelNotificaciones;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblNoti;
+    private javax.swing.JPanel pnlCenter;
+    private javax.swing.JPanel pnlEast;
     // End of variables declaration//GEN-END:variables
 }
