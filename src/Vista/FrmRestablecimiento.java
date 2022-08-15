@@ -68,10 +68,10 @@ public class FrmRestablecimiento extends javax.swing.JFrame {
         btnGoBack = new javax.swing.JLabel();
         btnMinimizar = new javax.swing.JLabel();
         btnCerrar = new javax.swing.JLabel();
-        TxtPass = new Controles_Personalizados.textfields.TextField();
-        TxtConfir = new Controles_Personalizados.textfields.TextField();
         lblText = new javax.swing.JLabel();
         btnRestablecer = new Controles_Personalizados.Botones.ButtonGradient();
+        TxtPass = new Controles_Personalizados.textfields.PasswordField();
+        TxtConfir = new Controles_Personalizados.textfields.PasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -121,25 +121,6 @@ public class FrmRestablecimiento extends javax.swing.JFrame {
         });
         panelRound1.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1330, 20, -1, -1));
 
-        TxtPass.setBackground(new java.awt.Color(42, 36, 56));
-        TxtPass.setForeground(new java.awt.Color(254, 254, 254));
-        TxtPass.setCaretColor(new java.awt.Color(254, 254, 254));
-        TxtPass.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        TxtPass.setLabelText("Contraseña");
-        TxtPass.setLineColor(new java.awt.Color(254, 254, 254));
-        TxtPass.setSelectionColor(new java.awt.Color(58, 50, 75));
-        panelRound1.add(TxtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 320, 310, 70));
-
-        TxtConfir.setBackground(new java.awt.Color(42, 36, 56));
-        TxtConfir.setForeground(new java.awt.Color(254, 254, 254));
-        TxtConfir.setToolTipText("");
-        TxtConfir.setCaretColor(new java.awt.Color(254, 254, 254));
-        TxtConfir.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        TxtConfir.setLabelText("Confirmacion de contraseña");
-        TxtConfir.setLineColor(new java.awt.Color(254, 254, 254));
-        TxtConfir.setSelectionColor(new java.awt.Color(58, 50, 75));
-        panelRound1.add(TxtConfir, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 430, 310, 70));
-
         lblText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/RestableceContraText.png"))); // NOI18N
         panelRound1.add(lblText, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 120, -1, -1));
 
@@ -154,6 +135,21 @@ public class FrmRestablecimiento extends javax.swing.JFrame {
             }
         });
         panelRound1.add(btnRestablecer, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 570, 310, -1));
+
+        TxtPass.setBackground(new java.awt.Color(42, 36, 56));
+        TxtPass.setForeground(new java.awt.Color(254, 254, 254));
+        TxtPass.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        TxtPass.setLabelText("Contraseña");
+        TxtPass.setLineColor(new java.awt.Color(187, 187, 187));
+        TxtPass.setShowAndHide(true);
+        panelRound1.add(TxtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 330, 420, 70));
+
+        TxtConfir.setBackground(new java.awt.Color(42, 36, 56));
+        TxtConfir.setForeground(new java.awt.Color(254, 254, 254));
+        TxtConfir.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        TxtConfir.setLabelText("Confirmar Contraseña");
+        TxtConfir.setLineColor(new java.awt.Color(187, 187, 187));
+        panelRound1.add(TxtConfir, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 440, 420, 70));
 
         getContentPane().add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -242,8 +238,8 @@ public class FrmRestablecimiento extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ImagenRecuBio;
-    private Controles_Personalizados.textfields.TextField TxtConfir;
-    private Controles_Personalizados.textfields.TextField TxtPass;
+    private Controles_Personalizados.textfields.PasswordField TxtConfir;
+    private Controles_Personalizados.textfields.PasswordField TxtPass;
     private javax.swing.JLabel btnCerrar;
     private javax.swing.JLabel btnGoBack;
     private javax.swing.JLabel btnMinimizar;

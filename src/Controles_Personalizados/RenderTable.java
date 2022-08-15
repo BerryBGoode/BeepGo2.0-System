@@ -12,6 +12,7 @@ import java.awt.Component;
 import javax.swing.JLabel;
 import Controles_Personalizados.Botones.UWPButton;
 import Controles_Personalizados.Botones.ButtonGradient;
+import Controles_Personalizados.Botones.UWPButton;
 /**
  *
  * @author ferna
@@ -26,8 +27,8 @@ public class RenderTable extends javax.swing.table.DefaultTableCellRenderer{
             return chk;
         }
         
-        if (value instanceof ButtonGradient) {
-            ButtonGradient btn = (ButtonGradient) value;
+        if (value instanceof UWPButton) {
+            UWPButton btn = (UWPButton) value;
             return btn;
         }
         

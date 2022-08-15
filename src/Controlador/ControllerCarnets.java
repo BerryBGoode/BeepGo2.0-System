@@ -5,10 +5,19 @@
  */
 package Controlador;
 
+import Modelo.ModelCarnets;
+import java.sql.ResultSet;
+
 /**
  *
  * @author danlo
  */
 public class ControllerCarnets {
-    
+    ModelCarnets ObjModel=new ModelCarnets();
+    public ResultSet cargarTablaController(){
+        return ObjModel.cargarTablaConCarnet();
+    }
+    public ResultSet SinCarnetController(){
+        return ObjModel.cargarTablaSinCarnet();
+    }
 }

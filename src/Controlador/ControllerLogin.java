@@ -13,10 +13,11 @@ import java.sql.ResultSet;
  * @author danlo
  */
 public class ControllerLogin {
-    public static String usuario;
-    public String contraseña;
+    private String usuario;
+    private String contraseña;
+    private int intentos;
 
-    public static String getUsuario() {
+    public String getUsuario() {
         return usuario;
     }
 
@@ -24,12 +25,20 @@ public class ControllerLogin {
         return contraseña;
     }
 
-    public static void setUsuario(String usuario) {
-        ControllerLogin.usuario = usuario;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
+    }
+
+    public int getIntentos() {
+        return intentos;
+    }
+
+    public void setIntentos(int intentos) {
+        this.intentos = intentos;
     }
     
     public int validarUsuarioController(){
@@ -48,7 +57,7 @@ public class ControllerLogin {
         return ModelLogin.BloquearUsuario(usuario);
     }
 
-    public boolean IntentosController(int intentos){
+    public boolean IntentosController(){
         return ModelLogin.Intentos(intentos, usuario);
     }
     

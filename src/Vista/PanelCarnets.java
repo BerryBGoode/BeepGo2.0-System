@@ -5,18 +5,65 @@
  */
 package Vista;
 
+import Controlador.ControllerCarnets;
+import Controles_Personalizados.Botones.ButtonGradient;
+import Controles_Personalizados.Botones.UWPButton;
+import Controles_Personalizados.RenderTable;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author danlo
  */
 public class PanelCarnets extends javax.swing.JPanel {
 
+    DefaultTableModel model;
+    ControllerCarnets ObjController = new ControllerCarnets();
+    private final UWPButton btnGenerar = new UWPButton();
+    public Font font = new Font("Roboto Black", Font.PLAIN, 18);
+
     /**
      * Creates new form PanelCarnets
      */
     public PanelCarnets() {
         initComponents();
+        String[] TitulosCarnets = {"Nombre", "Apellido", "Carné", "Tipo de usuario", "Codigo de barra"};
+        model = new DefaultTableModel(null, TitulosCarnets);
+        TbCarnets.setModel(model);
+        TbCarnets.setDefaultRenderer(Object.class, new RenderTable());
+        btnGenerar.setBackground(new Color(253,255,255));
+        ImageIcon modificar;
+        btnGenerar.setForeground(new Color(58, 50, 75));
+        btnGenerar.setFont(font);
+        btnGenerar.setText("Generar");
+        cargarTabla();
     }
+      
+    void cargarTabla() {
+        while (model.getRowCount() > 0) {
+            model.removeRow(0);
+        }
+        try {
+            ResultSet rs = ObjController.cargarTablaController();
+            while (rs.next()) {
+                Object[] Valores = {rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("Carnet"), rs.getString("tipo_personal"),btnGenerar};
+                model.addRow(Valores);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al cargar, Error de vista" + e.toString());
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,7 +79,7 @@ public class PanelCarnets extends javax.swing.JPanel {
         btnFiltrar = new Controles_Personalizados.Botones.UWPButton();
         btnAgregar = new Controles_Personalizados.Botones.UWPButton();
         PanelTabla = new javax.swing.JScrollPane();
-        TbUsuariosWhite4 = new Controles_Personalizados.Tables.Table();
+        TbCarnets = new Controles_Personalizados.Tables.Table();
         ScrollTabla = new Controles_Personalizados.ScrollBar.ScrollBarCustom();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -77,8 +124,15 @@ public class PanelCarnets extends javax.swing.JPanel {
         PanelTabla.setVerticalScrollBar(ScrollTabla);
         PanelTabla.setWheelScrollingEnabled(false);
 
-        TbUsuariosWhite4.setBackground(new java.awt.Color(231, 234, 239));
-        TbUsuariosWhite4.setModel(new javax.swing.table.DefaultTableModel(
+        TbCarnets = new Controles_Personalizados.Tables.Table(){
+
+            public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+
+        };
+        TbCarnets.setBackground(new java.awt.Color(231, 234, 239));
+        TbCarnets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -115,12 +169,12 @@ public class PanelCarnets extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        TbUsuariosWhite4.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        TbUsuariosWhite4.setGridColor(new java.awt.Color(58, 50, 75));
-        TbUsuariosWhite4.setName(""); // NOI18N
-        TbUsuariosWhite4.setSelectionBackground(new java.awt.Color(58, 50, 75));
-        TbUsuariosWhite4.setShowVerticalLines(false);
-        PanelTabla.setViewportView(TbUsuariosWhite4);
+        TbCarnets.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        TbCarnets.setGridColor(new java.awt.Color(58, 50, 75));
+        TbCarnets.setName(""); // NOI18N
+        TbCarnets.setSelectionBackground(new java.awt.Color(58, 50, 75));
+        TbCarnets.setShowVerticalLines(false);
+        PanelTabla.setViewportView(TbCarnets);
 
         PanelFondo.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 1230, 480));
 
@@ -132,12 +186,12 @@ public class PanelCarnets extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     FrmPersonalSinCarnet add = new FrmPersonalSinCarnet();
-    
+
     private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
         if (add.isVisible()) {
             add.toFront();
-        }else{
-            add.setVisible(true);            
+        } else {
+            add.setVisible(true);
         }
     }//GEN-LAST:event_btnAgregarMouseClicked
 
@@ -150,7 +204,7 @@ public class PanelCarnets extends javax.swing.JPanel {
     private Controles_Personalizados.Paneles.PanelRound PanelFondo;
     private javax.swing.JScrollPane PanelTabla;
     private Controles_Personalizados.ScrollBar.ScrollBarCustom ScrollTabla;
-    private Controles_Personalizados.Tables.Table TbUsuariosWhite4;
+    private Controles_Personalizados.Tables.Table TbCarnets;
     private Controles_Personalizados.Botones.UWPButton btnAgregar;
     private Controles_Personalizados.Botones.UWPButton btnFiltrar;
     private javax.swing.JLabel lblCarnets;
