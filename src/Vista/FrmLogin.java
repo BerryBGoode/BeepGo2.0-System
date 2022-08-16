@@ -33,12 +33,12 @@ public class FrmLogin extends javax.swing.JFrame {
          this.setIconImage(Logo());               
         this.setLocationRelativeTo(null);
         this.setTitle("Login");
-        Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
-        AWTUtilities.setWindowShape(this, forma);
+
         this.setIconImage(Logo());
 
     }
 
+    int nivel = 0;
     public int ID;
     private String nombre;
     private String tipo;
@@ -150,7 +150,7 @@ public class FrmLogin extends javax.swing.JFrame {
         PanelContenedorCampos.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 500, 320, -1));
 
         lblOlvide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/Olvidaste tu contraseña_.png"))); // NOI18N
-        lblOlvide.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblOlvide.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lblOlvide.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblOlvideMouseClicked(evt);
@@ -167,7 +167,7 @@ public class FrmLogin extends javax.swing.JFrame {
         PanelFondo.add(ImagenLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 120, -1, -1));
 
         btnMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/Maximizar.png"))); // NOI18N
-        btnMinimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMinimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnMinimizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnMinimizarMouseClicked(evt);
@@ -176,7 +176,7 @@ public class FrmLogin extends javax.swing.JFrame {
         PanelFondo.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 21, -1, -1));
 
         btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/CerrarLogin.png"))); // NOI18N
-        btnCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnCerrarMousePressed(evt);
@@ -190,24 +190,35 @@ public class FrmLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     void Login() {
-        if (txtUsuario.getText().equals("") || txtContra.getText().equals("")) {
+        
+        if (txtUsuario.getText().equals("") || txtContra.getText().equals("")) 
+        {
             JOptionPane.showMessageDialog(null, "Existen campos vacios", "Error de procesamiento", JOptionPane.WARNING_MESSAGE);
-        } else {
+        } 
+        else 
+        {
             ControllerLogin objc = new ControllerLogin();
             String contra = ValidacionesSistema.ValidacionesBeep_Go.EncriptarContra(String.valueOf(txtContra.getPassword()));
 
             objc.setUsuario(txtUsuario.getText());
             objc.setContraseña(contra);
-
+            
+            //Valida que exista un usuario
             int respuesta0 = objc.validarUsuarioController();
 
             if (respuesta0 == 1) {
+                //Valida estado del usuario
                 int respuesta1 = objc.ValidarUsuarioActivoController();
-
+                
                 if (respuesta1 == 1) {
+                    //Valida informacion del 
                     int respuesta2 = objc.validarLoginC();
-
+                        
+                    ControllerLogin cLogin = new ControllerLogin();
+                    ResultSet rs;
+                    
                     if (respuesta2 == 1) {
+                        //Restablece los intentos a 5
                         objc.setIntentos(5);
                         objc.IntentosController();                    
                         CargarDatos();
@@ -221,7 +232,6 @@ public class FrmLogin extends javax.swing.JFrame {
                             this.dispose();
                         }
                     } else {
-                        ResultSet rs;
                         rs = objc.CapturarIntentosController();
                         try {
                             if (rs.next()) {
@@ -259,12 +269,12 @@ public class FrmLogin extends javax.swing.JFrame {
         ResultSet rs;
         objc.setUsuario(txtUsuario.getText());
         rs = objc.CapturarDatosController();
-
         try {
             if (rs.next()) {
                 ID = rs.getInt("idUsuario");
                 nombre = rs.getString("nombre_usuario");
                 tipo = rs.getString("tipo_usuario");
+                System.out.println(tipo);
             }
         } catch (Exception e) {
 

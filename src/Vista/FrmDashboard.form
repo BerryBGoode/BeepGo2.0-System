@@ -120,27 +120,15 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
                   <SubComponents>
-                    <Component class="Controles_Personalizados.BarraBusqueda.TextFieldAnimation" name="txtBuscar">
+                    <Component class="Controles_Personalizados.textfields.TextFieldSuggestion" name="txtBusqueda">
                       <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="fe" green="ff" red="fd" type="rgb"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="38" green="24" red="2a" type="rgb"/>
-                        </Property>
-                        <Property name="animationColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="38" green="24" red="2a" type="rgb"/>
-                        </Property>
-                        <Property name="hintText" type="java.lang.String" value="Buscar"/>
+                        <Property name="text" type="java.lang.String" value="Buscar"/>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[712, 52]"/>
-                        </Property>
-                        <Property name="selectionColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="38" green="24" red="2a" type="rgb"/>
+                          <Dimension value="[800, 50]"/>
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtBuscarActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtBusquedaActionPerformed"/>
                       </Events>
                     </Component>
                     <Container class="Controles_Personalizados.Paneles.PanelRound" name="PanelFecha">
@@ -149,7 +137,7 @@
                           <Color blue="fe" green="ff" red="fd" type="rgb"/>
                         </Property>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[152, 52]"/>
+                          <Dimension value="[160, 52]"/>
                         </Property>
                         <Property name="roundBottomLeft" type="int" value="20"/>
                         <Property name="roundBottomRight" type="int" value="20"/>
@@ -255,7 +243,7 @@
                               <Image iconType="3" name="/Recursos_Proyecto/lblNormal.png"/>
                             </Property>
                             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                              <Color id="Cursor de Mano"/>
+                              <Color id="Default Cursor"/>
                             </Property>
                           </Properties>
                           <Events>
@@ -273,7 +261,7 @@
                               <Image iconType="3" name="/Recursos_Proyecto/bxs-moon.png"/>
                             </Property>
                             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                              <Color id="Cursor de Mano"/>
+                              <Color id="Default Cursor"/>
                             </Property>
                           </Properties>
                           <Events>
@@ -293,7 +281,7 @@
                           <Color blue="fe" green="ff" red="fd" type="rgb"/>
                         </Property>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                          <Dimension value="[174, 55]"/>
+                          <Dimension value="[200, 55]"/>
                         </Property>
                         <Property name="roundBottomLeft" type="int" value="20"/>
                         <Property name="roundBottomRight" type="int" value="20"/>
@@ -442,7 +430,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/casita-menu.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -460,7 +448,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/usuario-menu.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -478,7 +466,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/personal-menu.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -497,7 +485,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/carnets-menu.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -515,7 +503,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/vehiculo-menu.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -556,7 +544,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/parqueo-menu.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -574,7 +562,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/ajustes.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -615,7 +603,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/accesos-menu.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -633,7 +621,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/log-out.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                           <Dimension value="[35, 35]"/>
@@ -677,7 +665,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/contactos-menu.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -925,7 +913,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/Maximizar.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -938,7 +926,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/MinimizarLogin.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>
@@ -951,7 +939,7 @@
                           <Image iconType="3" name="/Recursos_Proyecto/CerrarLogin.png"/>
                         </Property>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                          <Color id="Cursor de Mano"/>
+                          <Color id="Default Cursor"/>
                         </Property>
                       </Properties>
                       <Events>

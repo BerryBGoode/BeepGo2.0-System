@@ -64,9 +64,12 @@ public class ModelUsuarios {
                 ps.setInt(5, idTipoUsuario);
                 ps.setInt(6, idEstadoUsuario);
                 ps.setInt(7, intentos);
+                ps.execute();
+                return true;
+                
             }catch(Exception e){
                 JOptionPane.showMessageDialog(null, e.toString());
-                return null;
+                return false;
             }
         }
         

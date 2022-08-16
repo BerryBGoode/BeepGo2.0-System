@@ -146,4 +146,18 @@ public class ModelLogin {
             return null;
         }
     }
+    
+    public static ResultSet CapturarTipoUs(String usuario){
+        Connection con;
+        PreparedStatement ps;
+        try {
+            con = ModelConexion.getConnection();
+            ps = con.prepareStatement("SELECT a.idTipoUsuario FROM tbUsuarios a, tbTipoUsuario b WHERE a.idTipoUsuario = b.idTipoUsuario AND a.nombre_usuario = ?");
+            ps.setString(1, usuario);
+            ResultSet rs = ps.executeQuery();
+            return rs;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
