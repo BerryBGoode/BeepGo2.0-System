@@ -5,6 +5,12 @@
  */
 package Vista;
 
+import Controlador.ControllerP_U_Usuarios;
+import Controlador.ControllerRecuperacionContra;
+import java.util.HashSet;
+import java.util.Objects;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author danlo
@@ -14,9 +20,42 @@ public class PanelAjustes extends javax.swing.JPanel {
     /**
      * Creates new form PanelAjustes
      */
-    public PanelAjustes() {
-        initComponents();
+    
+        public String user;
+
+
+    public String getUser() {
+        return user;
     }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+    
+    public PanelAjustes(String usuario) {
+        initComponents();
+        user = usuario;
+        txtUsuario.setText(usuario);
+    }
+    
+        void CambiarClave() {
+        if (Objects.equals(txtClveNueva.getText(), txtConfirmarClave.getText())) {
+            ControllerP_U_Usuarios cc = new ControllerP_U_Usuarios();
+            cc.setUsuario(user);
+            cc.setClave(ValidacionesSistema.ValidacionesBeep_Go.EncriptarContra(txtConfirmarClave.getText()));
+            if (cc.CambiandoClave() == true) {
+                JOptionPane.showMessageDialog(null, "Su contraseña ha sido agregada, el sistema cerrara  para \nque pueda iniciar desde el login con sus nuevas credenciales");
+                System.exit(0);
+               
+            } else {
+                JOptionPane.showMessageDialog(null, "ERROR AL REALIZAR EL PROCESO");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Las claves ingresadas deden de ser las mismas", "Contraseña incorrecta", JOptionPane.WARNING_MESSAGE);
+
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,12 +69,12 @@ public class PanelAjustes extends javax.swing.JPanel {
         panelRound3 = new Controles_Personalizados.Paneles.PanelRound();
         PanelFondo = new Controles_Personalizados.Paneles.PanelRound();
         PanelContenedorCambioContra = new Controles_Personalizados.Paneles.PanelRound();
-        txtConfirmarClave = new Controles_Personalizados.textfields.TextField();
-        txtClaveActual = new Controles_Personalizados.textfields.TextField();
-        txtClveNueva = new Controles_Personalizados.textfields.TextField();
+        txtUsuario = new Controles_Personalizados.textfields.TextField();
         lblCambioClave = new javax.swing.JLabel();
         imgCambio = new javax.swing.JLabel();
         btnCambio = new Controles_Personalizados.Botones.UWPButton();
+        txtConfirmarClave = new Controles_Personalizados.textfields.PasswordField();
+        txtClveNueva = new Controles_Personalizados.textfields.PasswordField();
         PanelContenedorIdiomas = new Controles_Personalizados.Paneles.PanelRound();
         lblIdiomas = new javax.swing.JLabel();
         panelRound5 = new Controles_Personalizados.Paneles.PanelRound();
@@ -47,7 +86,6 @@ public class PanelAjustes extends javax.swing.JPanel {
         lblTemas = new javax.swing.JLabel();
         panelRound1 = new Controles_Personalizados.Paneles.PanelRound();
         panelRound2 = new Controles_Personalizados.Paneles.PanelRound();
-        panelRound4 = new Controles_Personalizados.Paneles.PanelRound();
 
         panelRound3.setBackground(new java.awt.Color(58, 50, 75));
         panelRound3.setRoundBottomLeft(30);
@@ -68,29 +106,19 @@ public class PanelAjustes extends javax.swing.JPanel {
         PanelContenedorCambioContra.setRoundTopRight(30);
         PanelContenedorCambioContra.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtConfirmarClave.setBackground(new java.awt.Color(42, 36, 56));
-        txtConfirmarClave.setForeground(new java.awt.Color(231, 234, 239));
-        txtConfirmarClave.setCaretColor(new java.awt.Color(231, 234, 239));
-        txtConfirmarClave.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
-        txtConfirmarClave.setLabelText("Confirma tu contraseña");
-        txtConfirmarClave.setLineColor(new java.awt.Color(231, 234, 239));
-        PanelContenedorCambioContra.add(txtConfirmarClave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 180, 70));
-
-        txtClaveActual.setBackground(new java.awt.Color(42, 36, 56));
-        txtClaveActual.setForeground(new java.awt.Color(231, 234, 239));
-        txtClaveActual.setCaretColor(new java.awt.Color(231, 234, 239));
-        txtClaveActual.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
-        txtClaveActual.setLabelText("Contraseña actual");
-        txtClaveActual.setLineColor(new java.awt.Color(231, 234, 239));
-        PanelContenedorCambioContra.add(txtClaveActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 180, 70));
-
-        txtClveNueva.setBackground(new java.awt.Color(42, 36, 56));
-        txtClveNueva.setForeground(new java.awt.Color(231, 234, 239));
-        txtClveNueva.setCaretColor(new java.awt.Color(231, 234, 239));
-        txtClveNueva.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
-        txtClveNueva.setLabelText("Nueva contraseña");
-        txtClveNueva.setLineColor(new java.awt.Color(231, 234, 239));
-        PanelContenedorCambioContra.add(txtClveNueva, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 180, 70));
+        txtUsuario.setEditable(false);
+        txtUsuario.setBackground(new java.awt.Color(42, 36, 56));
+        txtUsuario.setForeground(new java.awt.Color(231, 234, 239));
+        txtUsuario.setCaretColor(new java.awt.Color(231, 234, 239));
+        txtUsuario.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        txtUsuario.setLabelText("Usuario");
+        txtUsuario.setLineColor(new java.awt.Color(231, 234, 239));
+        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUsuarioActionPerformed(evt);
+            }
+        });
+        PanelContenedorCambioContra.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 180, 70));
 
         lblCambioClave.setFont(new java.awt.Font("Roboto Medium", 0, 18)); // NOI18N
         lblCambioClave.setForeground(new java.awt.Color(231, 234, 239));
@@ -109,6 +137,36 @@ public class PanelAjustes extends javax.swing.JPanel {
             }
         });
         PanelContenedorCambioContra.add(btnCambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 245, 140, 40));
+
+        txtConfirmarClave.setBackground(new java.awt.Color(42, 36, 56));
+        txtConfirmarClave.setForeground(new java.awt.Color(231, 234, 239));
+        txtConfirmarClave.setCaretColor(new java.awt.Color(231, 234, 239));
+        txtConfirmarClave.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        txtConfirmarClave.setLabelText("Confirmar Contraseña");
+        txtConfirmarClave.setLineColor(new java.awt.Color(231, 234, 239));
+        txtConfirmarClave.setPreferredSize(new java.awt.Dimension(45, 6));
+        txtConfirmarClave.setShowAndHide(true);
+        txtConfirmarClave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtConfirmarClaveActionPerformed(evt);
+            }
+        });
+        PanelContenedorCambioContra.add(txtConfirmarClave, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 180, 70));
+
+        txtClveNueva.setBackground(new java.awt.Color(42, 36, 56));
+        txtClveNueva.setForeground(new java.awt.Color(231, 234, 239));
+        txtClveNueva.setCaretColor(new java.awt.Color(231, 234, 239));
+        txtClveNueva.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        txtClveNueva.setLabelText("Contraseña Nueva");
+        txtClveNueva.setLineColor(new java.awt.Color(231, 234, 239));
+        txtClveNueva.setPreferredSize(new java.awt.Dimension(45, 6));
+        txtClveNueva.setShowAndHide(true);
+        txtClveNueva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtClveNuevaActionPerformed(evt);
+            }
+        });
+        PanelContenedorCambioContra.add(txtClveNueva, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 180, 70));
 
         PanelFondo.add(PanelContenedorCambioContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 310, 460, 300));
 
@@ -213,13 +271,6 @@ public class PanelAjustes extends javax.swing.JPanel {
 
         PanelFondo.add(PanelContenedorTemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 750, 230));
 
-        panelRound4.setBackground(new java.awt.Color(58, 50, 75));
-        panelRound4.setRoundBottomLeft(30);
-        panelRound4.setRoundBottomRight(30);
-        panelRound4.setRoundTopLeft(30);
-        panelRound4.setRoundTopRight(30);
-        panelRound4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -233,11 +284,6 @@ public class PanelAjustes extends javax.swing.JPanel {
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(PanelFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,11 +295,6 @@ public class PanelAjustes extends javax.swing.JPanel {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(PanelFondo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelRound4, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -267,13 +308,28 @@ public class PanelAjustes extends javax.swing.JPanel {
     //FrmDashboard dash = new FrmDashboard();
     FrmLogin login = new FrmLogin();
     
+
+    
     private void VerificarTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerificarTipoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_VerificarTipoActionPerformed
 
     private void btnCambioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambioActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here
+        CambiarClave();
     }//GEN-LAST:event_btnCambioActionPerformed
+
+    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUsuarioActionPerformed
+
+    private void txtClveNuevaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClveNuevaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClveNuevaActionPerformed
+
+    private void txtConfirmarClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfirmarClaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtConfirmarClaveActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -292,11 +348,10 @@ public class PanelAjustes extends javax.swing.JPanel {
     private Controles_Personalizados.Paneles.PanelRound panelRound1;
     private Controles_Personalizados.Paneles.PanelRound panelRound2;
     private Controles_Personalizados.Paneles.PanelRound panelRound3;
-    private Controles_Personalizados.Paneles.PanelRound panelRound4;
     private Controles_Personalizados.Paneles.PanelRound panelRound5;
     private javax.swing.JLabel textoConfig;
-    private Controles_Personalizados.textfields.TextField txtClaveActual;
-    private Controles_Personalizados.textfields.TextField txtClveNueva;
-    private Controles_Personalizados.textfields.TextField txtConfirmarClave;
+    private Controles_Personalizados.textfields.PasswordField txtClveNueva;
+    private Controles_Personalizados.textfields.PasswordField txtConfirmarClave;
+    private Controles_Personalizados.textfields.TextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

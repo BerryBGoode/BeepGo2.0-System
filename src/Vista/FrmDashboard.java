@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Controlador.ControllerLogin;
 import Controles_Personalizados.Paneles.PanelRound;
 import com.sun.awt.AWTUtilities;
 import java.awt.Color;
@@ -14,8 +15,8 @@ import java.awt.Point;
 import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.util.List;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
@@ -38,6 +39,8 @@ public class FrmDashboard extends javax.swing.JFrame{
          Shape forma= new RoundRectangle2D.Double(0,0, this.getBounds() .width, this.getBounds() .height,40,40);
          AWTUtilities. setWindowShape(this, forma);
          setIconImage(Logo());
+         
+         Niveles(tipo);
          
          lblNombre.setText(nombre);
          lblTipo.setText(tipo); 
@@ -90,7 +93,7 @@ public Image Logo(){
         PanelContenedor = new Controles_Personalizados.Paneles.PanelRound();
         PanelContenedorForms = new Controles_Personalizados.Paneles.PanelRound();
         jPanel9 = new javax.swing.JPanel();
-        txtBuscar = new Controles_Personalizados.BarraBusqueda.TextFieldAnimation();
+        txtBusqueda = new Controles_Personalizados.textfields.TextFieldSuggestion();
         PanelFecha = new Controles_Personalizados.Paneles.PanelRound();
         lblHora = new javax.swing.JLabel();
         lblDia = new javax.swing.JLabel();
@@ -179,21 +182,17 @@ public Image Logo(){
 
         jPanel9.setBackground(new java.awt.Color(231, 234, 239));
 
-        txtBuscar.setBackground(new java.awt.Color(253, 255, 254));
-        txtBuscar.setForeground(new java.awt.Color(42, 36, 56));
-        txtBuscar.setAnimationColor(new java.awt.Color(42, 36, 56));
-        txtBuscar.setHintText("Buscar");
-        txtBuscar.setPreferredSize(new java.awt.Dimension(712, 52));
-        txtBuscar.setSelectionColor(new java.awt.Color(42, 36, 56));
-        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+        txtBusqueda.setText("Buscar");
+        txtBusqueda.setPreferredSize(new java.awt.Dimension(800, 50));
+        txtBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBuscarActionPerformed(evt);
+                txtBusquedaActionPerformed(evt);
             }
         });
-        jPanel9.add(txtBuscar);
+        jPanel9.add(txtBusqueda);
 
         PanelFecha.setBackground(new java.awt.Color(253, 255, 254));
-        PanelFecha.setPreferredSize(new java.awt.Dimension(152, 52));
+        PanelFecha.setPreferredSize(new java.awt.Dimension(160, 52));
         PanelFecha.setRoundBottomLeft(20);
         PanelFecha.setRoundBottomRight(20);
         PanelFecha.setRoundTopLeft(20);
@@ -230,7 +229,7 @@ public Image Logo(){
         PanelMO.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblNormal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/lblNormal.png"))); // NOI18N
-        lblNormal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblNormal.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lblNormal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblNormalMouseClicked(evt);
@@ -239,7 +238,7 @@ public Image Logo(){
         PanelMO.add(lblNormal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 7, 40, 40));
 
         btnMO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/bxs-moon.png"))); // NOI18N
-        btnMO.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMO.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnMO.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnMOMouseClicked(evt);
@@ -250,7 +249,7 @@ public Image Logo(){
         jPanel9.add(PanelMO);
 
         PanelDatosUs.setBackground(new java.awt.Color(253, 255, 254));
-        PanelDatosUs.setPreferredSize(new java.awt.Dimension(174, 55));
+        PanelDatosUs.setPreferredSize(new java.awt.Dimension(200, 55));
         PanelDatosUs.setRoundBottomLeft(20);
         PanelDatosUs.setRoundBottomRight(20);
         PanelDatosUs.setRoundTopLeft(20);
@@ -296,7 +295,7 @@ public Image Logo(){
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/casita-menu.png"))); // NOI18N
-        btnDashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnDashboardMouseClicked(evt);
@@ -305,7 +304,7 @@ public Image Logo(){
         jPanel8.add(btnDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 75, -1, -1));
 
         btnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/usuario-menu.png"))); // NOI18N
-        btnUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnUsuariosMouseClicked(evt);
@@ -314,7 +313,7 @@ public Image Logo(){
         jPanel8.add(btnUsuarios, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 135, -1, -1));
 
         btnPersonal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/personal-menu.png"))); // NOI18N
-        btnPersonal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPersonal.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnPersonal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnPersonalMouseClicked(evt);
@@ -326,7 +325,7 @@ public Image Logo(){
         jPanel8.add(btnPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 195, -1, -1));
 
         btnCarnets.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/carnets-menu.png"))); // NOI18N
-        btnCarnets.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCarnets.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnCarnets.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCarnetsMouseClicked(evt);
@@ -335,7 +334,7 @@ public Image Logo(){
         jPanel8.add(btnCarnets, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 255, -1, -1));
 
         btnVehiculos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/vehiculo-menu.png"))); // NOI18N
-        btnVehiculos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVehiculos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnVehiculos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnVehiculosMouseClicked(evt);
@@ -353,7 +352,7 @@ public Image Logo(){
         jPanel8.add(panelSeleccionVehiculos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 50, 50));
 
         btnParqueo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/parqueo-menu.png"))); // NOI18N
-        btnParqueo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnParqueo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnParqueo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnParqueoMouseClicked(evt);
@@ -362,7 +361,7 @@ public Image Logo(){
         jPanel8.add(btnParqueo, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 375, 30, -1));
 
         btnAjustes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/ajustes.png"))); // NOI18N
-        btnAjustes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAjustes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAjustes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAjustesMouseClicked(evt);
@@ -380,7 +379,7 @@ public Image Logo(){
         jPanel8.add(panelSeleccionAjustes, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 590, 50, 50));
 
         btnAccesos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/accesos-menu.png"))); // NOI18N
-        btnAccesos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAccesos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAccesos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnAccesosMouseClicked(evt);
@@ -389,7 +388,7 @@ public Image Logo(){
         jPanel8.add(btnAccesos, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 435, 40, 40));
 
         btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/log-out.png"))); // NOI18N
-        btnLogOut.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogOut.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnLogOut.setPreferredSize(new java.awt.Dimension(35, 35));
         btnLogOut.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -408,7 +407,7 @@ public Image Logo(){
         jPanel8.add(panelSeleccionLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 650, 50, 50));
 
         btnContactos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/contactos-menu.png"))); // NOI18N
-        btnContactos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnContactos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnContactos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnContactosMouseClicked(evt);
@@ -501,7 +500,7 @@ public Image Logo(){
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
         btnMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/Maximizar.png"))); // NOI18N
-        btnMinimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMinimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnMinimizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnMinimizarMousePressed(evt);
@@ -510,7 +509,7 @@ public Image Logo(){
         jPanel1.add(btnMinimizar);
 
         btnMaximizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/MinimizarLogin.png"))); // NOI18N
-        btnMaximizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMaximizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnMaximizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnMaximizarMousePressed(evt);
@@ -519,7 +518,7 @@ public Image Logo(){
         jPanel1.add(btnMaximizar);
 
         btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/CerrarLogin.png"))); // NOI18N
-        btnCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnMinimizarMousePressed(evt);
@@ -568,6 +567,46 @@ public Image Logo(){
     FrmAgg_Personal addPersonal = new FrmAgg_Personal();
     FrmPersonal_AggVehiculo addVehiculo = new FrmPersonal_AggVehiculo();
     
+      
+    
+    public void Niveles (String pnivel){
+        
+        switch(pnivel)
+        {
+            case "Root":
+                //Root
+
+                break;
+            case "Administrador": 
+                //Admin
+                btnParqueo.setVisible(false);
+                btnAccesos.setVisible(false);
+                btnVehiculos.setVisible(false);
+                break;
+            case "Docente":
+                btnParqueo.setVisible(false);
+                btnAccesos.setVisible(false);
+                btnVehiculos.setVisible(false);
+                btnUsuarios.setVisible(false);
+                btnContactos.setVisible(false);
+                break;
+             case "Alumno":
+                btnParqueo.setVisible(false);
+                btnAccesos.setVisible(false);
+                btnVehiculos.setVisible(false);
+                btnUsuarios.setVisible(false);
+                btnContactos.setVisible(false);
+                btnCarnets.setVisible(false);
+                btnPersonal.setVisible(false);
+                break;
+             case "Seguridad":
+                btnUsuarios.setVisible(false);
+                btnContactos.setVisible(false);
+                btnCarnets.setVisible(false);
+                btnPersonal.setVisible(false);
+                 break;
+        }
+    }
     
     //Interface mode
     void DarkMode(){
@@ -583,10 +622,9 @@ public Image Logo(){
          lblHora.setForeground(Color.WHITE);
          lblNombre.setForeground(Color.WHITE);
          lblTipo.setForeground(Color.WHITE);
-        txtBuscar.setBackground(new Color(32,34,37));
-        txtBuscar.setForeground(Color.WHITE);
-        txtBuscar.setAnimationColor(new Color(32,34,37));
-        txtBuscar.setCaretColor(Color.WHITE);
+        txtBusqueda.setBackground(new Color(32,34,37));
+        txtBusqueda.setForeground(Color.WHITE);
+        txtBusqueda.setCaretColor(Color.WHITE);
         PanelContenedorForms.setBackground(new Color(47,49,54));
     }    
     void NormalMode(){
@@ -602,15 +640,14 @@ public Image Logo(){
          lblHora.setForeground(new Color(42,36,56));
          lblNombre.setForeground(new Color(42,36,56));
          lblTipo.setForeground(new Color(42,36,56));
-        txtBuscar.setBackground(new Color(253,255,254));
-        txtBuscar.setForeground(new Color(42,36,56));
+        txtBusqueda.setBackground(new Color(253,255,254));
+        txtBusqueda.setForeground(new Color(42,36,56));
         //PanelGrafica1.setBackground(new Color(253,255,254));
         //PanelGrafica2.setBackground(new Color(253,255,254));
         //PanelGrafica3.setBackground(new Color(253,255,254));
         //PanelNotificaciones.setForeground(new Color(42,36,56));
         //PanelNotificaciones.setBackground(new Color(253,255,254));
-        txtBuscar.setAnimationColor(new Color(42,36,56));
-        txtBuscar.setCaretColor(new Color(42,36,56));
+        txtBusqueda.setCaretColor(new Color(42,36,56));
         
     }
     //show Panel Action
@@ -796,7 +833,7 @@ public Image Logo(){
         panelSeleccionLogout.setVisible(false);
         panelSeleccionAjustes.setVisible(true);
         
-        PanelAjustes pl = new PanelAjustes();
+        PanelAjustes pl = new PanelAjustes(lblNombre.getText());
          pl.setSize(1270,620);
          pl.setLocation(0, 0);
          
@@ -849,7 +886,7 @@ public Image Logo(){
         /*panelOpcionesPersonal.setVisible(true);*/
         //this.showp
     }  
-    void Logout(){
+    public void Logout(){
         PanelSeleccionDashboard.setVisible(false);
         PanelSeleccionUsuario.setVisible(false);
         panelSeleccionPersonal.setVisible(false);
@@ -866,10 +903,6 @@ public Image Logo(){
         login.setVisible(true);
     }
     
-    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBuscarActionPerformed
-
     PanelDashboard _pnldash = new PanelDashboard();
     PanelUsuarios _pnlusers = new PanelUsuarios();
     
@@ -988,6 +1021,12 @@ public Image Logo(){
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
         System.exit(0);
     }//GEN-LAST:event_btnCerrarMousePressed
+    
+    
+    
+    private void txtBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1081,7 +1120,7 @@ public Image Logo(){
     private javax.swing.JPanel pnlNorth;
     private javax.swing.JPanel pnlSourth;
     private javax.swing.JPanel pnlWest;
-    private Controles_Personalizados.BarraBusqueda.TextFieldAnimation txtBuscar;
+    private Controles_Personalizados.textfields.TextFieldSuggestion txtBusqueda;
     // End of variables declaration//GEN-END:variables
 
 }

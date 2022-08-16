@@ -13,9 +13,19 @@ import java.sql.ResultSet;
  * @author danlo
  */
 public class ControllerLogin {
-    private String usuario;
+    
+//    public static int idTipoUs;
+    public static String usuario;
     private String contraseña;
     private int intentos;
+
+//    public static int getIdTipoUs() {
+//        return idTipoUs;
+//    }
+//
+//    public static void setIdTipoUs(int idTipoUs) {
+//        ControllerLogin.idTipoUs = idTipoUs;
+//    }
 
     public String getUsuario() {
         return usuario;
@@ -40,6 +50,8 @@ public class ControllerLogin {
     public void setIntentos(int intentos) {
         this.intentos = intentos;
     }
+    
+    
     
     public int validarUsuarioController(){
         return ModelLogin.ValidarUsuario(usuario);
@@ -68,4 +80,9 @@ public class ControllerLogin {
     public ResultSet CapturarDatosController(){
         return ModelLogin.CapturarDatos(usuario);
     }
+    
+    public ResultSet CapturarTipoUsController(){
+        return ModelLogin.CapturarTipoUs(usuario);
+    }
+
 }
