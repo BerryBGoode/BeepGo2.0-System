@@ -5,18 +5,76 @@
  */
 package Vista;
 
+import Controlador.ControllerPersonal;
+import Controles_Personalizados.Botones.UWPButton;
+import Controles_Personalizados.RenderTable;
+import java.awt.Color;
+import java.awt.Font;
+import java.sql.ResultSet;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ferna
  */
 public class PanelProfesores extends javax.swing.JPanel {
-
+    DefaultTableModel ModelProf;
+    private final UWPButton btnActualizar = new UWPButton();
+    private final UWPButton btnEliminar = new UWPButton();
+    ControllerPersonal objControllerP = new ControllerPersonal();
+    private Font font = new Font("Roboto Black", Font.PLAIN, 18);
+    ImageIcon modificar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/editar.png"));
+    ImageIcon eliminar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/eliminar.png"));
     /**
      * Creates new form PanelProfesores
      */
     public PanelProfesores() {
         initComponents();
+               String[] TitulosProf = {"IdPersonal", "Nombres", "Apellidos", "Nacimiento", "Documento", "Carnet", "Tipo Personal", "IDTD", "IDG", "Genero", "IDTP", "Tipo Documento", "Direccion", "Correo", "Modificar", "Eliminar"};
+        ModelProf = new DefaultTableModel(null, TitulosProf) {
+            @Override
+            public boolean isCellEditable(int row, int column) { // aqui esta
+                return false;
+            }
+        };
+        TbProfesoresWhite.setModel(ModelProf);
+        TbProfesoresWhite.setDefaultRenderer(Object.class, new RenderTable());
+        cargarTablaProf();
+        TbProfesoresWhite.removeColumn(TbProfesoresWhite.getColumnModel().getColumn(0));
+        TbProfesoresWhite.removeColumn(TbProfesoresWhite.getColumnModel().getColumn(12));
+        TbProfesoresWhite.removeColumn(TbProfesoresWhite.getColumnModel().getColumn(11));
+        TbProfesoresWhite.removeColumn(TbProfesoresWhite.getColumnModel().getColumn(10));
+        TbProfesoresWhite.removeColumn(TbProfesoresWhite.getColumnModel().getColumn(9));
+        TbProfesoresWhite.removeColumn(TbProfesoresWhite.getColumnModel().getColumn(8));
+        TbProfesoresWhite.removeColumn(TbProfesoresWhite.getColumnModel().getColumn(7));
+        TbProfesoresWhite.removeColumn(TbProfesoresWhite.getColumnModel().getColumn(6));
+
     }
+        private void cargarTablaProf() {
+        while (ModelProf.getRowCount() > 0) {
+            ModelProf.removeRow(0);
+        }
+        try {
+            ResultSet rs = objControllerP.MostrarProfesoresController();
+            while (rs.next()) {
+                btnActualizar.setBackground(new Color(231, 234, 239));
+                btnActualizar.setFont(font);
+                btnEliminar.setBackground(new Color(231, 234, 239));
+                btnEliminar.setFont(font);
+                btnEliminar.setIcon(eliminar);
+                btnActualizar.setIcon(modificar);
+                Object[] campos = {rs.getInt("idPersonal"), rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("fecha_nacimiento"), rs.getString("documento"), rs.getString("Carnet"), rs.getString("tipo_personal"), rs.getInt("idTipoDocumento"), rs.getInt("idGenero"), rs.getString("genero"), rs.getInt("idTipoPersonal"), rs.getString("tipo_documento"), rs.getString("direccion"), rs.getString("correo"), btnActualizar, btnEliminar};
+                ModelProf.addRow(campos);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al intentar cargar la informacion", "Error al cargar", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.toString());
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,7 +100,7 @@ public class PanelProfesores extends javax.swing.JPanel {
 
         lblPersonal.setFont(new java.awt.Font("Roboto Medium", 0, 40)); // NOI18N
         lblPersonal.setForeground(new java.awt.Color(58, 50, 75));
-        lblPersonal.setText("Profesores");
+        lblPersonal.setText("Personal");
         PanelFondo.add(lblPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         btnAgregar.setBackground(new java.awt.Color(58, 50, 75));
@@ -111,9 +169,13 @@ public class PanelProfesores extends javax.swing.JPanel {
         TbProfesoresWhite.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         TbProfesoresWhite.setGridColor(new java.awt.Color(58, 50, 75));
         TbProfesoresWhite.setName(""); // NOI18N
-        TbProfesoresWhite.setRowSorter(null);
         TbProfesoresWhite.setSelectionBackground(new java.awt.Color(58, 50, 75));
         TbProfesoresWhite.setShowVerticalLines(false);
+        TbProfesoresWhite.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbProfesoresWhiteMouseClicked(evt);
+            }
+        });
         PanelTabla.setViewportView(TbProfesoresWhite);
 
         PanelFondo.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 1230, 480));
@@ -133,6 +195,54 @@ public class PanelProfesores extends javax.swing.JPanel {
             add.toFront();
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void TbProfesoresWhiteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbProfesoresWhiteMouseClicked
+        // TODO add your handling code here:
+                int column = TbProfesoresWhite.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / TbProfesoresWhite.getRowHeight();
+        btnActualizar.setName("btnActualizar");
+        btnEliminar.setName("btnEliminar");
+        if (evt.getClickCount() == 1) {
+            JTable rcp = (JTable) evt.getSource();
+            ValidacionesSistema.Parametros_Personal.setIdPersonal((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 0));
+            ValidacionesSistema.Parametros_Personal.setnombre_personal(rcp.getModel().getValueAt(rcp.getSelectedRow(), 1).toString());
+            ValidacionesSistema.Parametros_Personal.setApellido_personal(rcp.getModel().getValueAt(rcp.getSelectedRow(), 2).toString());
+            ValidacionesSistema.Parametros_Personal.setFecha_nacimiento(rcp.getModel().getValueAt(rcp.getSelectedRow(), 3).toString());
+            ValidacionesSistema.Parametros_Personal.setCarnet(rcp.getModel().getValueAt(rcp.getSelectedRow(), 5).toString());
+            ValidacionesSistema.Parametros_Personal.setDocumento(rcp.getModel().getValueAt(rcp.getSelectedRow(), 4).toString());
+            ValidacionesSistema.Parametros_Personal.setTipoPersonal(rcp.getModel().getValueAt(rcp.getSelectedRow(), 6).toString());
+            ValidacionesSistema.Parametros_Personal.setGenero(rcp.getModel().getValueAt(rcp.getSelectedRow(), 9).toString());
+            ValidacionesSistema.Parametros_Personal.setTipoDocumento(rcp.getModel().getValueAt(rcp.getSelectedRow(), 11).toString());
+            ValidacionesSistema.Parametros_Personal.setDireccion(rcp.getModel().getValueAt(rcp.getSelectedRow(), 12).toString());
+            ValidacionesSistema.Parametros_Personal.setCorreo(rcp.getModel().getValueAt(rcp.getSelectedRow(), 13).toString());
+        }
+
+        if (row < TbProfesoresWhite.getRowCount() || row >= 0 || column < TbProfesoresWhite.getColumnCount() || column >= 0) {
+            Object vals = TbProfesoresWhite.getValueAt(row, column);
+            if (vals instanceof UWPButton) {
+                ((UWPButton) vals).doClick(); // aqui esta
+                UWPButton btns = (UWPButton) vals;
+                if (btns.getName().equals("btnActualizar")) {
+                    FrmAgg_Personal frmAgg_Personal = new FrmAgg_Personal(ValidacionesSistema.Parametros_Personal.getIdPersonal());
+                    frmAgg_Personal.show();
+
+                    //Actualizar Contacto metodo
+                }
+                if (btns.getName().equals("btnEliminar")) {
+                    int confirmar = JOptionPane.YES_NO_OPTION;
+                    int a = JOptionPane.showConfirmDialog(this, "¿Desea Eliminar el registro de: " + ValidacionesSistema.Parametros_Personal.getnombre_personal() + "?", "Proceso de Eliminar", confirmar);
+                    if (a == 0) {
+                        objControllerP.idpersonal = ValidacionesSistema.Parametros_Personal.getIdPersonal();
+                        if (objControllerP.EliminarRegistroController() == true) {
+                            JOptionPane.showMessageDialog(null, "Su registro a sido Eliminado", "Proceso Completado", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }
+                    // Eliminar Contacto metodo
+
+                }
+            }
+        }
+    }//GEN-LAST:event_TbProfesoresWhiteMouseClicked
 
     FrmAgg_Personal add = new FrmAgg_Personal();
     
