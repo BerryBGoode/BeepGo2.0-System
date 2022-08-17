@@ -96,7 +96,6 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
             txtDocumento.setEnabled(false);
             txtDirecion.setEnabled(false);
             txtNombre.setEnabled(false);
-            DtFechanac.setEnabled(false);
             CmbGenero.setEnabled(false);
             CmbTipoDocumento.setEnabled(false);
             BtnExaminar.setEnabled(true);
@@ -334,7 +333,6 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
         DtFechanac = new rojerusan.RSDateChooser();
         LblFecha = new javax.swing.JLabel();
         BtnGuardar = new Controles_Personalizados.Botones.ButtonGradient();
-        TxtFecha = new Controles_Personalizados.textfields.TextField();
         btnMinimizar = new javax.swing.JLabel();
         btnCerrar = new javax.swing.JLabel();
         Imagen = new javax.swing.JLabel();
@@ -504,7 +502,6 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
             }
         });
         Logo.add(BtnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 780, 150, 44));
-        Logo.add(TxtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 760, 310, 70));
 
         PanelFondo.add(Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 850));
 
@@ -652,7 +649,6 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
     private javax.swing.JLabel LblFoto;
     private Controles_Personalizados.Paneles.PanelRound Logo;
     private Controles_Personalizados.Paneles.PanelRound PanelFondo;
-    private Controles_Personalizados.textfields.TextField TxtFecha;
     private Controles_Personalizados.textfields.TextField TxtUsuario;
     private javax.swing.JLabel btnCerrar;
     private Controles_Personalizados.Botones.ButtonGradient btnContinuar;
