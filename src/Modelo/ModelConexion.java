@@ -59,7 +59,7 @@ public class ModelConexion {
     }
      
     public static Connection getConnection(){        
-        setDb("dbBeep&Go");
+        setDb("dbBG");
         String url = "jdbc:sqlserver://"+getIp()+":"+getHost()+";"
                 + "database= "+getDb()+";"
                 + "user= "+getUsername()+";"

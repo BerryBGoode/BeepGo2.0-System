@@ -6,6 +6,7 @@
 package Vista;
 
 import Controlador.ControllerLogin;
+import Controlador.ControllerPersonal;
 import com.sun.awt.AWTUtilities;
 import java.awt.Image;
 import java.awt.Shape;
@@ -21,7 +22,7 @@ import javax.swing.JOptionPane;
  * @author danlo
  */
 public class FrmLogin extends javax.swing.JFrame {
-
+    ControllerPersonal controlp=new ControllerPersonal();
     /**
      * Creates new form Login
      */
@@ -31,6 +32,7 @@ public class FrmLogin extends javax.swing.JFrame {
         Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
         AWTUtilities.setWindowShape(this, forma);
         this.setIconImage(Logo());
+        
 
     }
 

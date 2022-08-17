@@ -27,8 +27,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PanelCarnets extends javax.swing.JPanel {
 
-    DefaultTableModel model;
-    ControllerCarnets ObjController = new ControllerCarnets();
+    private DefaultTableModel model;
+    private ControllerCarnets ObjController = new ControllerCarnets();
     private final UWPButton btnGenerar = new UWPButton();
     public Font font = new Font("Roboto Black", Font.PLAIN, 18);
 
@@ -49,7 +49,7 @@ public class PanelCarnets extends javax.swing.JPanel {
         cargarTabla();
     }
       
-    void cargarTabla() {
+private void cargarTabla() {
         while (model.getRowCount() > 0) {
             model.removeRow(0);
         }

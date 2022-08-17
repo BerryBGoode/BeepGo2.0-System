@@ -14,28 +14,200 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import Controlador.*;
+import Controles_Personalizados.Calendario.SelectedDate;
+import java.awt.HeadlessException;
+import java.awt.event.ItemEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.Year;
+import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListSelectionModel;
+
 /**
  *
  * @author ferna
  */
-public class FrmAgg_Personal extends javax.swing.JFrame {
+public final class FrmAgg_Personal extends javax.swing.JFrame {
+
+    private ControllerPersonal objControllerP = new ControllerPersonal();
+    private int genero;
+    private int tipodocu;
+    private int tipopersonal;
+    private int ID;
+    private String imprimirid;
+    private String Carnet;
+    private List Genero;
+    private List TipoDoc;
+    private List TipoP;
+    private DefaultComboBoxModel modelgenero;
+    private DefaultComboBoxModel modeltipodoc;
+    private DefaultComboBoxModel modeltipop;
+    private int idpersonales;
+    private int identpanel = PanelOpcionesPersonal.showinter;
+    //Variables actualizar
 
     /**
      * Creates new form FrmAgg_Personal
+     *
+     * @param nombre
      */
+    public FrmAgg_Personal(int idpersonal) {
+        initComponents();
+        idpersonales = idpersonal;
+        this.setLocationRelativeTo(null);
+        Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
+
+        AWTUtilities.setWindowShape(this, forma);
+        TxtidGenero.setVisible(false);
+        TxtidTipoP.setVisible(false);
+        btnContinuar.setVisible(false);
+        BtnConfirmar.setVisible(true);
+        TxtidTipoDoc.setVisible(false);
+        setIconImage(Logo());
+        cargarGenero();
+        CargarTipoDoc();
+        switch (identpanel) {
+            case 1:
+                CmbTipoPersonal.setVisible(false);
+                txtNombres.setText(ValidacionesSistema.Parametros_Personal.getnombre_personal());
+                txtApellidos.setText(ValidacionesSistema.Parametros_Personal.getApellido_personal());
+                txtCorreo.setText(ValidacionesSistema.Parametros_Personal.getCorreo());
+                TxtDireccion.setText(ValidacionesSistema.Parametros_Personal.getDireccion());
+                txtDocumento.setText(ValidacionesSistema.Parametros_Personal.getDocumento());
+                TxtidTipoDoc.setText(String.valueOf(ValidacionesSistema.Parametros_Personal.getIdTipoDocumento()));
+                TxtidTipoP.setText(String.valueOf(ValidacionesSistema.Parametros_Personal.getIdTipoPersonal()));
+                TxtidGenero.setText(String.valueOf(ValidacionesSistema.Parametros_Personal.getIdGenero()));
+                DtFechaPersonal.setTextoFecha(ValidacionesSistema.Parametros_Personal.getFecha_nacimiento());
+                CmbTipoDoc.setSelectedItem(ValidacionesSistema.Parametros_Personal.getTipoDocumento());
+                CmbGenero.setSelectedItem(ValidacionesSistema.Parametros_Personal.getGenero());
+                break;
+            case 2:
+                CmbTipoPersonal.setVisible(true);
+                CargarTipoPersonal();
+                CmbGenero.setSelectedItem(ValidacionesSistema.Parametros_Personal.getGenero());
+                CmbTipoDoc.setSelectedItem(ValidacionesSistema.Parametros_Personal.getTipoDocumento());
+                CmbTipoPersonal.setSelectedItem(ValidacionesSistema.Parametros_Personal.getTipoPersonal());
+                txtNombres.setText(ValidacionesSistema.Parametros_Personal.getnombre_personal());
+                txtApellidos.setText(ValidacionesSistema.Parametros_Personal.getApellido_personal());
+                txtCorreo.setText(ValidacionesSistema.Parametros_Personal.getCorreo());
+                txtDocumento.setText(ValidacionesSistema.Parametros_Personal.getDocumento());
+                DtFechaPersonal.setTextoFecha(ValidacionesSistema.Parametros_Personal.getFecha_nacimiento());
+                TxtDireccion.setText(ValidacionesSistema.Parametros_Personal.getDireccion());
+                break;
+        }
+
+    }
+
     public FrmAgg_Personal() {
         initComponents();
         this.setLocationRelativeTo(null);
-        Shape forma= new RoundRectangle2D.Double(0,0, this.getBounds() .width, this.getBounds() .height,40,40);
-         AWTUtilities. setWindowShape(this, forma);
-         dateChooser.setVisible(false);
-         btnSelect.setVisible(false);
-         setIconImage(Logo());
+        Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
+        AWTUtilities.setWindowShape(this, forma);
+        setIconImage(Logo());
+        BtnConfirmar.setVisible(false);
+        btnContinuar.setVisible(true);
+        TxtidTipoP.setVisible(false);
+        TxtidTipoDoc.setVisible(false);
+        TxtidGenero.setVisible(false);
+        cargarGenero();
+        CargarTipoDoc();
+        switch (identpanel) {
+            case 1:
+                CmbTipoPersonal.setVisible(false);
+                break;
+            case 2:
+                CmbTipoPersonal.setVisible(true);
+                CargarTipoPersonal();
+                break;
+        }
     }
-    public Image Logo(){
-    Image retvalue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
-    return retvalue;
-}
+
+    public Image Logo() {
+        Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
+        return retvalue;
+    }
+
+    private void cargarGenero() {
+        Genero = new ArrayList();
+        try {
+            ResultSet rs = objControllerP.CargarGenero();
+            if (rs.next()) {
+                modelgenero = new DefaultComboBoxModel<>();
+                modelgenero.addElement("");
+                do {
+                    Genero.add(rs.getInt("idGenero"));
+                    modelgenero.addElement(rs.getString("genero"));
+                    CmbGenero.setModel(modelgenero);
+                } while (rs.next());
+            } else {
+                System.out.println("No existen campos de genero");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al intentar cargar" + e.toString());
+        }
+    }
+
+    private void CargarTipoDoc() {
+        TipoDoc = new ArrayList();
+        try {
+            ResultSet rs = objControllerP.CargarTipoDoController();
+            if (rs.next()) {
+                modeltipodoc = new DefaultComboBoxModel<>();
+                modeltipodoc.addElement("");
+                do {
+                    TipoDoc.add(rs.getInt("idTipoDocumento"));
+                    modeltipodoc.addElement(rs.getString("tipo_documento"));
+                    CmbTipoDoc.setModel(modeltipodoc);
+                } while (rs.next());
+            } else {
+                System.out.println("No existen campos de genero");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al intentar cargar" + e.toString());
+        }
+    }
+
+    private void CargarTipoPersonal() {
+        TipoP = new ArrayList();
+        try {
+            ResultSet rs = objControllerP.CargarTipoPersonalController();
+            if (rs.next()) {
+                modeltipop = new DefaultComboBoxModel<>();
+                modeltipop.addElement("");
+                do {
+                    TipoP.add(rs.getInt("idTipoPersonal"));
+                    modeltipop.addElement(rs.getString("tipo_personal"));
+                    CmbTipoPersonal.setModel(modeltipop);
+                } while (rs.next());
+            } else {
+                System.out.println("No existen campos de genero");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al intentar cargar" + e.toString());
+        }
+    }
+
+    void setIdEmpresa() {
+
+        try {
+            ResultSet rs = objControllerP.GetEmpresa();
+            if (rs.next()) {
+                objControllerP.idempresa = rs.getInt("idEmpresa");
+            }
+
+        } catch (SQLException exception) {
+            JOptionPane.showMessageDialog(null, "Error al obtener los datos de la empresa", "Error", JOptionPane.WARNING_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener los datos de la empresa", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }
     public int typestaff;//if type is 1, is a employee or teacher
     //and if type is 2, is a student
 
@@ -53,16 +225,20 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         btnMinimizar = new javax.swing.JLabel();
         txtCorreo = new Controles_Personalizados.textfields.TextField();
         txtApellidos = new Controles_Personalizados.textfields.TextField();
-        dateChooser = new Controles_Personalizados.Calendario.DateChooser();
         txtNombres = new Controles_Personalizados.textfields.TextField();
         txtDocumento = new Controles_Personalizados.textfields.TextField();
-        CmbTipo1 = new Controles_Personalizados.ComboBox.combobox();
-        txtNombres1 = new Controles_Personalizados.textfields.TextField();
+        CmbGenero = new Controles_Personalizados.ComboBox.combobox();
+        TxtDireccion = new Controles_Personalizados.textfields.TextField();
         jLabel1 = new javax.swing.JLabel();
         btnContinuar = new Controles_Personalizados.Botones.ButtonGradient();
-        txtApellidos1 = new Controles_Personalizados.textfields.TextField();
-        btnCalendario = new Controles_Personalizados.Botones.ButtonGradient();
-        btnSelect = new Controles_Personalizados.Botones.ButtonGradient();
+        jLabel2 = new javax.swing.JLabel();
+        CmbTipoPersonal = new Controles_Personalizados.ComboBox.combobox();
+        CmbTipoDoc = new Controles_Personalizados.ComboBox.combobox();
+        DtFechaPersonal = new rojerusan.RSDateChooser();
+        TxtidGenero = new javax.swing.JTextField();
+        TxtidTipoDoc = new javax.swing.JTextField();
+        TxtidTipoP = new javax.swing.JTextField();
+        BtnConfirmar = new Controles_Personalizados.Botones.ButtonGradient();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(58, 50, 75));
@@ -73,6 +249,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
 
         panelRound1.setBackground(new java.awt.Color(58, 50, 75));
         panelRound1.setAlignmentX(0.0F);
+        panelRound1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         panelRound1.setPreferredSize(new java.awt.Dimension(1080, 540));
         panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -103,7 +280,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         txtCorreo.setLineColor(new java.awt.Color(253, 255, 254));
         txtCorreo.setSelectedTextColor(new java.awt.Color(58, 50, 75));
         txtCorreo.setSelectionColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 310, 70));
+        panelRound1.add(txtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 310, 70));
 
         txtApellidos.setBackground(new java.awt.Color(58, 50, 75));
         txtApellidos.setForeground(new java.awt.Color(253, 255, 254));
@@ -114,10 +291,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         txtApellidos.setLineColor(new java.awt.Color(253, 255, 254));
         txtApellidos.setSelectedTextColor(new java.awt.Color(58, 50, 75));
         txtApellidos.setSelectionColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(txtApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 310, 70));
-
-        dateChooser.setForeground(new java.awt.Color(58, 50, 75));
-        panelRound1.add(dateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 280, 260, -1));
+        panelRound1.add(txtApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 310, 70));
 
         txtNombres.setBackground(new java.awt.Color(58, 50, 75));
         txtNombres.setForeground(new java.awt.Color(253, 255, 254));
@@ -128,7 +302,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         txtNombres.setLineColor(new java.awt.Color(253, 255, 254));
         txtNombres.setSelectedTextColor(new java.awt.Color(58, 50, 75));
         txtNombres.setSelectionColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 310, 70));
+        panelRound1.add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 310, 70));
 
         txtDocumento.setBackground(new java.awt.Color(58, 50, 75));
         txtDocumento.setForeground(new java.awt.Color(253, 255, 254));
@@ -139,25 +313,30 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         txtDocumento.setLineColor(new java.awt.Color(253, 255, 254));
         txtDocumento.setSelectedTextColor(new java.awt.Color(58, 50, 75));
         txtDocumento.setSelectionColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(txtDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 310, 70));
+        panelRound1.add(txtDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 310, 70));
 
-        CmbTipo1.setBackground(new java.awt.Color(58, 50, 75));
-        CmbTipo1.setForeground(new java.awt.Color(42, 36, 56));
-        CmbTipo1.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        CmbTipo1.setLabeText("Genero");
-        CmbTipo1.setLineColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(CmbTipo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 310, 80));
+        CmbGenero.setBackground(new java.awt.Color(58, 50, 75));
+        CmbGenero.setForeground(new java.awt.Color(255, 255, 255));
+        CmbGenero.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        CmbGenero.setLabeText("Genero");
+        CmbGenero.setLineColor(new java.awt.Color(253, 255, 254));
+        CmbGenero.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CmbGeneroItemStateChanged(evt);
+            }
+        });
+        panelRound1.add(CmbGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 140, 310, 80));
 
-        txtNombres1.setBackground(new java.awt.Color(58, 50, 75));
-        txtNombres1.setForeground(new java.awt.Color(253, 255, 254));
-        txtNombres1.setCaretColor(new java.awt.Color(253, 255, 254));
-        txtNombres1.setDisabledTextColor(new java.awt.Color(253, 255, 254));
-        txtNombres1.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        txtNombres1.setLabelText("Dirección");
-        txtNombres1.setLineColor(new java.awt.Color(253, 255, 254));
-        txtNombres1.setSelectedTextColor(new java.awt.Color(58, 50, 75));
-        txtNombres1.setSelectionColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(txtNombres1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 310, 70));
+        TxtDireccion.setBackground(new java.awt.Color(58, 50, 75));
+        TxtDireccion.setForeground(new java.awt.Color(253, 255, 254));
+        TxtDireccion.setCaretColor(new java.awt.Color(253, 255, 254));
+        TxtDireccion.setDisabledTextColor(new java.awt.Color(253, 255, 254));
+        TxtDireccion.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        TxtDireccion.setLabelText("Dirección");
+        TxtDireccion.setLineColor(new java.awt.Color(253, 255, 254));
+        TxtDireccion.setSelectedTextColor(new java.awt.Color(58, 50, 75));
+        TxtDireccion.setSelectionColor(new java.awt.Color(253, 255, 254));
+        panelRound1.add(TxtDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 60, 310, 70));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/PersonalImgAdd.png"))); // NOI18N
         jLabel1.setPreferredSize(new java.awt.Dimension(301, 300));
@@ -176,47 +355,60 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         });
         panelRound1.add(btnContinuar, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 520, 150, -1));
 
-        txtApellidos1.setBackground(new java.awt.Color(58, 50, 75));
-        txtApellidos1.setForeground(new java.awt.Color(253, 255, 254));
-        txtApellidos1.setCaretColor(new java.awt.Color(58, 50, 75));
-        txtApellidos1.setDisabledTextColor(new java.awt.Color(253, 255, 254));
-        txtApellidos1.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        txtApellidos1.setLabelText("Fecha de nacimiento");
-        txtApellidos1.setLineColor(new java.awt.Color(253, 255, 254));
-        txtApellidos1.setSelectedTextColor(new java.awt.Color(58, 50, 75));
-        txtApellidos1.setSelectionColor(new java.awt.Color(253, 255, 254));
-        panelRound1.add(txtApellidos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 130, 310, 70));
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel2.setText("Fecha Nacimiento");
+        panelRound1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, -1, -1));
 
-        btnCalendario.setBackground(new java.awt.Color(42, 36, 56));
-        btnCalendario.setForeground(new java.awt.Color(58, 50, 75));
-        btnCalendario.setText("Calendario");
-        btnCalendario.setColor1(new java.awt.Color(253, 255, 254));
-        btnCalendario.setColor2(new java.awt.Color(253, 255, 254));
-        btnCalendario.setFont(new java.awt.Font("Roboto Black", 0, 18)); // NOI18N
-        btnCalendario.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCalendarioMouseClicked(evt);
+        CmbTipoPersonal.setBackground(new java.awt.Color(58, 50, 75));
+        CmbTipoPersonal.setForeground(new java.awt.Color(253, 255, 254));
+        CmbTipoPersonal.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        CmbTipoPersonal.setLabeText("Tipo Personal");
+        CmbTipoPersonal.setLineColor(new java.awt.Color(253, 255, 254));
+        CmbTipoPersonal.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CmbTipoPersonalItemStateChanged(evt);
             }
         });
-        btnCalendario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCalendarioActionPerformed(evt);
-            }
-        });
-        panelRound1.add(btnCalendario, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 230, 270, -1));
+        panelRound1.add(CmbTipoPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 320, 310, 80));
 
-        btnSelect.setBackground(new java.awt.Color(42, 36, 56));
-        btnSelect.setForeground(new java.awt.Color(58, 50, 75));
-        btnSelect.setText("Seleccionar");
-        btnSelect.setColor1(new java.awt.Color(253, 255, 254));
-        btnSelect.setColor2(new java.awt.Color(253, 255, 254));
-        btnSelect.setFont(new java.awt.Font("Roboto Black", 0, 18)); // NOI18N
-        btnSelect.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelectActionPerformed(evt);
+        CmbTipoDoc.setBackground(new java.awt.Color(58, 50, 75));
+        CmbTipoDoc.setForeground(new java.awt.Color(253, 255, 254));
+        CmbTipoDoc.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        CmbTipoDoc.setLabeText("Tipo Documento");
+        CmbTipoDoc.setLineColor(new java.awt.Color(253, 255, 254));
+        CmbTipoDoc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CmbTipoDocItemStateChanged(evt);
             }
         });
-        panelRound1.add(btnSelect, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 490, 140, 30));
+        CmbTipoDoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CmbTipoDocActionPerformed(evt);
+            }
+        });
+        panelRound1.add(CmbTipoDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 230, 310, 80));
+
+        DtFechaPersonal.setColorBackground(new java.awt.Color(92, 84, 112));
+        DtFechaPersonal.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        DtFechaPersonal.setFuente(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        panelRound1.add(DtFechaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 310, 60));
+        panelRound1.add(TxtidGenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 30, -1, -1));
+        panelRound1.add(TxtidTipoDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 20, -1, -1));
+        panelRound1.add(TxtidTipoP, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 30, -1, -1));
+
+        BtnConfirmar.setBackground(new java.awt.Color(42, 36, 56));
+        BtnConfirmar.setForeground(new java.awt.Color(42, 36, 56));
+        BtnConfirmar.setText("Confirmar");
+        BtnConfirmar.setColor1(new java.awt.Color(253, 255, 254));
+        BtnConfirmar.setColor2(new java.awt.Color(253, 255, 254));
+        BtnConfirmar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        BtnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnConfirmarActionPerformed(evt);
+            }
+        });
+        panelRound1.add(BtnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 520, 150, 44));
 
         getContentPane().add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 580));
 
@@ -225,37 +417,234 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
 
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
         this.dispose();
-        
-    }//GEN-LAST:event_btnCerrarMousePressed
 
+    }//GEN-LAST:event_btnCerrarMousePressed
+    void capturarIDpersonal() {
+        objControllerP.nombre = txtNombres.getText();
+        ResultSet rs = objControllerP.capturaridpersonalcontroller();
+        try {
+            if (rs.next()) {
+                ID = rs.getInt("idPersonal");
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+    }
+
+    void IngresarProfesores() {
+        if (txtNombres.getText().trim().isEmpty() || txtApellidos.getText().trim().isEmpty() || txtDocumento.getText().trim().isEmpty() || txtCorreo.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se permiten campos vacios, verifique la informacion ingresada", "Campos Vacios", JOptionPane.WARNING_MESSAGE);
+        } else if (CmbGenero.getSelectedItem() == "" || CmbTipoDoc.getSelectedItem() == "") {
+            JOptionPane.showMessageDialog(null, "Completar la informacion, verifique la informacion ingresada", "Seleccion de espacios Vacios", JOptionPane.WARNING_MESSAGE);
+        } else {
+            objControllerP.nombre = txtNombres.getText();
+            objControllerP.apellido = txtApellidos.getText();
+            objControllerP.fechanac = DtFechaPersonal.getFechaSeleccionada();
+            objControllerP.direccion = TxtDireccion.getText();
+            objControllerP.idgenero = genero;
+            objControllerP.idtipoDoc = tipodocu;
+            objControllerP.idTipoPersonal = tipopersonal;
+            objControllerP.correo = txtCorreo.getText();
+            objControllerP.documento = txtDocumento.getText();
+            setIdEmpresa();
+            if (objControllerP.IngresarProfesores() == true) {
+                JOptionPane.showMessageDialog(null, "El registro del personal ha sido agregado", "Proceso Agregar", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    void carnet() {
+        try {
+            capturarIDpersonal();
+            String id = String.valueOf(ID);
+            if (id.length() > 0 && id.length() < 2) {
+                imprimirid = String.valueOf("000" + id);
+            } else if (id.length() == 2 && id.length() < 3) {
+                imprimirid = String.valueOf("00" + id);
+            } else if (id.length() == 3 && id.length() < 4) {
+                imprimirid = String.valueOf("0" + id);
+            } else if (id.length() == 4 && id.length() < 5) {
+                imprimirid = String.valueOf(id);
+            }
+            int year = YearMonth.now().getYear();
+            String apellido = txtApellidos.getText();
+            char firstl = apellido.charAt(0);
+            String nombre = txtNombres.getText();
+            char firstn = nombre.charAt(0);
+            String nombres = String.valueOf(firstn);
+            String apellidos = String.valueOf(firstl);
+            String carnetlocal = nombres + apellidos;
+            String carnetlocal2 = year + imprimirid;
+            String numerocarnet = carnetlocal + carnetlocal2;
+            Carnet = numerocarnet;
+            objControllerP.Carnet = Carnet;
+            objControllerP.idpersonal = ID;
+        } catch (Exception e) {
+            System.out.println("Error interno" + e.toString());
+        }
+    }
+
+    void IngreasrEstudiante() {
+        objControllerP.nombre = txtNombres.getText();
+        objControllerP.apellido = txtApellidos.getText();
+        objControllerP.fechanac = DtFechaPersonal.getFechaSeleccionada();
+        objControllerP.direccion = TxtDireccion.getText();
+        objControllerP.documento = txtDocumento.getText();
+        objControllerP.correo = txtCorreo.getText();
+        setIdEmpresa();
+        objControllerP.idgenero = genero;
+        objControllerP.idtipoDoc = tipodocu;
+        if (objControllerP.IngresarEstudiante() == true && AgregarCarnet() == true) {
+            JOptionPane.showMessageDialog(null, "El registro fue agregado", "Proceso de agregar", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    void ActualizarEstudiante() {
+        objControllerP.idpersonal = idpersonales;
+        objControllerP.nombre = txtNombres.getText();
+        objControllerP.apellido = txtApellidos.getText();
+        objControllerP.correo = txtCorreo.getText();
+        objControllerP.documento = txtDocumento.getText();
+        objControllerP.direccion = TxtDireccion.getText();
+        objControllerP.fechanac = DtFechaPersonal.getFechaSeleccionada();
+        objControllerP.idgenero = genero;
+        objControllerP.idtipoDoc = tipodocu;
+        setIdEmpresa();
+        if (objControllerP.ActualizarEstudiantesController() == true) {
+            JOptionPane.showMessageDialog(null, "Proceso Completado", "Registro Actulizado", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            System.out.println("Error al actualizar");
+        }
+    }
+
+    void ActualizarPersonal() {
+        objControllerP.idpersonal = idpersonales;
+        objControllerP.nombre = txtNombres.getText();
+        objControllerP.apellido = txtApellidos.getText();
+        objControllerP.correo = txtCorreo.getText();
+        objControllerP.documento = txtDocumento.getText();
+        objControllerP.direccion = TxtDireccion.getText();
+        objControllerP.fechanac = DtFechaPersonal.getFechaSeleccionada();
+        objControllerP.idgenero = genero;
+        objControllerP.idtipoDoc = tipodocu;
+        objControllerP.idTipoPersonal = tipopersonal;
+        setIdEmpresa();
+        if (objControllerP.ActualizarPersonalControiller() == true) {
+            JOptionPane.showMessageDialog(null, "Proceso Completado", "Registro Actulizado", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            System.out.println("Error al actualizar");
+        }
+    }
+
+    private boolean AgregarCarnet() {
+        try {
+            carnet();
+            if (objControllerP.AgregarCarnetController() == true) {
+                System.out.println("Su carnet ha sido ingresado");
+                System.out.println(Carnet);
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    void ValidarMetodos() {
+        switch (PanelOpcionesPersonal.showinter) {
+            case 2:
+                IngresarProfesores();
+                break;
+            case 1:
+                IngreasrEstudiante();
+                break;
+            default:
+                break;
+        }
+    }
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         // TODO add your handling code here:
-        this.dispose();             
+        ValidarMetodos();
+        AgregarCarnet();
+        this.dispose();
     }//GEN-LAST:event_btnContinuarActionPerformed
-
-    private void btnCalendarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalendarioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCalendarioActionPerformed
-
-    private void btnCalendarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCalendarioMouseClicked
-        if (dateChooser.isVisible()) {
-            dateChooser.hide();
-            btnSelect.hide();
-        }else{
-            dateChooser.setVisible(true);
-            btnSelect.setVisible(true);
-        }
-    }//GEN-LAST:event_btnCalendarioMouseClicked
-
-    private void btnSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectActionPerformed
-        dateChooser.setVisible(false);
-        btnSelect.setVisible(false); 
-    }//GEN-LAST:event_btnSelectActionPerformed
 
     private void btnMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseClicked
         // TODO add your handling code here:
         this.setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_btnMinimizarMouseClicked
+
+    private void CmbGeneroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CmbGeneroItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            int pos = CmbGenero.getSelectedIndex();
+            if (pos == 0) {
+                genero = 0;
+            } else {
+                int dim = Genero.size();
+                for (int i = 0; i < dim; i++) {
+                    if (i == pos - 1) {
+                        genero = (int) Genero.get(i);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_CmbGeneroItemStateChanged
+
+    private void CmbTipoDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbTipoDocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbTipoDocActionPerformed
+
+    private void CmbTipoDocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CmbTipoDocItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            int pos = CmbTipoDoc.getSelectedIndex();
+            if (pos == 0) {
+                tipodocu = 0;
+            } else {
+                int dim = TipoDoc.size();
+                for (int i = 0; i < dim; i++) {
+                    if (i == pos - 1) {
+                        tipodocu = (int) TipoDoc.get(i);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_CmbTipoDocItemStateChanged
+
+    private void CmbTipoPersonalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CmbTipoPersonalItemStateChanged
+        // TODO add your handling code here:
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            int pos = CmbTipoPersonal.getSelectedIndex();
+            if (pos == 0) {
+                tipopersonal = 0;
+            } else {
+                int dim = TipoP.size();
+                for (int i = 0; i < dim; i++) {
+                    if (i == pos - 1) {
+                        tipopersonal = (int) TipoP.get(i);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_CmbTipoPersonalItemStateChanged
+    void ValidarActualizar() {
+        switch (PanelOpcionesPersonal.showinter) {
+            case 2:
+                 ActualizarPersonal();
+                break;
+            case 1:
+                ActualizarEstudiante();
+                break;
+            default:
+                break;
+        }
+    }
+    private void BtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnConfirmarActionPerformed
+        // TODO add your handling code here:
+        ValidarActualizar();
+        this.dispose();
+    }//GEN-LAST:event_BtnConfirmarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -293,20 +682,24 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Controles_Personalizados.ComboBox.combobox CmbTipo1;
-    private Controles_Personalizados.Botones.ButtonGradient btnCalendario;
+    private Controles_Personalizados.Botones.ButtonGradient BtnConfirmar;
+    private Controles_Personalizados.ComboBox.combobox CmbGenero;
+    private Controles_Personalizados.ComboBox.combobox CmbTipoDoc;
+    private Controles_Personalizados.ComboBox.combobox CmbTipoPersonal;
+    private rojerusan.RSDateChooser DtFechaPersonal;
+    private Controles_Personalizados.textfields.TextField TxtDireccion;
+    private javax.swing.JTextField TxtidGenero;
+    private javax.swing.JTextField TxtidTipoDoc;
+    private javax.swing.JTextField TxtidTipoP;
     private javax.swing.JLabel btnCerrar;
     private Controles_Personalizados.Botones.ButtonGradient btnContinuar;
     private javax.swing.JLabel btnMinimizar;
-    private Controles_Personalizados.Botones.ButtonGradient btnSelect;
-    private Controles_Personalizados.Calendario.DateChooser dateChooser;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private Controles_Personalizados.Paneles.PanelRound panelRound1;
     private Controles_Personalizados.textfields.TextField txtApellidos;
-    private Controles_Personalizados.textfields.TextField txtApellidos1;
     private Controles_Personalizados.textfields.TextField txtCorreo;
     private Controles_Personalizados.textfields.TextField txtDocumento;
     private Controles_Personalizados.textfields.TextField txtNombres;
-    private Controles_Personalizados.textfields.TextField txtNombres1;
     // End of variables declaration//GEN-END:variables
 }

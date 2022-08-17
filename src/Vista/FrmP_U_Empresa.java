@@ -221,14 +221,17 @@ public class FrmP_U_Empresa extends javax.swing.JFrame {
     private void btnMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseClicked
         // TODO add your handling code here:
         this.setExtendedState(JFrame.ICONIFIED);
-        //Que guapos somos
     }//GEN-LAST:event_btnMinimizarMouseClicked
+    //metodo para cargar una imagen
     void cargarImagen() {
+        //Mostrar ventana para escoger imagen
         RSFileChooser jcargar = new RSFileChooser();
+        //los formatos, que continuen despues del primero seran loa que el sistema permitira ingresar, ya que el primero solo es para especificar que solo imagenes
         FileNameExtensionFilter fil = new FileNameExtensionFilter("JPG", "PNG", "JPG");
         jcargar.setFileFilter(fil);
         int s = jcargar.showOpenDialog(this);
         if (s == JFileChooser.APPROVE_OPTION) {
+            //Capturar la ruta de la imagen a ingresar
             String ruta = jcargar.getSelectedFile().getAbsolutePath();
             //Capturar imagen
             try {

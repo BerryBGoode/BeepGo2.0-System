@@ -23,6 +23,7 @@ public class ControllerP_U_Empresa {
     public String direccion;
     public String nit;
     public String cnr;
+    //Atributo tipo byte para la enviar la imagen al modelo
     public byte [] logo;
 
     public Integer getIdEmpresa() {
@@ -84,7 +85,7 @@ public class ControllerP_U_Empresa {
     public boolean checkEnterprise(){
         return ModelpEmpresa.checkEnterprise();
     }
-    
+    //Metodo de insercion en el controlador que enviara la informacion al modelo
     public boolean IngresarP_EmpresaController(){
         return ModelpEmpresa.IngresarPEmpresa(nombre_empresa, representante, direccion, nit, cnr,logo);
     }
