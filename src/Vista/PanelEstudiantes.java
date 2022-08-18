@@ -8,6 +8,7 @@ package Vista;
 import Controlador.ControllerPersonal;
 import Controles_Personalizados.Botones.UWPButton;
 import Controles_Personalizados.RenderTable;
+import Controles_Personalizados.Tables.Table;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PanelEstudiantes extends javax.swing.JPanel {
 
-        private FrmAgg_Personal add = new FrmAgg_Personal();
+    private FrmAgg_Personal add = new FrmAgg_Personal();
     private ControllerPersonal objControllerP = new ControllerPersonal();
     private DefaultTableModel ModelAlumnos;
     private final UWPButton btnActualizar = new UWPButton();
@@ -31,12 +32,13 @@ public class PanelEstudiantes extends javax.swing.JPanel {
     //(private Font font = new Font("Roboto Black", Font.PLAIN, 18);
     private ImageIcon modificar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/editar.png"));
     private ImageIcon eliminar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/eliminar.png"));
+
     /**
      * Creates new form PanelPersonal
      */
     public PanelEstudiantes() {
         initComponents();
-                //Titulos de los campos que se cargan en la tabla
+        //Titulos de los campos que se cargan en la tabla
         String[] TitulosAlumnos = {"IDPersonal", "Nombres", "Apellidos", " Nacimiento", "Documento", "Carné", "Tipo Personal", "Direccion", "Correo", "IDTD", "IDTP", "IDG", "Genero", "Tipo Documento", "Modificar", "Eliminar"};
         ModelAlumnos = new DefaultTableModel(null, TitulosAlumnos) {
             //Codigo para no porder modificar texto en la tabla
@@ -57,12 +59,13 @@ public class PanelEstudiantes extends javax.swing.JPanel {
         TbAlumnos.removeColumn(TbAlumnos.getColumnModel().getColumn(7));
         TbAlumnos.removeColumn(TbAlumnos.getColumnModel().getColumn(6));
     }
-       private void cargarTabla() {
+
+    private void cargarTabla() {
         while (ModelAlumnos.getRowCount() > 0) {
             ModelAlumnos.removeRow(0);
         }
         try {
-            ResultSet rs =objControllerP.MostrarEstudiantesController();
+            ResultSet rs = objControllerP.MostrarEstudiantesController();
             while (rs.next()) {
                 btnEliminar.setIcon(eliminar);
                 btnActualizar.setIcon(modificar);
@@ -76,7 +79,6 @@ public class PanelEstudiantes extends javax.swing.JPanel {
             System.out.println(e.toString());
         }
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -194,13 +196,14 @@ public class PanelEstudiantes extends javax.swing.JPanel {
         if (!add.isVisible()) {
             add.setVisible(true);
             add.typestaff = 2; //student
-        }else{
+        } else {
             add.toFront();
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void TbAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbAlumnosMouseClicked
         // TODO add your handling code here:
+        Table tb = (Table) evt.getSource();
         int column = TbAlumnos.getColumnModel().getColumnIndexAtX(evt.getX());
         int row = evt.getY() / TbAlumnos.getRowHeight();
         btnActualizar.setName("btnActualizar");
@@ -228,8 +231,13 @@ public class PanelEstudiantes extends javax.swing.JPanel {
                 ((UWPButton) vals).doClick(); // aqui esta
                 UWPButton btns = (UWPButton) vals;
                 if (btns.getName().equals("btnActualizar")) {
-                    FrmAgg_Personal frmAgg_Personal = new FrmAgg_Personal(ValidacionesSistema.Parametros_Personal.getIdPersonal());
-                    frmAgg_Personal.show();
+                    if (tb.getModel().getValueAt(tb.getSelectedRow(), 5).toString().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Ocurrieron problemas, al intentar cargar la informacion debido que este registro no tiene carné", "Error de carné", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        System.out.println(ValidacionesSistema.Parametros_Personal.getCarnet());
+                        FrmAgg_Personal frmAgg_Personal = new FrmAgg_Personal(ValidacionesSistema.Parametros_Personal.getIdPersonal());
+                        frmAgg_Personal.show();
+                    }
 
                     //Actualizar Contacto metodo
                 }
