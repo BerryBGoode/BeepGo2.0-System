@@ -8,24 +8,18 @@ package Vista;
 import Controlador.ControllerContactos;
 import Controles_Personalizados.Botones.UWPButton;
 import Controles_Personalizados.RenderTable;
-<<<<<<< HEAD
 import Controles_Personalizados.Tables.Renderer;
-=======
->>>>>>> master
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
-<<<<<<< HEAD
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-=======
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
->>>>>>> master
 
 import javax.swing.table.DefaultTableModel;
 
@@ -238,11 +232,6 @@ public class PanelContactos extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-<<<<<<< HEAD
-    FrmAgg_Contacto frmContactos = new FrmAgg_Contacto();
-    
-=======
->>>>>>> master
     private void tbContactosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbContactosMouseClicked
         int column = tbContactos.getColumnModel().getColumnIndexAtX(evt.getX());
         int row = evt.getY() / tbContactos.getRowHeight();
