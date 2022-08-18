@@ -103,7 +103,14 @@ public class ValidacionesBeep_Go {
             evt.consume();
         }
     }
-    
+    public static void SoloLetras(java.awt.event.KeyEvent evt){
+        char car=evt.getKeyChar();
+        if (Character.isLetter(car) || Character.isWhitespace(car)) {
+            
+        }else{
+            evt.consume();
+        }
+    }
     public static void SoloNumeros(java.awt.event.KeyEvent evt){
         char car = evt.getKeyChar();
         if(Character.isDigit(car)){
@@ -121,7 +128,6 @@ public class ValidacionesBeep_Go {
             evt.consume();
         }
     }
-    
     public static void Notificacion(String encabezado, String mensaje, int tipo_mensaje){
         try{
             SystemTray tray = SystemTray.getSystemTray();

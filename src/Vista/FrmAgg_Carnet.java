@@ -5,11 +5,16 @@
  */
 package Vista;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.pdf.Barcode;
+import com.itextpdf.text.pdf.Barcode128;
 import com.sun.awt.AWTUtilities;
 import java.awt.Image;
 import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.RoundRectangle2D;
+import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 /**
@@ -21,16 +26,45 @@ public class FrmAgg_Carnet extends javax.swing.JFrame {
     /**
      * Creates new form FrmAgg_Carnet
      */
-    public FrmAgg_Carnet() {
+    private String carnets;
+    private int idPersonal;
+    private ImageIcon img;
+    
+    public FrmAgg_Carnet(String carnet) {
         initComponents();
-        Shape forma= new RoundRectangle2D.Double(0,0, this.getBounds() .width, this.getBounds() .height,40,40);
-        AWTUtilities. setWindowShape(this, forma);
+        carnets = carnet;
+        System.out.println(carnet);
+        Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
+        AWTUtilities.setWindowShape(this, forma);
+        this.setLocationRelativeTo(null);
         setIconImage(Logo());
     }
-public Image Logo(){
-    Image retvalue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
-    return retvalue;
-}
+    
+    public FrmAgg_Carnet() {
+        initComponents();
+        Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
+        AWTUtilities.setWindowShape(this, forma);
+        this.setLocationRelativeTo(null);
+        setIconImage(Logo());
+    }
+    
+    public Image Logo() {
+        Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
+        return retvalue;
+    }
+    
+    void MostrarCodigoBarra() {
+        try {
+            if (PanelCarnets.validarImagen() == true) {
+                img = new ImageIcon("src/Codigos_Barra/" + carnets + ".png");
+                ImageIcon img2=new ImageIcon(img.getImage().getScaledInstance(440, 100, 0));
+                LblCodigo.setIcon(img2);
+            }     
+        } catch (Exception e) {
+            System.out.println("Error al cargar al codigo de barra" + e.toString());
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,6 +78,7 @@ public Image Logo(){
         btngeneretCod = new Controles_Personalizados.Botones.ButtonGradient();
         ContenedorCodigoQR = new Controles_Personalizados.Paneles.PanelRound();
         PanelCodigoQR = new Controles_Personalizados.Paneles.PanelRound();
+        LblCodigo = new javax.swing.JLabel();
         btnContinuar = new Controles_Personalizados.Botones.ButtonGradient();
         jLabel1 = new javax.swing.JLabel();
         btnMinimizar = new javax.swing.JLabel();
@@ -65,7 +100,12 @@ public Image Logo(){
         btngeneretCod.setColor1(new java.awt.Color(253, 255, 254));
         btngeneretCod.setColor2(new java.awt.Color(253, 255, 254));
         btngeneretCod.setFont(new java.awt.Font("Roboto Black", 0, 18)); // NOI18N
-        panelRound1.add(btngeneretCod, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 290, 310, -1));
+        btngeneretCod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btngeneretCodActionPerformed(evt);
+            }
+        });
+        panelRound1.add(btngeneretCod, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, 310, -1));
 
         ContenedorCodigoQR.setBackground(new java.awt.Color(253, 255, 254));
         ContenedorCodigoQR.setPreferredSize(new java.awt.Dimension(259, 252));
@@ -81,9 +121,11 @@ public Image Logo(){
         PanelCodigoQR.setRoundTopLeft(40);
         PanelCodigoQR.setRoundTopRight(40);
         PanelCodigoQR.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        ContenedorCodigoQR.add(PanelCodigoQR, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 390, 80));
+        PanelCodigoQR.add(LblCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 440, 110));
 
-        panelRound1.add(ContenedorCodigoQR, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 430, 120));
+        ContenedorCodigoQR.add(PanelCodigoQR, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 480, 130));
+
+        panelRound1.add(ContenedorCodigoQR, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 530, 170));
 
         btnContinuar.setBackground(new java.awt.Color(42, 36, 56));
         btnContinuar.setForeground(new java.awt.Color(58, 50, 75));
@@ -127,18 +169,23 @@ public Image Logo(){
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        PanelOpcionesPersonal.showinter =0;
+        PanelOpcionesPersonal.showinter = 0;
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
         PanelOpcionesPersonal.showinter = 0;
-        this.dispose();        
+        this.dispose();
     }//GEN-LAST:event_btnCerrarMousePressed
 
     private void btnMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseClicked
         // TODO add your handling code here:
         this.setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_btnMinimizarMouseClicked
+
+    private void btngeneretCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngeneretCodActionPerformed
+        // TODO add your handling code here:
+        MostrarCodigoBarra();
+    }//GEN-LAST:event_btngeneretCodActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,6 +224,7 @@ public Image Logo(){
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Controles_Personalizados.Paneles.PanelRound ContenedorCodigoQR;
+    private javax.swing.JLabel LblCodigo;
     private Controles_Personalizados.Paneles.PanelRound PanelCodigoQR;
     private javax.swing.JLabel btnCerrar;
     private Controles_Personalizados.Botones.ButtonGradient btnContinuar;

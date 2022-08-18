@@ -5,32 +5,33 @@
  */
 package Vista;
 
+
 import Controlador.ControllerBuscador;
 import Controlador.ControllerLogin;
 import Controles_Personalizados.Paneles.PanelRound;
+
 import com.sun.awt.AWTUtilities;
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.MouseInfo;
-import java.awt.Point;
 import java.awt.Shape;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.awt.geom.RoundRectangle2D;
-import java.util.List;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
-import javax.swing.JFrame;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
+
 import javax.swing.JOptionPane;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 
 /**
  *
  * @author danlo and ferna
  */
-public class FrmDashboard extends javax.swing.JFrame{
+public class FrmDashboard extends javax.swing.JFrame implements Runnable{
     
     /**
      * Creates new form Dashboard
@@ -71,6 +72,8 @@ public class FrmDashboard extends javax.swing.JFrame{
          PanelContenedorForms.revalidate();
          PanelContenedorForms.repaint();
         
+        h1 = new Thread(this);
+        h1.start();
     }
     
     public FrmDashboard() {
@@ -81,6 +84,39 @@ public Image Logo(){
     Image retvalue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
     return retvalue;
 }
+
+    @Override
+    public void run() {
+        Thread ct = Thread.currentThread();
+        while(ct == h1) {   
+        CalcularHora();
+        lblHora.setText(hora + ":" + minutos + " "+ampm);
+        try {
+        Thread.sleep(1000);
+        }catch(InterruptedException e) {}
+        }
+    }
+    
+    String hora, minutos, ampm;
+    Thread h1;
+    
+    final void CalcularHora() {
+        Calendar cal = new GregorianCalendar();
+        Date fechaHoraActual = new Date();
+
+
+        cal.setTime(fechaHoraActual);
+        ampm = cal.get(Calendar.AM_PM)==Calendar.AM?"am":"pm";
+
+        if(ampm.equals("pm")){
+            int h = cal.get(Calendar.HOUR_OF_DAY)-12;
+            hora = h > 9? "" + h : "0" + h;
+        }else{
+            hora = cal.get(Calendar.HOUR_OF_DAY)>9?""+cal.get(Calendar.HOUR_OF_DAY):"0"+cal.get(Calendar.HOUR_OF_DAY);
+        }
+        minutos = cal.get(Calendar.MINUTE)>9?""+cal.get(Calendar.MINUTE):"0"+cal.get(Calendar.MINUTE);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1141,5 +1177,6 @@ public Image Logo(){
     private javax.swing.JPanel pnlWest;
     private Controles_Personalizados.textfields.TextFieldSuggestion txtBuscador;
     // End of variables declaration//GEN-END:variables
+
 
 }

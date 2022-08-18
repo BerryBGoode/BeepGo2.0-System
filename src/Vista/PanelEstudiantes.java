@@ -5,6 +5,18 @@
  */
 package Vista;
 
+import Controlador.ControllerPersonal;
+import Controles_Personalizados.Botones.UWPButton;
+import Controles_Personalizados.RenderTable;
+import Controles_Personalizados.Tables.Table;
+import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author danlo
@@ -12,11 +24,60 @@ package Vista;
 public class PanelEstudiantes extends javax.swing.JPanel {
 
     private FrmAgg_Personal add = new FrmAgg_Personal();
+    private ControllerPersonal objControllerP = new ControllerPersonal();
+    private DefaultTableModel ModelAlumnos;
+    private final UWPButton btnActualizar = new UWPButton();
+    private final UWPButton btnEliminar = new UWPButton();
+    //Codigo para colocar la letra que se utilza en el proyecto
+    //(private Font font = new Font("Roboto Black", Font.PLAIN, 18);
+    private ImageIcon modificar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/editar.png"));
+    private ImageIcon eliminar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/eliminar.png"));
+
     /**
      * Creates new form PanelPersonal
      */
     public PanelEstudiantes() {
         initComponents();
+        //Titulos de los campos que se cargan en la tabla
+        String[] TitulosAlumnos = {"IDPersonal", "Nombres", "Apellidos", " Nacimiento", "Documento", "Carné", "Tipo Personal", "Direccion", "Correo", "IDTD", "IDTP", "IDG", "Genero", "Tipo Documento", "Modificar", "Eliminar"};
+        ModelAlumnos = new DefaultTableModel(null, TitulosAlumnos) {
+            //Codigo para no porder modificar texto en la tabla
+            @Override
+            public boolean isCellEditable(int row, int column) { // aqui esta
+                return false;
+            }
+        };
+        TbAlumnos.setModel(ModelAlumnos);
+        TbAlumnos.setDefaultRenderer(Object.class, new RenderTable());
+        cargarTabla();
+        TbAlumnos.removeColumn(TbAlumnos.getColumnModel().getColumn(0));
+        TbAlumnos.removeColumn(TbAlumnos.getColumnModel().getColumn(12));
+        TbAlumnos.removeColumn(TbAlumnos.getColumnModel().getColumn(11));
+        TbAlumnos.removeColumn(TbAlumnos.getColumnModel().getColumn(10));
+        TbAlumnos.removeColumn(TbAlumnos.getColumnModel().getColumn(9));
+        TbAlumnos.removeColumn(TbAlumnos.getColumnModel().getColumn(8));
+        TbAlumnos.removeColumn(TbAlumnos.getColumnModel().getColumn(7));
+        TbAlumnos.removeColumn(TbAlumnos.getColumnModel().getColumn(6));
+    }
+
+    private void cargarTabla() {
+        while (ModelAlumnos.getRowCount() > 0) {
+            ModelAlumnos.removeRow(0);
+        }
+        try {
+            ResultSet rs = objControllerP.MostrarEstudiantesController();
+            while (rs.next()) {
+                btnEliminar.setIcon(eliminar);
+                btnActualizar.setIcon(modificar);
+                btnActualizar.setBackground(new Color(231, 234, 239));
+                btnEliminar.setBackground(new Color(231, 234, 239));
+                Object[] Campos = {rs.getInt("idPersonal"), rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("fecha_nacimiento"), rs.getString("documento"), rs.getString("Carnet"), rs.getString("tipo_personal"), rs.getString("direccion"), rs.getString("correo"), rs.getInt("idTipoDocumento"), rs.getInt("idTipoPersonal"), rs.getInt("idGenero"), rs.getString("genero"), rs.getString("tipo_documento"), btnActualizar, btnEliminar};
+                ModelAlumnos.addRow(Campos);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al cargar tablas");
+            System.out.println(e.toString());
+        }
     }
 
     /**
@@ -33,7 +94,7 @@ public class PanelEstudiantes extends javax.swing.JPanel {
         btnAgregar = new Controles_Personalizados.Botones.UWPButton();
         btnFiltrar = new Controles_Personalizados.Botones.UWPButton();
         PanelTabla = new javax.swing.JScrollPane();
-        TbUsuariosWhite = new Controles_Personalizados.Tables.Table();
+        TbAlumnos = new Controles_Personalizados.Tables.Table();
         ScrollTabla = new Controles_Personalizados.ScrollBar.ScrollBarCustom();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -71,9 +132,9 @@ public class PanelEstudiantes extends javax.swing.JPanel {
         PanelTabla.setVerticalScrollBar(ScrollTabla);
         PanelTabla.setWheelScrollingEnabled(false);
 
-        TbUsuariosWhite.setAutoCreateRowSorter(true);
-        TbUsuariosWhite.setBackground(new java.awt.Color(231, 234, 239));
-        TbUsuariosWhite.setModel(new javax.swing.table.DefaultTableModel(
+        TbAlumnos.setAutoCreateRowSorter(true);
+        TbAlumnos.setBackground(new java.awt.Color(231, 234, 239));
+        TbAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -110,12 +171,17 @@ public class PanelEstudiantes extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        TbUsuariosWhite.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        TbUsuariosWhite.setGridColor(new java.awt.Color(58, 50, 75));
-        TbUsuariosWhite.setName(""); // NOI18N
-        TbUsuariosWhite.setSelectionBackground(new java.awt.Color(58, 50, 75));
-        TbUsuariosWhite.setShowVerticalLines(false);
-        PanelTabla.setViewportView(TbUsuariosWhite);
+        TbAlumnos.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        TbAlumnos.setGridColor(new java.awt.Color(58, 50, 75));
+        TbAlumnos.setName(""); // NOI18N
+        TbAlumnos.setSelectionBackground(new java.awt.Color(58, 50, 75));
+        TbAlumnos.setShowVerticalLines(false);
+        TbAlumnos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbAlumnosMouseClicked(evt);
+            }
+        });
+        PanelTabla.setViewportView(TbAlumnos);
 
         PanelFondo.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 1230, 480));
 
@@ -130,17 +196,86 @@ public class PanelEstudiantes extends javax.swing.JPanel {
         if (!add.isVisible()) {
             add.setVisible(true);
             add.typestaff = 2; //student
-        }else{
+        } else {
             add.toFront();
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void TbAlumnosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbAlumnosMouseClicked
+        // TODO add your handling code here:
+        Table tb = (Table) evt.getSource();
+        int column = TbAlumnos.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / TbAlumnos.getRowHeight();
+        btnActualizar.setName("btnActualizar");
+        btnEliminar.setName("btnEliminar");
+        if (evt.getClickCount() == 1) {
+            JTable rcp = (JTable) evt.getSource();
+            ValidacionesSistema.Parametros_Personal.setIdPersonal((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 0));
+            ValidacionesSistema.Parametros_Personal.setnombre_personal(rcp.getModel().getValueAt(rcp.getSelectedRow(), 1).toString());
+            ValidacionesSistema.Parametros_Personal.setApellido_personal(rcp.getModel().getValueAt(rcp.getSelectedRow(), 2).toString());
+            ValidacionesSistema.Parametros_Personal.setFecha_nacimiento(rcp.getModel().getValueAt(rcp.getSelectedRow(), 3).toString());
+            ValidacionesSistema.Parametros_Personal.setDocumento(rcp.getModel().getValueAt(rcp.getSelectedRow(), 4).toString());
+            ValidacionesSistema.Parametros_Personal.setCarnet(rcp.getModel().getValueAt(rcp.getSelectedRow(), 5).toString());
+            ValidacionesSistema.Parametros_Personal.setCorreo(rcp.getModel().getValueAt(rcp.getSelectedRow(), 8).toString());
+            ValidacionesSistema.Parametros_Personal.setDireccion(rcp.getModel().getValueAt(rcp.getSelectedRow(), 7).toString());
+            ValidacionesSistema.Parametros_Personal.setIdTipoPersonal((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 10));
+            ValidacionesSistema.Parametros_Personal.setIdTipoDocumento((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 9));
+            ValidacionesSistema.Parametros_Personal.setIdGenero((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 11));
+            ValidacionesSistema.Parametros_Personal.setTipoPersonal(rcp.getModel().getValueAt(rcp.getSelectedRow(), 6).toString());
+            ValidacionesSistema.Parametros_Personal.setTipoDocumento(rcp.getModel().getValueAt(rcp.getSelectedRow(), 13).toString());
+            ValidacionesSistema.Parametros_Personal.setGenero(rcp.getModel().getValueAt(rcp.getSelectedRow(), 12).toString());
+        }
+        if (row < TbAlumnos.getRowCount() || row >= 0 || column < TbAlumnos.getColumnCount() || column >= 0) {
+            Object vals = TbAlumnos.getValueAt(row, column);
+            if (vals instanceof UWPButton) {
+                ((UWPButton) vals).doClick(); // aqui esta
+                UWPButton btns = (UWPButton) vals;
+                if (btns.getName().equals("btnActualizar")) {
+                    if (tb.getModel().getValueAt(tb.getSelectedRow(), 5).toString().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Ocurrieron problemas, al intentar cargar la informacion debido que este registro no tiene carné", "Error de carné", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        System.out.println(ValidacionesSistema.Parametros_Personal.getCarnet());
+                        FrmAgg_Personal frmAgg_Personal = new FrmAgg_Personal(ValidacionesSistema.Parametros_Personal.getIdPersonal());
+                        frmAgg_Personal.show();
+                    }
+
+                    //Actualizar Contacto metodo
+                }
+                if (btns.getName().equals("btnEliminar")) {
+                    int confirmar = JOptionPane.YES_NO_OPTION;
+                    int a = JOptionPane.showConfirmDialog(this, "¿Desea Eliminar el registro de: " + ValidacionesSistema.Parametros_Personal.getnombre_personal() + "?", "Proceso de Eliminar", confirmar);
+                    if (a == 0) {
+                        objControllerP.idpersonal = ValidacionesSistema.Parametros_Personal.getIdPersonal();
+                        if (objControllerP.EliminarRegistroController() == true) {
+                            JOptionPane.showMessageDialog(null, "Su registro a sido Eliminado", "Proceso Completado", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    }
+                    /*switch (confirmar) {
+                        case JOptionPane.YES_OPTION:
+                            objControllerP.idpersonal = ValidacionesSistema.Parametros_Personal.getIdPersonal();
+                            if (objControllerP.EliminarRegistroController() == true) {
+                                JOptionPane.showMessageDialog(null, "Su registro a sido Eliminado", "Proceso Completado", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                            break;
+                        case JOptionPane.NO_OPTION:
+                            System.out.println("No se elimino");
+                            break;
+                        default:
+                            break;
+                    }*/
+                    // Eliminar Contacto metodo
+
+                }
+            }
+        }
+    }//GEN-LAST:event_TbAlumnosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Controles_Personalizados.Paneles.PanelRound PanelFondo;
     private javax.swing.JScrollPane PanelTabla;
     private Controles_Personalizados.ScrollBar.ScrollBarCustom ScrollTabla;
-    private Controles_Personalizados.Tables.Table TbUsuariosWhite;
+    private Controles_Personalizados.Tables.Table TbAlumnos;
     private Controles_Personalizados.Botones.UWPButton btnAgregar;
     private Controles_Personalizados.Botones.UWPButton btnFiltrar;
     private javax.swing.JLabel lblPersonal;

@@ -14,12 +14,23 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.BarcodeException;
+import net.sourceforge.barbecue.BarcodeFactory;
+import net.sourceforge.barbecue.BarcodeImageHandler;
+import net.sourceforge.barbecue.output.OutputException;
 
 /**
  *
@@ -27,9 +38,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class PanelCarnets extends javax.swing.JPanel {
 
-    DefaultTableModel model;
-    ControllerCarnets ObjController = new ControllerCarnets();
+    private DefaultTableModel model;
+    private ControllerCarnets ObjController = new ControllerCarnets();
     private final UWPButton btnGenerar = new UWPButton();
+    private int ID;
+    private File file;
+    private static String Carnet;
     public Font font = new Font("Roboto Black", Font.PLAIN, 18);
 
     /**
@@ -37,18 +51,19 @@ public class PanelCarnets extends javax.swing.JPanel {
      */
     public PanelCarnets() {
         initComponents();
-        String[] TitulosCarnets = {"Nombre", "Apellido", "Carné", "Tipo de usuario", "Codigo de barra"};
+        String[] TitulosCarnets = {"Nombre", "Apellido", "Carné", "Tipo de usuario", "idPersonal", "Codigo de barra"};
         model = new DefaultTableModel(null, TitulosCarnets);
         TbCarnets.setModel(model);
         TbCarnets.setDefaultRenderer(Object.class, new RenderTable());
-        btnGenerar.setBackground(new Color(253,255,255));
+        btnGenerar.setBackground(new Color(253, 255, 255));
         ImageIcon modificar;
         btnGenerar.setForeground(new Color(58, 50, 75));
         btnGenerar.setFont(font);
         btnGenerar.setText("Generar");
+        TbCarnets.removeColumn(TbCarnets.getColumnModel().getColumn(4));
         cargarTabla();
     }
-      
+
     void cargarTabla() {
         while (model.getRowCount() > 0) {
             model.removeRow(0);
@@ -56,14 +71,49 @@ public class PanelCarnets extends javax.swing.JPanel {
         try {
             ResultSet rs = ObjController.cargarTablaController();
             while (rs.next()) {
-                Object[] Valores = {rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("Carnet"), rs.getString("tipo_personal"),btnGenerar};
+                Object[] Valores = {rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("Carnet"), rs.getString("tipo_personal"), rs.getInt("idPersonal"), btnGenerar};
                 model.addRow(Valores);
             }
         } catch (SQLException e) {
             System.out.println("Error al cargar, Error de vista" + e.toString());
         }
     }
-    
+
+    public static boolean validarImagen() {
+       File file=new File("src/Codigos_Barra/"+Carnet+".png");
+        if (file.exists()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    void CrearCodigodeBarra() {
+        /* FilenameFilter fn=(File dir, String name1) -> {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        };*/
+        if (validarImagen() == false) {
+            try {
+                Barcode bar = BarcodeFactory.createCode128(Carnet);
+                file = new File("src/Codigos_Barra/" + Carnet + ".png");
+                BarcodeImageHandler.savePNG(bar, file);
+                Thread.sleep(2000);
+            } catch (BarcodeException | OutputException | IOException ex) {
+                Logger.getLogger(PanelCarnets.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("No se logro realizar la imagen ruta mala");
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PanelCarnets.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } /*else {
+            FrmAgg_Carnet frmc = new FrmAgg_Carnet(ID,Carnet);
+            if (frmc.isVisible()) {
+                frmc.toFront();
+            } else {
+                frmc.setVisible(true);
+            }
+        }*/
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -80,7 +130,9 @@ public class PanelCarnets extends javax.swing.JPanel {
         btnAgregar = new Controles_Personalizados.Botones.UWPButton();
         PanelTabla = new javax.swing.JScrollPane();
         TbCarnets = new Controles_Personalizados.Tables.Table();
-        ScrollTabla = new Controles_Personalizados.ScrollBar.ScrollBarCustom();
+        scrollBar1 = new Controles_Personalizados.ScrollBar.ScrollBar();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table1 = new Controles_Personalizados.Tables.Table();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -121,7 +173,7 @@ public class PanelCarnets extends javax.swing.JPanel {
         PanelFondo.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 150, 40));
 
         PanelTabla.setHorizontalScrollBar(null);
-        PanelTabla.setVerticalScrollBar(ScrollTabla);
+        PanelTabla.setVerticalScrollBar(scrollBar1);
         PanelTabla.setWheelScrollingEnabled(false);
 
         TbCarnets = new Controles_Personalizados.Tables.Table(){
@@ -174,13 +226,32 @@ public class PanelCarnets extends javax.swing.JPanel {
         TbCarnets.setName(""); // NOI18N
         TbCarnets.setSelectionBackground(new java.awt.Color(58, 50, 75));
         TbCarnets.setShowVerticalLines(false);
+        TbCarnets.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbCarnetsMouseClicked(evt);
+            }
+        });
         PanelTabla.setViewportView(TbCarnets);
 
         PanelFondo.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 1230, 480));
+        PanelTabla.getAccessibleContext().setAccessibleParent(PanelTabla);
 
-        ScrollTabla.setBackground(new java.awt.Color(58, 50, 75));
-        ScrollTabla.setForeground(new java.awt.Color(58, 50, 75));
-        PanelFondo.add(ScrollTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(1238, 177, 10, 40));
+        PanelFondo.add(scrollBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 140, 10, 480));
+
+        table1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(table1);
+
+        PanelFondo.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 170, -1, -1));
 
         add(PanelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
@@ -199,14 +270,47 @@ public class PanelCarnets extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    private void TbCarnetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbCarnetsMouseClicked
+        // TODO add your handling code here:
+        int column = TbCarnets.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / TbCarnets.getRowHeight();
+        btnGenerar.setName("btnGenerar");
+        if (evt.getClickCount() == 1) {
+            JTable rcp = (JTable) evt.getSource();
+            ID = (int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 4);
+            Carnet = rcp.getModel().getValueAt(rcp.getSelectedRow(), 2).toString();
+        }
+        if (row < TbCarnets.getRowCount() || row >= 0 || column < TbCarnets.getColumnCount() || column >= 0) {
+            Object vals = TbCarnets.getValueAt(row, column);
+            if (vals instanceof UWPButton) {
+                ((UWPButton) vals).doClick(); // aqui esta
+                UWPButton btns = (UWPButton) vals;
+                if (btns.getName().equals("btnGenerar")) {
+                    CrearCodigodeBarra();
+                    if (validarImagen() == true) {
+
+                        FrmAgg_Carnet frmc = new FrmAgg_Carnet( Carnet);
+                        if (frmc.isVisible()) {
+                            frmc.toFront();
+                        } else {
+                            frmc.setVisible(true);
+                        }
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_TbCarnetsMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Controles_Personalizados.Paneles.PanelRound PanelFondo;
     private javax.swing.JScrollPane PanelTabla;
-    private Controles_Personalizados.ScrollBar.ScrollBarCustom ScrollTabla;
     private Controles_Personalizados.Tables.Table TbCarnets;
     private Controles_Personalizados.Botones.UWPButton btnAgregar;
     private Controles_Personalizados.Botones.UWPButton btnFiltrar;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCarnets;
+    private Controles_Personalizados.ScrollBar.ScrollBar scrollBar1;
+    private Controles_Personalizados.Tables.Table table1;
     // End of variables declaration//GEN-END:variables
 }
