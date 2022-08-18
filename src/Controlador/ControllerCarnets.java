@@ -14,10 +14,24 @@ import java.sql.ResultSet;
  */
 public class ControllerCarnets {
     ModelCarnets ObjModel=new ModelCarnets();
+    
+     private int idPersonal;
+
+    public int getIdPersonal() {
+        return idPersonal;
+    }
+
+    public void setIdPersonal(int idPersonal) {
+        this.idPersonal = idPersonal;
+    }
+
     public ResultSet cargarTablaController(){
         return ObjModel.cargarTablaConCarnet();
     }
     public ResultSet SinCarnetController(){
         return ObjModel.cargarTablaSinCarnet();
+    }
+    public ResultSet generarBarraController(){
+        return  ObjModel.generabarra(getIdPersonal());
     }
 }

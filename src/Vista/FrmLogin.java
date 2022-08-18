@@ -119,6 +119,11 @@ public class FrmLogin extends javax.swing.JFrame {
         txtUsuario.setLabelText("Usuario");
         txtUsuario.setLineColor(new java.awt.Color(42, 36, 56));
         txtUsuario.setSelectionColor(new java.awt.Color(58, 50, 75));
+        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUsuarioActionPerformed(evt);
+            }
+        });
         txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtUsuarioKeyPressed(evt);
@@ -336,6 +341,10 @@ public class FrmLogin extends javax.swing.JFrame {
             ValidacionesSistema.ValidacionesBeep_Go.SinEspacios(evt);
         }
     }//GEN-LAST:event_txtContraKeyTyped
+
+    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
