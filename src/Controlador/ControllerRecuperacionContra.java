@@ -13,32 +13,32 @@ import Modelo.ModelRecuperacionContra;
  */
 public class ControllerRecuperacionContra {
     
-    public static String usuario;
-    public static String contra;
-    public static String PIN;
+    private String usuario;
+    private String contra;
+    private String PIN;
 
-    public static String getUsuario() {
+    public String getUsuario() {
         return usuario;
     }
 
-    public static void setUsuario(String usuario) {
-        ControllerRecuperacionContra.usuario = usuario;
+    public void setUsuario(String usuario) {
+       this.usuario = usuario;
     }
 
-    public static String getPIN() {
+    public String getPIN() {
         return PIN;
     }
 
-    public static void setPIN(String PIN) {
-        ControllerRecuperacionContra.PIN = PIN;
+    public void setPIN(String PIN) {
+        this.PIN = PIN;
     }
 
-    public static String getContra() {
+    public String getContra() {
         return contra;
     }
 
-    public static void setContra(String contra) {
-        ControllerRecuperacionContra.contra = contra;
+    public void setContra(String contra) {
+        this.contra = contra;
     }
     
         

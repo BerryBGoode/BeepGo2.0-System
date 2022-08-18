@@ -10,6 +10,9 @@ import Controlador.ControllerP_U_Usuarios;
 import Controles_Personalizados.Calendario.SelectedDate;
 import ValidacionesSistema.ValidacionesBeep_Go;
 import com.sun.awt.AWTUtilities;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Color;
 
 import java.awt.Image;
 import java.awt.Shape;
@@ -32,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -97,6 +101,9 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
             CmbTipoDocumento.setEnabled(false);
             BtnExaminar.setEnabled(true);
             TxtUsuario.setEnabled(true);
+            DtFechanac.setVisible(false);
+            btnContinuar.setVisible(false);
+            BtnGuardar.setVisible(true);
         } //Si no hay registros de personal los controles para generar un registro de usuario se bloquean
         else {
             txtApellido.setEnabled(true);
@@ -106,9 +113,14 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
             CmbGenero.setEnabled(true);
             txtDirecion.setEnabled(true);
             CmbTipoDocumento.setEnabled(true);
-
+            btnContinuar.setVisible(true);
+            BtnGuardar.setVisible(false);
             BtnExaminar.setEnabled(false);
             TxtUsuario.setEnabled(false);
+//            JDateChooser  = new JDateChooser ();
+//            DtFechanac.set
+//            JTextFieldDateEditor editor = (JTextFieldDateEditor) fecha.getDateEditor();
+//            editor.setEditable(false);
         }
     }
 
@@ -142,14 +154,6 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
 
     }
 
-    void IngresarRegistros() {
-
-        if (controlleru.checkControllerUsuario() == false && controllerp.checkcontrollerPersonal() == true) {
-            IngresarUsuario();
-
-        }
-    }
-
     void notificacionTaskBar() {
         try {
             SystemTray tray = SystemTray.getSystemTray();
@@ -171,22 +175,27 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
     }
 
     void IngresarUsuario() {
-        if (TxtUsuario.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No, se permiten campos vacios");
-        } else {
-            GetIdPersonal();
-            controlleru.setUsuario(TxtUsuario.getText());
-            String clave = TxtUsuario.getText() + "123";
-            controlleru.setClave(ValidacionesBeep_Go.EncriptarContra(clave));
-            controlleru.setFoto(fotou);
-            if (controlleru.IngresarPUsuarioController() == true) {
-                JOptionPane.showMessageDialog(null, "Su usuario ha sido ingresado correctamente", "Proceso Completado", JOptionPane.INFORMATION_MESSAGE);
-                FrmLogin iniciarSesion = new FrmLogin();
-                iniciarSesion.setVisible(true);
-                this.dispose();
-                tipo_mensaje = 1;
-                notificacionTaskBar();
-            }
+        GetIdPersonal();
+        controlleru.setUsuario(TxtUsuario.getText());
+        String clave = TxtUsuario.getText() + "123";
+        controlleru.setClave(ValidacionesBeep_Go.EncriptarContra(clave));
+        int min = 1000;
+        int max = 9999;
+        Random random = new Random();
+        int valornum = random.nextInt(max + min) + min;
+        String valor = String.valueOf(valornum);
+        String encriptarPIN = ValidacionesBeep_Go.EncriptarContra(valor);
+        controlleru.setPIN(encriptarPIN);
+        controlleru.setFoto(fotou);
+        if (controlleru.IngresarPUsuarioController() == true) {
+            JOptionPane.showMessageDialog(null, "Su usuario ha sido ingresado correctamente", "Proceso Completado", JOptionPane.INFORMATION_MESSAGE);
+            FrmLogin iniciarSesion = new FrmLogin();
+            iniciarSesion.setVisible(true);
+            this.dispose();
+            tipo_mensaje = 1;
+            notificacionTaskBar();
+            JOptionPane.showMessageDialog(null, "Su contraseña es su usario +123, ingrese de esa forma sus \n credenciales para luego poder ingresar la contraseña que desee", "Contraseña",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Su PIN de seguridad es el siguiente :"+valornum,"PIN de seguridad",JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -194,7 +203,7 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
         try {
             ResultSet rs = controlleru.ObtenerIdPersonal();
             if (rs.next()) {
-                controlleru.idPersonal = rs.getInt("idPersonal");                
+                controlleru.idPersonal = rs.getInt("idPersonal");
             }
 
         } catch (SQLException exception) {
@@ -249,7 +258,6 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
                     CmbGenero.setEnabled(false);
                     txtDirecion.setEnabled(false);
                     CmbTipoDocumento.setEnabled(false);
-
                     TxtUsuario.setEnabled(true);
                 }
             }
@@ -324,7 +332,9 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
         TxtUsuario = new Controles_Personalizados.textfields.TextField();
         CmbTipoDocumento = new Controles_Personalizados.ComboBox.combobox();
         DtFechanac = new rojerusan.RSDateChooser();
-        jLabel1 = new javax.swing.JLabel();
+        LblFecha = new javax.swing.JLabel();
+        BtnGuardar = new Controles_Personalizados.Botones.ButtonGradient();
+        TxtFecha = new Controles_Personalizados.textfields.TextField();
         btnMinimizar = new javax.swing.JLabel();
         btnCerrar = new javax.swing.JLabel();
         Imagen = new javax.swing.JLabel();
@@ -414,7 +424,7 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
         txtDirecion.setLabelText("Direccion");
         txtDirecion.setLineColor(new java.awt.Color(42, 36, 56));
         txtDirecion.setSelectionColor(new java.awt.Color(58, 50, 75));
-        Logo.add(txtDirecion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 310, 70));
+        Logo.add(txtDirecion, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 310, 70));
 
         CmbGenero.setBackground(new java.awt.Color(254, 254, 254));
         CmbGenero.setForeground(new java.awt.Color(42, 36, 56));
@@ -434,7 +444,7 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
         Logo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, -1, -1));
 
         LblFoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        Logo.add(LblFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, 220, 230));
+        Logo.add(LblFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, 220, 240));
 
         BtnExaminar.setBackground(new java.awt.Color(42, 36, 56));
         BtnExaminar.setText("Examinar");
@@ -444,7 +454,7 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
                 BtnExaminarActionPerformed(evt);
             }
         });
-        Logo.add(BtnExaminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 350, 220, 50));
+        Logo.add(BtnExaminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 360, 220, 50));
 
         TxtUsuario.setBackground(new java.awt.Color(254, 254, 254));
         TxtUsuario.setForeground(new java.awt.Color(42, 36, 56));
@@ -452,7 +462,7 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
         TxtUsuario.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         TxtUsuario.setLabelText("Usuario");
         TxtUsuario.setLineColor(new java.awt.Color(42, 36, 56));
-        Logo.add(TxtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 670, 310, 80));
+        Logo.add(TxtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 670, 310, 70));
 
         CmbTipoDocumento.setBackground(new java.awt.Color(254, 254, 254));
         CmbTipoDocumento.setForeground(new java.awt.Color(42, 36, 56));
@@ -477,10 +487,24 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
         DtFechanac.setFuente(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         Logo.add(DtFechanac, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 490, 310, 50));
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel1.setText("Fecha Nacimiento");
-        Logo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, -1, -1));
+        LblFecha.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        LblFecha.setForeground(new java.awt.Color(153, 153, 153));
+        LblFecha.setText("Fecha Nacimiento");
+        Logo.add(LblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, -1, -1));
+
+        BtnGuardar.setBackground(new java.awt.Color(42, 36, 56));
+        BtnGuardar.setText("Finalizar");
+        BtnGuardar.setToolTipText("");
+        BtnGuardar.setColor1(new java.awt.Color(42, 36, 56));
+        BtnGuardar.setColor2(new java.awt.Color(42, 36, 56));
+        BtnGuardar.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        BtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnGuardarActionPerformed(evt);
+            }
+        });
+        Logo.add(BtnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 780, 150, 44));
+        Logo.add(TxtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 760, 310, 70));
 
         PanelFondo.add(Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 850));
 
@@ -563,16 +587,23 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         // TODO add your handling code here:
         InsercionPPersonal();
-        if (controllerp.checkcontrollerPersonal() == true && controlleru.checkControllerUsuario() == false) {
-            IngresarUsuario();
-        }
-
+        btnContinuar.setVisible(false);
+        BtnGuardar.setEnabled(true);
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     private void BtnExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExaminarActionPerformed
         // TODO add your handling code here:
         ExaminarImagen();
     }//GEN-LAST:event_BtnExaminarActionPerformed
+
+    private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
+        // TODO add your handling code here:
+        if (TxtUsuario.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campos Vacios, verificar la informacion", "Campos Vacios", JOptionPane.WARNING_MESSAGE);
+        } else {
+            IngresarUsuario();
+        }
+    }//GEN-LAST:event_BtnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -612,18 +643,20 @@ public class FrmP_U_Personal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Controles_Personalizados.Botones.UWPButton BtnExaminar;
+    private Controles_Personalizados.Botones.ButtonGradient BtnGuardar;
     private Controles_Personalizados.ComboBox.combobox CmbGenero;
     private Controles_Personalizados.ComboBox.combobox CmbTipoDocumento;
     private rojerusan.RSDateChooser DtFechanac;
     private javax.swing.JLabel Imagen;
+    private javax.swing.JLabel LblFecha;
     private javax.swing.JLabel LblFoto;
     private Controles_Personalizados.Paneles.PanelRound Logo;
     private Controles_Personalizados.Paneles.PanelRound PanelFondo;
+    private Controles_Personalizados.textfields.TextField TxtFecha;
     private Controles_Personalizados.textfields.TextField TxtUsuario;
     private javax.swing.JLabel btnCerrar;
     private Controles_Personalizados.Botones.ButtonGradient btnContinuar;
     private javax.swing.JLabel btnMinimizar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private Controles_Personalizados.textfields.TextField txtApellido;
     private Controles_Personalizados.textfields.TextField txtCorreo;
