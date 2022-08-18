@@ -181,14 +181,22 @@
         <Component class="javax.swing.JTextField" name="txtID">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+<<<<<<< HEAD
               <AbsoluteConstraints x="510" y="50" width="40" height="-1"/>
+=======
+              <AbsoluteConstraints x="500" y="50" width="-1" height="-1"/>
+>>>>>>> master
             </Constraint>
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtIDPersonal">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+<<<<<<< HEAD
               <AbsoluteConstraints x="560" y="50" width="40" height="-1"/>
+=======
+              <AbsoluteConstraints x="530" y="50" width="-1" height="-1"/>
+>>>>>>> master
             </Constraint>
           </Constraints>
         </Component>

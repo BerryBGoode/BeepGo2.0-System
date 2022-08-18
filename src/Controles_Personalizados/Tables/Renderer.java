@@ -5,6 +5,7 @@
  */
 package Controles_Personalizados.Tables;
 
+<<<<<<< HEAD
 import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -17,6 +18,20 @@ import Controles_Personalizados.Botones.UWPButton;
 public class Renderer extends DefaultTableCellRenderer{
     
      @Override
+=======
+import Controles_Personalizados.Botones.UWPButton;
+import java.awt.Component;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+
+/**
+ *
+ * @author rocyr
+ */
+public class Renderer extends DefaultTableCellRenderer{
+    
+    @Override
+>>>>>>> master
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         if(value instanceof UWPButton){
             UWPButton lbl = (UWPButton)value;

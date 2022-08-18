@@ -7,7 +7,11 @@ package ValidacionesSistema;
 
 /**
  *
+<<<<<<< HEAD
  * @author 50377
+=======
+ * @author Estudiante
+>>>>>>> master
  */
 public class Parametros_Contactos {
     
@@ -94,5 +98,8 @@ public class Parametros_Contactos {
     }
     
     
+<<<<<<< HEAD
     
+=======
+>>>>>>> master
 }

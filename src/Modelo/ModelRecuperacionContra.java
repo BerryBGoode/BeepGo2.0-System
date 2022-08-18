@@ -45,7 +45,7 @@ public class ModelRecuperacionContra {
         
         try{
             con = ModelConexion.getConnection();
-            ps = con.prepareStatement("UPDATE tbUsuarios SET contraseña = ?, idEstadoUsuario = 1 WHERE nombre_usuario = ?");
+            ps = con.prepareStatement("UPDATE tbUsuarios SET contraseña = ?, idEstadoUsuario = 1, intentos = 5 WHERE nombre_usuario = ?");
             ps.setString(1, contra);
             ps.setString(2, usuario);
             ps.execute();

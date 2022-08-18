@@ -40,7 +40,7 @@ public class FrmConfigConection extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
         AWTUtilities.setWindowShape(this, forma);
-        setIconImage(Logo());
+        setIconImage(Logo());                
     }
 
     public Image Logo() {
@@ -64,7 +64,7 @@ public class FrmConfigConection extends javax.swing.JFrame {
         txtUsuario = new Controles_Personalizados.textfields.TextField();
         txtHost = new Controles_Personalizados.textfields.TextField();
         btnSave = new Controles_Personalizados.Botones.ButtonGradient();
-        txtcontra = new Controles_Personalizados.textfields.TextField();
+        txtcontra = new Controles_Personalizados.textfields.PasswordField();
         btnCerrar = new javax.swing.JLabel();
         btnMinimizar = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -126,15 +126,21 @@ public class FrmConfigConection extends javax.swing.JFrame {
         txtcontra.setForeground(new java.awt.Color(42, 36, 56));
         txtcontra.setCaretColor(new java.awt.Color(42, 36, 56));
         txtcontra.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
-        txtcontra.setLabelText("Contraseña");
+        txtcontra.setLabelText("Contraseña:");
         txtcontra.setLineColor(new java.awt.Color(42, 36, 56));
         txtcontra.setSelectionColor(new java.awt.Color(58, 50, 75));
+        txtcontra.setShowAndHide(true);
+        txtcontra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtcontraActionPerformed(evt);
+            }
+        });
         panelRound2.add(txtcontra, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 410, 450, 70));
 
         panelRound1.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 580));
 
         btnCerrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/CerrarLogin.png"))); // NOI18N
-        btnCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCerrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 btnCerrarMousePressed(evt);
@@ -143,7 +149,7 @@ public class FrmConfigConection extends javax.swing.JFrame {
         panelRound1.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 10, -1, -1));
 
         btnMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos_Proyecto/Maximizar.png"))); // NOI18N
-        btnMinimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMinimizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnMinimizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnMinimizarMouseClicked(evt);
@@ -173,6 +179,10 @@ public class FrmConfigConection extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_btnMinimizarMouseClicked
+
+    private void txtcontraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcontraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtcontraActionPerformed
     void saveConfig() {
         getDataConfig();
         if (ControllerConfig.getUsername() == "" && ControllerConfig.getHost() == ""
@@ -183,7 +193,7 @@ public class FrmConfigConection extends javax.swing.JFrame {
             if (ControllerConexion.getConnectionModel() != null) {
                 createFile();
                 writeFile();
-                JOptionPane.showMessageDialog(null, "Se guardo un archivo con\n los datos de la conexón", "Archivo guardado", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Se guardo un archivo con\nlos datos de la conexón", "Archivo guardado", JOptionPane.INFORMATION_MESSAGE);
                 if (verficarpu.checkEnterprise() == false) {
                     FrmP_U_Empresa cargarempresa = new FrmP_U_Empresa();
                     cargarempresa.setVisible(true);
@@ -195,11 +205,11 @@ public class FrmConfigConection extends javax.swing.JFrame {
                 ControllerP_U_Empresa VistapEmpresa = new ControllerP_U_Empresa();
                 ControllerP_U_Personal PrimerPersonal = new ControllerP_U_Personal();
                 ControllerP_U_Usuarios primerUsuarios = new ControllerP_U_Usuarios();
-                
+
                 if (VistapEmpresa.checkEnterprise() == false) {
                     FrmP_U_Empresa emp = new FrmP_U_Empresa();
                     emp.setVisible(true);
-                    
+
                 } else if (VistapEmpresa.checkEnterprise() == true && PrimerPersonal.checkcontrollerPersonal() == false) {
                     FrmP_U_Personal cargarpersonal = new FrmP_U_Personal();
                     cargarpersonal.setVisible(true);
@@ -413,6 +423,6 @@ public class FrmConfigConection extends javax.swing.JFrame {
     private Controles_Personalizados.textfields.TextField txtHost;
     private Controles_Personalizados.textfields.TextField txtIP;
     private Controles_Personalizados.textfields.TextField txtUsuario;
-    private Controles_Personalizados.textfields.TextField txtcontra;
+    private Controles_Personalizados.textfields.PasswordField txtcontra;
     // End of variables declaration//GEN-END:variables
 }

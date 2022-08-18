@@ -90,7 +90,7 @@ public class ModelLogin {
 
         try {
             con = ModelConexion.getConnection();
-            ps = con.prepareStatement("UPDATE tbUsuarios SET idEstadoUsuario = 2 WHERE nombre_usuario = ?");
+            ps = con.prepareStatement("UPDATE tbUsuarios SET idEstadoUsuario = 2, intentos = 0 WHERE nombre_usuario = ?");
             ps.setString(1, usuario);
             ps.execute();
             return true;
@@ -143,6 +143,20 @@ public class ModelLogin {
             return rs;
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error durante la verificacion de las credenciales" + e.toString(), "ERROR CRITICO", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+    }
+    
+    public static ResultSet CapturarTipoUs(String usuario){
+        Connection con;
+        PreparedStatement ps;
+        try {
+            con = ModelConexion.getConnection();
+            ps = con.prepareStatement("SELECT a.idTipoUsuario FROM tbUsuarios a, tbTipoUsuario b WHERE a.idTipoUsuario = b.idTipoUsuario AND a.nombre_usuario = ?");
+            ps.setString(1, usuario);
+            ResultSet rs = ps.executeQuery();
+            return rs;
+        } catch (Exception e) {
             return null;
         }
     }

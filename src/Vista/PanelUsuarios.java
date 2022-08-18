@@ -5,22 +5,27 @@
  */
 package Vista;
 
-import java.awt.Color;
-import javax.swing.JOptionPane;
+import Controlador.ControllerUsuarios;
+import Controles_Personalizados.Botones.UWPButton;
+import Controles_Personalizados.Tables.Renderer;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.ImageIcon;
 
 /**
  *
  * @author danlo
  */
 public class PanelUsuarios extends javax.swing.JPanel {
-
-        private FrmAgg_Usuarios agg = new FrmAgg_Usuarios();
     /**
      * Creates new form FrmUsuarios
      */
     public PanelUsuarios() {
         initComponents();
+        
+        TbUsuariosWhite.setDefaultRenderer(Object.class, new Renderer());
     }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -130,8 +135,20 @@ public class PanelUsuarios extends javax.swing.JPanel {
         add(PanelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
+    UWPButton btnModificar = new UWPButton(); 
+    UWPButton btnEliminar = new UWPButton();
+    ImageIcon Modificar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/editar.png"));
+    ImageIcon Eliminar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/Eliminar.png")); 
+    
+    /* btnModificar.setIcon(Modificar);
+    btnEliminar.setIcon(Eliminar);
+    btnModificar.setBackground(new Color(231,234,239));
+    btnEliminar.setBackground(new Color(231,234,239)); */
+    
+    
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
+        FrmAgg_Usuarios agg = new FrmAgg_Usuarios("Agregar usuario");
         if (agg.isVisible()) {
                  agg.toFront();
                  

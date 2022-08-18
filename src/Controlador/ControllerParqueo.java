@@ -65,11 +65,27 @@ public class ControllerParqueo {
         return mdpark.getIDPark(NParqueo);
     }
     
-    public boolean insertPark(){
-        return mdpark.insertPark(getIDParqueo(), getIDAcceso(), getIDVehiculo());
+    public ResultSet loadPark(){
+        return mdpark.loadPark();
     }
     
-    /*public static boolean checkStatePark(){
-        
-    }*/
+    public ResultSet getLocationPark(String park){
+        return mdpark.getLocation(park);
+    }
+    
+    public boolean insertPark(){
+        return mdpark.insertPark(getIDParqueo(), getIDAcceso(), getIDVehiculo(),getNumberPark());
+    }
+    
+    public int checkStatePark(){
+        return mdpark.checkState(getNumberPark());
+    }
+    
+    public ResultSet getIDStation(){
+        return mdpark.getIDStation();
+    }
+    
+    public boolean deletePark(){
+        return mdpark.deletePark(getID());
+    }
 }
