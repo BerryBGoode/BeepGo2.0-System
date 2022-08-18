@@ -53,7 +53,7 @@ public class PanelContactos extends javax.swing.JPanel {
     UWPButton btnModificar = new UWPButton(); 
     UWPButton btnEliminar = new UWPButton();
     ImageIcon Modificar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/editar.png"));
-    ImageIcon Eliminar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/Eliminar.png"));
+    ImageIcon Eliminar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/eliminar.png"));
     
     final void CargarTabla() {
         

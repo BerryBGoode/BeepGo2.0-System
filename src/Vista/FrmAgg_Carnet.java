@@ -5,9 +5,8 @@
  */
 package Vista;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.pdf.Barcode;
-import com.itextpdf.text.pdf.Barcode128;
+
+
 import com.sun.awt.AWTUtilities;
 import java.awt.Image;
 import java.awt.Shape;
