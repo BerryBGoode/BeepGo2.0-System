@@ -282,7 +282,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 System.out.println(tipo);
             }
         } catch (Exception e) {
-
+            JOptionPane.showMessageDialog(this, e.toString());
         }
     }
 

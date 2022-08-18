@@ -5,12 +5,17 @@
  */
 package Vista;
 
+import Controlador.ControllerPersonal;
 import Controlador.ControllerUsuarios;
 import Controles_Personalizados.Botones.UWPButton;
-import Controles_Personalizados.Tables.Renderer;
-import java.util.ArrayList;
-import java.util.List;
+import Controles_Personalizados.RenderTable;
+import java.awt.Color;
+import java.awt.Font;
+import java.sql.ResultSet;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,13 +25,54 @@ public class PanelUsuarios extends javax.swing.JPanel {
     /**
      * Creates new form FrmUsuarios
      */
+    
+    DefaultTableModel modelo;
+    private final UWPButton btnActualizar = new UWPButton();
+    private final UWPButton btnEliminar = new UWPButton();
+    private Font font = new Font("Roboto Black", Font.PLAIN, 18);
+    ImageIcon Modificar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/editar.png"));
+    ImageIcon Eliminar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/eliminar.png"));
+    byte[] imagen;
+    
     public PanelUsuarios() {
         initComponents();
-        
-        TbUsuariosWhite.setDefaultRenderer(Object.class, new Renderer());
+        String[] TitulosTabla = {"ID", "idPersonal", "Nombres", "Apellidos", "Usuario", "idTipoUsuario", "Tipo de usuario", "idEstadoUsuario", "Estado del usuario", "Imagen", "Modificar", "Eliminar"};
+        modelo = new DefaultTableModel(null, TitulosTabla){
+            @Override
+            public boolean isCellEditable(int row, int column) { // aqui esta
+                return false;
+            }
+        };
+        tbUsuarios.setModel(modelo);
+        tbUsuarios.setDefaultRenderer(Object.class, new RenderTable());
+        CargarTabla();
+        tbUsuarios.removeColumn(tbUsuarios.getColumnModel().getColumn(0));
+        tbUsuarios.removeColumn(tbUsuarios.getColumnModel().getColumn(0));
+        tbUsuarios.removeColumn(tbUsuarios.getColumnModel().getColumn(3));
+        tbUsuarios.removeColumn(tbUsuarios.getColumnModel().getColumn(4));
+        tbUsuarios.removeColumn(tbUsuarios.getColumnModel().getColumn(5));
     }
     
-    
+     public void CargarTabla(){
+        ControllerUsuarios obj = new ControllerUsuarios();
+        while(modelo.getRowCount() > 0){
+            modelo.removeRow(0);
+        }
+        try{
+            ResultSet rs = obj.CargarUsuarios_C();
+            while(rs.next()){
+                btnActualizar.setIcon(Modificar);
+                btnEliminar.setIcon(Eliminar);
+                btnActualizar.setBackground(new Color(231,234,239));
+                btnEliminar.setBackground(new Color(231,234,239)); 
+                Object[] oValores = {rs.getInt("idUsuario"), rs.getInt("idPersonal"), rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("nombre_usuario"), rs.getInt("idTipoUsuario"), rs.getString("tipo_usuario"), rs.getInt("idEstadoUsuario"), rs.getString("estado_usuario"), rs.getBytes("imagen"), btnActualizar, btnEliminar};
+                
+                modelo.addRow(oValores);
+            } 
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,7 +87,7 @@ public class PanelUsuarios extends javax.swing.JPanel {
         btnFiltrar = new Controles_Personalizados.Botones.UWPButton();
         btnAgregar = new Controles_Personalizados.Botones.UWPButton();
         PanelTabla = new javax.swing.JScrollPane();
-        TbUsuariosWhite = new Controles_Personalizados.Tables.Table();
+        tbUsuarios = new Controles_Personalizados.Tables.Table();
         ScrollTabla = new Controles_Personalizados.ScrollBar.ScrollBarCustom();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -81,8 +127,8 @@ public class PanelUsuarios extends javax.swing.JPanel {
         PanelTabla.setVerticalScrollBar(ScrollTabla);
         PanelTabla.setWheelScrollingEnabled(false);
 
-        TbUsuariosWhite.setBackground(new java.awt.Color(231, 234, 239));
-        TbUsuariosWhite.setModel(new javax.swing.table.DefaultTableModel(
+        tbUsuarios.setBackground(new java.awt.Color(231, 234, 239));
+        tbUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -119,12 +165,17 @@ public class PanelUsuarios extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        TbUsuariosWhite.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        TbUsuariosWhite.setGridColor(new java.awt.Color(58, 50, 75));
-        TbUsuariosWhite.setName(""); // NOI18N
-        TbUsuariosWhite.setSelectionBackground(new java.awt.Color(58, 50, 75));
-        TbUsuariosWhite.setShowVerticalLines(false);
-        PanelTabla.setViewportView(TbUsuariosWhite);
+        tbUsuarios.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        tbUsuarios.setGridColor(new java.awt.Color(58, 50, 75));
+        tbUsuarios.setName(""); // NOI18N
+        tbUsuarios.setSelectionBackground(new java.awt.Color(58, 50, 75));
+        tbUsuarios.setShowVerticalLines(false);
+        tbUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbUsuariosMouseClicked(evt);
+            }
+        });
+        PanelTabla.setViewportView(tbUsuarios);
 
         PanelFondo.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 1230, 480));
 
@@ -134,21 +185,12 @@ public class PanelUsuarios extends javax.swing.JPanel {
 
         add(PanelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
-
-    UWPButton btnModificar = new UWPButton(); 
-    UWPButton btnEliminar = new UWPButton();
-    ImageIcon Modificar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/editar.png"));
-    ImageIcon Eliminar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/Eliminar.png")); 
-    
-    /* btnModificar.setIcon(Modificar);
-    btnEliminar.setIcon(Eliminar);
-    btnModificar.setBackground(new Color(231,234,239));
-    btnEliminar.setBackground(new Color(231,234,239)); */
-    
-    
+  
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        FrmAgg_Usuarios agg = new FrmAgg_Usuarios("Agregar usuario");
+        ValidacionesSistema.Parametros_Usuario.setTitulo("Agregar usuario");
+        ValidacionesSistema.Parametros_Usuario.setBoton("Agregar");
+        FrmAgg_Usuarios agg = new FrmAgg_Usuarios();
         if (agg.isVisible()) {
                  agg.toFront();
                  
@@ -157,14 +199,80 @@ public class PanelUsuarios extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    void CargarImagen(){
+        ControllerUsuarios objc = new ControllerUsuarios(ValidacionesSistema.Parametros_Usuario.getID());
+        ResultSet rs;
+        rs = objc.BuscarImagen_C();
+        try {
+            if (rs.next()) {
+                imagen = rs.getBytes("imagen");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.toString());
+        }
+    }
+    
+    private void tbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuariosMouseClicked
+        // TODO add your handling code here:
+        String nombre = null;
+        int column = tbUsuarios.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / tbUsuarios.getRowHeight();
+        btnActualizar.setName("btnActualizar");
+        btnEliminar.setName("btnEliminar");
+        JTable rcp = (JTable) evt.getSource();
+        if (evt.getClickCount() == 1) {
+            ValidacionesSistema.Parametros_Usuario.setID( (int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 0));
+            ValidacionesSistema.Parametros_Usuario.setIdPersonal((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 1));
+            ValidacionesSistema.Parametros_Usuario.setNombre_usuario(rcp.getModel().getValueAt(rcp.getSelectedRow(), 4).toString());
+            ValidacionesSistema.Parametros_Usuario.setIdTipoUsuario((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 5));
+            ValidacionesSistema.Parametros_Usuario.setIdEstadoUsuario((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 7));      
+            CargarImagen();
+            ValidacionesSistema.Parametros_Usuario.setImagen(imagen);
+        }
+
+        if (row < tbUsuarios.getRowCount() || row >= 0 || column < tbUsuarios.getColumnCount() || column >= 0) {
+            Object vals = tbUsuarios.getValueAt(row, column);
+            if (vals instanceof UWPButton) {
+                ((UWPButton) vals).doClick(); // aqui esta
+                UWPButton btns = (UWPButton) vals;
+                if (btns.getName().equals("btnActualizar")) {
+                    ValidacionesSistema.Parametros_Usuario.setTitulo("Actualizar usuario");
+                    ValidacionesSistema.Parametros_Usuario.setBoton("Actualizar");
+                    FrmAgg_Usuarios ac = new FrmAgg_Usuarios();
+                    if (ac.isVisible()) {
+                             ac.toFront();
+
+                    }else{
+                        ac.setVisible(true);
+                    }
+                }
+                if (btns.getName().equals("btnEliminar")) {
+                    int confirmar = 0;
+                    nombre = rcp.getModel().getValueAt(rcp.getSelectedRow(), 2).toString() + " " + rcp.getModel().getValueAt(rcp.getSelectedRow(), 3).toString();
+                    confirmar = JOptionPane.showConfirmDialog(this, "¿Desea eliminar el usuario de: " + nombre + "?", "Proceso de Eliminar", confirmar);
+                    if (confirmar == 0) {
+                        ControllerUsuarios obje = new ControllerUsuarios(ValidacionesSistema.Parametros_Usuario.getID());
+                        boolean respuesta = obje.EliminarUsuario_C();
+                        if(respuesta == true){
+                            ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Proceso completado", "Usuario eliminado", 1);
+                            CargarTabla();
+                        }else{
+                            ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Proceso fallido", "Usuario no pudo ser eliminado", 2);
+                        }
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_tbUsuariosMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Controles_Personalizados.Paneles.PanelRound PanelFondo;
     private javax.swing.JScrollPane PanelTabla;
     private Controles_Personalizados.ScrollBar.ScrollBarCustom ScrollTabla;
-    private Controles_Personalizados.Tables.Table TbUsuariosWhite;
     private Controles_Personalizados.Botones.UWPButton btnAgregar;
     private Controles_Personalizados.Botones.UWPButton btnFiltrar;
     private javax.swing.JLabel lblUsuarios;
+    private Controles_Personalizados.Tables.Table tbUsuarios;
     // End of variables declaration//GEN-END:variables
 }
