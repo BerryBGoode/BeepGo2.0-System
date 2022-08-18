@@ -48,7 +48,7 @@ public class PanelAjustes extends javax.swing.JPanel {
                 System.exit(0);
                
             } else {
-                JOptionPane.showMessageDialog(null, "ERROR AL REALIZAR EL PROCESO");
+                JOptionPane.showMessageDialog(null, "Error al realizar el proceso");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Las claves ingresadas deden de ser las mismas", "Contraseña incorrecta", JOptionPane.WARNING_MESSAGE);
