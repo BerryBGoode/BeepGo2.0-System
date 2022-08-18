@@ -130,7 +130,9 @@ public class PanelCarnets extends javax.swing.JPanel {
         btnAgregar = new Controles_Personalizados.Botones.UWPButton();
         PanelTabla = new javax.swing.JScrollPane();
         TbCarnets = new Controles_Personalizados.Tables.Table();
-        ScrollTabla = new Controles_Personalizados.ScrollBar.ScrollBarCustom();
+        scrollBar1 = new Controles_Personalizados.ScrollBar.ScrollBar();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table1 = new Controles_Personalizados.Tables.Table();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -171,7 +173,7 @@ public class PanelCarnets extends javax.swing.JPanel {
         PanelFondo.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 150, 40));
 
         PanelTabla.setHorizontalScrollBar(null);
-        PanelTabla.setVerticalScrollBar(ScrollTabla);
+        PanelTabla.setVerticalScrollBar(scrollBar1);
         PanelTabla.setWheelScrollingEnabled(false);
 
         TbCarnets = new Controles_Personalizados.Tables.Table(){
@@ -232,10 +234,24 @@ public class PanelCarnets extends javax.swing.JPanel {
         PanelTabla.setViewportView(TbCarnets);
 
         PanelFondo.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 1230, 480));
+        PanelTabla.getAccessibleContext().setAccessibleParent(PanelTabla);
 
-        ScrollTabla.setBackground(new java.awt.Color(58, 50, 75));
-        ScrollTabla.setForeground(new java.awt.Color(58, 50, 75));
-        PanelFondo.add(ScrollTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(1238, 177, 10, 40));
+        PanelFondo.add(scrollBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 140, 10, 480));
+
+        table1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(table1);
+
+        PanelFondo.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 170, -1, -1));
 
         add(PanelFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
@@ -289,10 +305,12 @@ public class PanelCarnets extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Controles_Personalizados.Paneles.PanelRound PanelFondo;
     private javax.swing.JScrollPane PanelTabla;
-    private Controles_Personalizados.ScrollBar.ScrollBarCustom ScrollTabla;
     private Controles_Personalizados.Tables.Table TbCarnets;
     private Controles_Personalizados.Botones.UWPButton btnAgregar;
     private Controles_Personalizados.Botones.UWPButton btnFiltrar;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCarnets;
+    private Controles_Personalizados.ScrollBar.ScrollBar scrollBar1;
+    private Controles_Personalizados.Tables.Table table1;
     // End of variables declaration//GEN-END:variables
 }
