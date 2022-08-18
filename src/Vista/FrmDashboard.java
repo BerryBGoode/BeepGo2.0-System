@@ -5,6 +5,11 @@
  */
 package Vista;
 
+
+import Controlador.ControllerBuscador;
+import Controlador.ControllerLogin;
+import Controles_Personalizados.Paneles.PanelRound;
+
 import com.sun.awt.AWTUtilities;
 import java.awt.Color;
 import java.awt.Image;
@@ -14,9 +19,13 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
+
+import javax.swing.JOptionPane;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
 
 /**
  *
@@ -122,7 +131,7 @@ public Image Logo(){
         PanelContenedor = new Controles_Personalizados.Paneles.PanelRound();
         PanelContenedorForms = new Controles_Personalizados.Paneles.PanelRound();
         jPanel9 = new javax.swing.JPanel();
-        txtBusqueda = new Controles_Personalizados.textfields.TextFieldSuggestion();
+        txtBuscador = new Controles_Personalizados.textfields.TextFieldSuggestion();
         PanelFecha = new Controles_Personalizados.Paneles.PanelRound();
         lblHora = new javax.swing.JLabel();
         lblDia = new javax.swing.JLabel();
@@ -211,14 +220,19 @@ public Image Logo(){
 
         jPanel9.setBackground(new java.awt.Color(231, 234, 239));
 
-        txtBusqueda.setText("Buscar");
-        txtBusqueda.setPreferredSize(new java.awt.Dimension(800, 50));
-        txtBusqueda.addActionListener(new java.awt.event.ActionListener() {
+        txtBuscador.setText("Buscar");
+        txtBuscador.setPreferredSize(new java.awt.Dimension(800, 50));
+        txtBuscador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBusquedaActionPerformed(evt);
+                txtBuscadorActionPerformed(evt);
             }
         });
-        jPanel9.add(txtBusqueda);
+        txtBuscador.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBuscadorKeyPressed(evt);
+            }
+        });
+        jPanel9.add(txtBuscador);
 
         PanelFecha.setBackground(new java.awt.Color(253, 255, 254));
         PanelFecha.setPreferredSize(new java.awt.Dimension(160, 52));
@@ -637,6 +651,9 @@ public Image Logo(){
         }
     }
     
+        ControllerBuscador res = new ControllerBuscador();
+        int valor = res.ValorBussqueda;
+    
     //Interface mode
     void DarkMode(){
         
@@ -651,9 +668,9 @@ public Image Logo(){
          lblHora.setForeground(Color.WHITE);
          lblNombre.setForeground(Color.WHITE);
          lblTipo.setForeground(Color.WHITE);
-        txtBusqueda.setBackground(new Color(32,34,37));
-        txtBusqueda.setForeground(Color.WHITE);
-        txtBusqueda.setCaretColor(Color.WHITE);
+        txtBuscador.setBackground(new Color(32,34,37));
+        txtBuscador.setForeground(Color.WHITE);
+        txtBuscador.setCaretColor(Color.WHITE);
         PanelContenedorForms.setBackground(new Color(47,49,54));
     }    
     void NormalMode(){
@@ -669,14 +686,14 @@ public Image Logo(){
          lblHora.setForeground(new Color(42,36,56));
          lblNombre.setForeground(new Color(42,36,56));
          lblTipo.setForeground(new Color(42,36,56));
-        txtBusqueda.setBackground(new Color(253,255,254));
-        txtBusqueda.setForeground(new Color(42,36,56));
+        txtBuscador.setBackground(new Color(253,255,254));
+        txtBuscador.setForeground(new Color(42,36,56));
         //PanelGrafica1.setBackground(new Color(253,255,254));
         //PanelGrafica2.setBackground(new Color(253,255,254));
         //PanelGrafica3.setBackground(new Color(253,255,254));
         //PanelNotificaciones.setForeground(new Color(42,36,56));
         //PanelNotificaciones.setBackground(new Color(253,255,254));
-        txtBusqueda.setCaretColor(new Color(42,36,56));
+        txtBuscador.setCaretColor(new Color(42,36,56));
         
     }
     //show Panel Action
@@ -959,6 +976,8 @@ public Image Logo(){
 
     private void btnDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDashboardMouseClicked
         this.showPanelDash();
+        valor = 1;
+        JOptionPane.showMessageDialog(null, "El valor del atributo es"+valor);
     }//GEN-LAST:event_btnDashboardMouseClicked
 
     private void btnUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUsuariosMouseClicked
@@ -1053,9 +1072,16 @@ public Image Logo(){
     
     
     
-    private void txtBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaActionPerformed
+    private void txtBuscadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscadorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtBusquedaActionPerformed
+    }//GEN-LAST:event_txtBuscadorActionPerformed
+
+    private void txtBuscadorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscadorKeyPressed
+        // TODO add your handling code here:
+        if (valor ==1) {
+            res.ResBusqueda();
+        }
+    }//GEN-LAST:event_txtBuscadorKeyPressed
 
     /**
      * @param args the command line arguments
@@ -1149,7 +1175,7 @@ public Image Logo(){
     private javax.swing.JPanel pnlNorth;
     private javax.swing.JPanel pnlSourth;
     private javax.swing.JPanel pnlWest;
-    private Controles_Personalizados.textfields.TextFieldSuggestion txtBusqueda;
+    private Controles_Personalizados.textfields.TextFieldSuggestion txtBuscador;
     // End of variables declaration//GEN-END:variables
 
 
