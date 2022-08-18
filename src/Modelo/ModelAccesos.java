@@ -44,4 +44,17 @@ public class ModelAccesos {
             return false;
         }
     }
+    
+    public static boolean deleteAccess(int ID){
+        try {
+            con = ModelConexion.getConnection();
+            sql = con.prepareStatement("DELETE tbAccesos WHERE idAcceso = ?");
+            sql.setInt(1, ID);
+            sql.execute();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error: "+e.toString());
+            return false;                    
+        }
+    }
 }
