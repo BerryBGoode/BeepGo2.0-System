@@ -19,7 +19,7 @@ public class ModelContactos {
         
         try {
             connect = ModelConexion.getConnection();
-            String query = "SELECT * FROM tbContactos";
+            String query = "SELECT * FROM vwContactos";
             ps = connect.prepareStatement(query);
             rs = ps.executeQuery();
             return rs;
@@ -32,45 +32,15 @@ public class ModelContactos {
     
     public static ResultSet CargarTablaPersonal() {
         Connection connect;
-        try{
-            connect = ModelConexion.getConnection();
-            String query = "SELECT idPersonal, nombre_p, apellido_p, fecha_nacimiento, documento, idTipoDocumento FROM tbPersonal";
-            ps = connect.prepareStatement(query);
-            rs = ps.executeQuery();
-            return rs;
-        }catch(Exception e){
-            return null;
-        }
-    }
-    
-    public static ResultSet Capturar_IdPersonal() {
-        Connection connect;
         try {
             connect = ModelConexion.getConnection();
-            String query = "SELECT idPersonal FROM tbPersonal";
-            ps = connect.prepareStatement(query);
+            ps = connect.prepareStatement("SELECT * FROM vwPersonal_Contactos");
             rs = ps.executeQuery();
             return rs;
-        } catch(Exception e){
+        }catch (Exception e){
+            System.out.println("Error: " + e.toString());
             return null;
         }
-    }
-    
-    public static ResultSet CargarCMBPersonal() {
-        
-        Connection connect;
-        
-        try {
-            connect = ModelConexion.getConnection();
-            String query = "SELECT nombre_p, apellido_p FROM tbPersonal";
-            ps = connect.prepareStatement(query);
-            rs = ps.executeQuery();
-            return rs;
-        } catch(Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al cargar los datos");
-            return null;
-        }
-        
     }
     
     public static ResultSet CargarCMBTipoContacto() {
@@ -84,13 +54,13 @@ public class ModelContactos {
             rs = ps.executeQuery();
             return rs;
         } catch(Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al cargar los datos");
+            System.out.println("Error: " + e.toString());
             return null;
         }
         
     }
     
-    public static int RegistrarContacto(String contacto, int idpersonal, int idtipocontacto) {
+    public static boolean RegistrarContacto(String contacto, int idpersonal, int idtipocontacto) {
         
         Connection connect;
         
@@ -102,11 +72,37 @@ public class ModelContactos {
             ps.setInt(2, idpersonal);
             ps.setInt(3, idtipocontacto);
             ps.execute();
-            return 1;
+            return true;
         } catch(SQLException e) {
-            return 0;
+            return false;
         }
         
+    }
+    
+    public static ResultSet capturar_idPersonal(String contacto){
+        Connection connect;
+        try{
+            connect = ModelConexion.getConnection();
+            ps = connect.prepareStatement("SELECT idPersonal FROM tbContactos");
+            rs = ps.executeQuery();
+            return rs;
+        } catch(Exception e){
+            System.out.print("Error: " + e.toString());
+            return null;
+        }
+    }
+    
+    public static ResultSet cap_idPersonal_tbPersonal(String idper){
+        Connection connect;
+        try{
+            connect = ModelConexion.getConnection();
+            ps = connect.prepareStatement("SELECT idPersonal FROM tbPersonal");
+            rs = ps.executeQuery();
+            return rs;
+        } catch(Exception e){
+            System.out.print("Error: " + e.toString());
+            return null;
+        }
     }
     
     public static boolean ActualizarContacto(int idcontacto, String contacto, int idpersonal, int idtipocontacto) {
@@ -127,6 +123,19 @@ public class ModelContactos {
             return false;
         }
         
+    }
+    
+    public static ResultSet capturar_idContacto(){
+        Connection connect;
+        try{
+            connect = ModelConexion.getConnection();
+            ps = connect.prepareStatement("SELECT idContacto FROM tbContactos");
+            rs = ps.executeQuery();
+            return rs;
+        } catch(Exception e){
+            System.out.print("Error: " + e.toString());
+            return null;
+        }
     }
     
     public static boolean EliminarContacto(int idcontacto) {

@@ -7,6 +7,7 @@ package Vista;
 
 import Controlador.ControllerContactos;
 import Controles_Personalizados.Botones.UWPButton;
+import Controles_Personalizados.RenderTable;
 import Controles_Personalizados.Tables.Renderer;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.Shape;
@@ -17,6 +18,7 @@ import java.awt.Toolkit;
 import java.sql.ResultSet;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -34,10 +36,11 @@ public class FrmPersonal_Contacto extends javax.swing.JFrame {
         AWTUtilities. setWindowShape(this, forma);
         setIconImage(Logo());
         
-        tbPersonal_Contactos.setDefaultRenderer(Object.class, new Renderer());
+        tbPersonal_Contactos.setDefaultRenderer(Object.class, new RenderTable());
         
-        String[] headerTable = {"ID Personal","Nombres", "Apellidos", "Fecha de nacimiento", "Documento", "Tipo Documento", "Agregar"}; 
+        String[] headerTable = {"ID Personal","Personal", "fecha_nacimiento", "Documento", "Tipo de documento", "Agregar"}; 
         modelPersonal = new DefaultTableModel(null, headerTable){
+            @Override
             public boolean isCellEditable(int row, int column){
                 return false;
             }
@@ -49,7 +52,10 @@ public Image Logo(){
     return retvalue;
 }
 
-    DefaultTableModel modelPersonal = new DefaultTableModel();
+    DefaultTableModel modelPersonal;
+    
+    FrmAgg_Contacto add = new FrmAgg_Contacto();
+    
     UWPButton btnAgregar = new UWPButton();
     ImageIcon Agregar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/Agregar.png"));
     
@@ -63,7 +69,7 @@ public Image Logo(){
             while(rs.next()){
                 btnAgregar.setIcon(Agregar);
                 btnAgregar.setBackground(new Color(231,234,239));
-                Object[] oValues = {rs.getInt("idPersonal"), rs.getString("nombre_p"), rs.getString("apellido_p"), rs.getString("fecha_nacimiento"), rs.getString("documento"), rs.getInt("idTipoDocumento"), btnAgregar};
+                Object[] oValues = {rs.getInt("idPersonal"), rs.getString("Personal"), rs.getString("fecha_nacimiento"), rs.getString("documento"), rs.getString("tipo_personal"), btnAgregar};
                 modelPersonal.addRow(oValues);
             }
         }catch(Exception e) {
@@ -182,8 +188,6 @@ public Image Logo(){
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    FrmAgg_Contacto add = new FrmAgg_Contacto();
-    
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
         this.dispose();
         add.dispose();
@@ -201,13 +205,20 @@ public Image Logo(){
         int column = tbPersonal_Contactos.getColumnModel().getColumnIndexAtX(evt.getX());
         int row = evt.getY() / tbPersonal_Contactos.getRowHeight();
         btnAgregar.setName("btnAgregar");
-        if (row < tbPersonal_Contactos.getRowCount() || row >= 0 || column < tbPersonal_Contactos.getColumnCount() || column >= 0){
-            Object val = tbPersonal_Contactos.getValueAt(row, column);
-            if (val instanceof UWPButton){
-                ((UWPButton)val).doClick();
-                UWPButton agregar = (UWPButton) val;
-                if(agregar.getName().equals("btnAgregar")){
-                    frmContacto.show();
+        if(evt.getClickCount() == 1){
+            JTable rcp = (JTable) evt.getSource();
+            ValidacionesSistema.Parametros_Contactos.setIdpersonal((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 0));
+        }
+        if (row < tbPersonal_Contactos.getRowCount() || row >= 0 || column < tbPersonal_Contactos.getColumnCount() || column >= 0) {
+            Object vals = tbPersonal_Contactos.getValueAt(row, column);
+            if (vals instanceof UWPButton) {
+                ((UWPButton) vals).doClick(); // aqui esta
+                UWPButton btns = (UWPButton) vals;
+                if (btns.getName().equals("btnAgregar")) {
+                    FrmAgg_Contacto frmAgg_Contacto = new FrmAgg_Contacto();
+                    frmAgg_Contacto.setVisible(true);
+                    
+                    //Actualizar Contacto metodo
                 }
             }
         }
