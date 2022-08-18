@@ -105,7 +105,7 @@ public class ValidacionesBeep_Go {
     }
     public static void SoloLetras(java.awt.event.KeyEvent evt){
         char car=evt.getKeyChar();
-        if (Character.isLetter(car)) {
+        if (Character.isLetter(car) || Character.isWhitespace(car)) {
             
         }else{
             evt.consume();

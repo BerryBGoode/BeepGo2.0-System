@@ -57,6 +57,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         AWTUtilities.setWindowShape(this, forma);
         btnContinuar.setVisible(false);
         BtnConfirmar.setVisible(true);
+        CbGenerarCarnet.setVisible(false);
         setIconImage(Logo());
         cargarGenero();
         CargarTipoDoc();
@@ -99,6 +100,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         setIconImage(Logo());
         BtnConfirmar.setVisible(false);
         btnContinuar.setVisible(true);
+        CbGenerarCarnet.setVisible(true);
         cargarGenero();
         CargarTipoDoc();
         switch (identpanel) {
@@ -223,6 +225,15 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
             setIdEmpresa();
             if (objControllerP.IngresarProfesores() == true) {
                 JOptionPane.showMessageDialog(null, "El registro del personal ha sido agregado", "Proceso Agregar", JOptionPane.INFORMATION_MESSAGE);
+                if (CbGenerarCarnet.isSelected()) {
+                    if (txtApellidos.getText().trim().isEmpty() || txtNombres.getText().trim().isEmpty() || txtDocumento.getText().trim().isEmpty() || txtCorreo.getText().trim().isEmpty() || TxtDireccion.getText().trim().isEmpty() || DtFechaPersonal.getFechaSeleccionada() == null || CmbGenero.getSelectedItem() == "" || CmbTipoDoc.getSelectedItem() == "") {
+                        JOptionPane.showMessageDialog(null, "Revisar si ha ingresado correctamente, la informacion solicitada", "Verficar campos", JOptionPane.WARNING_MESSAGE);
+                        CbGenerarCarnet.setSelected(false);
+                    } else {
+                        AgregarCarnet();
+                    }
+
+                }
             }
         }
     }
@@ -271,8 +282,17 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
             setIdEmpresa();
             objControllerP.idgenero = genero;
             objControllerP.idtipoDoc = tipodocu;
-            if (objControllerP.IngresarEstudiante() == true && AgregarCarnet() == true) {
+            if (objControllerP.IngresarEstudiante() == true) {
                 JOptionPane.showMessageDialog(null, "El registro fue agregado", "Proceso de agregar", JOptionPane.INFORMATION_MESSAGE);
+                if (CbGenerarCarnet.isSelected()) {
+                    if (txtApellidos.getText().trim().isEmpty() || txtNombres.getText().trim().isEmpty() || txtDocumento.getText().trim().isEmpty() || txtCorreo.getText().trim().isEmpty() || TxtDireccion.getText().trim().isEmpty() || DtFechaPersonal.getFechaSeleccionada() == null || CmbGenero.getSelectedItem() == "" || CmbTipoDoc.getSelectedItem() == "") {
+                        JOptionPane.showMessageDialog(null, "Revisar si ha ingresado correctamente, la informacion solicitada", "Verficar campos", JOptionPane.WARNING_MESSAGE);
+                        CbGenerarCarnet.setSelected(false);
+                    } else {
+                        AgregarCarnet();
+                    }
+
+                }
             }
         }
 
@@ -294,6 +314,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
             setIdEmpresa();
             if (objControllerP.ActualizarEstudiantesController() == true) {
                 JOptionPane.showMessageDialog(null, "Proceso Completado", "Registro Actulizado", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
             } else {
                 System.out.println("Error al actualizar");
             }
@@ -318,6 +339,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
             setIdEmpresa();
             if (objControllerP.ActualizarPersonalControiller() == true) {
                 JOptionPane.showMessageDialog(null, "Proceso Completado", "Registro Actulizado", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
             } else {
                 System.out.println("Error al actualizar");
             }
@@ -390,6 +412,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         DtFechaPersonal = new rojerusan.RSDateChooser();
         CmbTipoPersonal = new Controles_Personalizados.ComboBox.combobox();
         BtnConfirmar = new Controles_Personalizados.Botones.ButtonGradient();
+        CbGenerarCarnet = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(58, 50, 75));
@@ -457,6 +480,11 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         txtNombres.setLineColor(new java.awt.Color(253, 255, 254));
         txtNombres.setSelectedTextColor(new java.awt.Color(58, 50, 75));
         txtNombres.setSelectionColor(new java.awt.Color(253, 255, 254));
+        txtNombres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombresActionPerformed(evt);
+            }
+        });
         txtNombres.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNombresKeyTyped(evt);
@@ -572,6 +600,17 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         });
         panelRound1.add(BtnConfirmar, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 520, 150, 44));
 
+        CbGenerarCarnet.setBackground(new java.awt.Color(58, 50, 75));
+        CbGenerarCarnet.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        CbGenerarCarnet.setForeground(new java.awt.Color(253, 255, 255));
+        CbGenerarCarnet.setText("Generar Carné ");
+        CbGenerarCarnet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CbGenerarCarnetActionPerformed(evt);
+            }
+        });
+        panelRound1.add(CbGenerarCarnet, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 490, -1, -1));
+
         getContentPane().add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1100, 580));
 
         pack();
@@ -585,11 +624,8 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
     }
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         // TODO add your handling code here:
-            ValidarMetodos();
-            AgregarCarnet();
-            this.dispose();
-        
-
+        ValidarMetodos();
+        this.dispose();
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     private void btnMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseClicked
@@ -600,7 +636,6 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
     private void BtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnConfirmarActionPerformed
         // TODO add your handling code here:
         ValidarActualizar();
-        this.dispose();
 
     }//GEN-LAST:event_BtnConfirmarActionPerformed
 
@@ -657,32 +692,69 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
 
     private void txtDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDocumentoKeyPressed
         // TODO add your handling code here:
-           
+
     }//GEN-LAST:event_txtDocumentoKeyPressed
 
     private void txtDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDocumentoKeyTyped
         // TODO add your handling code here:
-        char key=evt.getKeyChar();
+        char key = evt.getKeyChar();
         ValidacionesSistema.ValidacionesBeep_Go.SoloNumeros(evt);
     }//GEN-LAST:event_txtDocumentoKeyTyped
 
     private void txtNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombresKeyTyped
         // TODO add your handling code here:
-        char key=evt.getKeyChar();
-        ValidacionesSistema.ValidacionesBeep_Go.SoloLetras(evt);
-        if (txtNombres.getText().length()==0&& !Character.isUpperCase(key)) {
-            evt.consume();
+        char key = evt.getKeyChar();
+        try {
+            ValidacionesSistema.ValidacionesBeep_Go.SoloLetras(evt);
+            if (txtNombres.getText().length() >= 75) {
+                evt.consume();
+            } else if (txtNombres.getText().length() == 0 && !Character.isUpperCase(key)) {
+                evt.consume();
+            } else if (txtNombres.getText().contains(" ") && Character.isWhitespace(key)) {
+                evt.consume();
+            } else {
+                String capnombre = txtNombres.getText();
+                String ultimo = capnombre.substring(capnombre.length() - 1);
+                if (ultimo.equals(" ") && !Character.isUpperCase(key)) {
+                    evt.consume();
+                }
+            }
+        } catch (Exception e) {
+
         }
     }//GEN-LAST:event_txtNombresKeyTyped
 
     private void txtApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidosKeyTyped
         // TODO add your handling code here:
-        char key=evt.getKeyChar();
-        ValidacionesSistema.ValidacionesBeep_Go.SoloLetras(evt);
-        if (txtApellidos.getText().length()==0&& !Character.isUpperCase(key)) {
-            evt.consume();
+        char key = evt.getKeyChar();
+        try {
+            ValidacionesSistema.ValidacionesBeep_Go.SoloLetras(evt);
+            if (txtApellidos.getText().length() >= 75) {
+                evt.consume();
+            } else if (txtApellidos.getText().length() == 0 && !Character.isUpperCase(key)) {
+                evt.consume();
+            } else if (txtApellidos.getText().contains(" ") && Character.isWhitespace(key)) {
+                evt.consume();
+            } else {
+                String capapellido = txtApellidos.getText();
+                String ultimo = capapellido.substring(capapellido.length() - 1);
+                if (ultimo.equals(" ") && !Character.isUpperCase(key)) {
+                    evt.consume();
+                }
+            }
+        } catch (Exception e) {
+
         }
+
     }//GEN-LAST:event_txtApellidosKeyTyped
+
+    private void txtNombresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombresActionPerformed
+
+    private void CbGenerarCarnetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CbGenerarCarnetActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CbGenerarCarnetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -698,16 +770,24 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmAgg_Personal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmAgg_Personal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmAgg_Personal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmAgg_Personal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmAgg_Personal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmAgg_Personal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmAgg_Personal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmAgg_Personal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -721,6 +801,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Controles_Personalizados.Botones.ButtonGradient BtnConfirmar;
+    private javax.swing.JCheckBox CbGenerarCarnet;
     private Controles_Personalizados.ComboBox.combobox CmbGenero;
     private Controles_Personalizados.ComboBox.combobox CmbTipoDoc;
     private Controles_Personalizados.ComboBox.combobox CmbTipoPersonal;
