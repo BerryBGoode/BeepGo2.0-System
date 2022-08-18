@@ -10,6 +10,7 @@ import com.sun.awt.AWTUtilities;
 import java.awt.Image;
 import java.awt.Shape;
 import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,7 +55,17 @@ public class FrmAgg_Contacto extends javax.swing.JFrame {
         txtIDPersonal.setEditable(false);
     }
 
+<<<<<<< HEAD
+    public FrmAgg_Contacto() {
+       initComponents();
+        this.setLocationRelativeTo(null);
+        Shape forma= new RoundRectangle2D.Double(0,0, this.getBounds() .width, this.getBounds() .height,40,40);
+        AWTUtilities. setWindowShape(this, forma);
+        setIconImage(Logo());
+        
+=======
     FrmAgg_Contacto() {
+>>>>>>> master
         btnConfirmar.setVisible(false);
         btnConfirmar_C.setVisible(true);
         
@@ -65,7 +76,10 @@ public class FrmAgg_Contacto extends javax.swing.JFrame {
         txtID.setText(String.valueOf(ValidacionesSistema.Parametros_Contactos.getIdpersonal()));
     }
     
+<<<<<<< HEAD
+=======
     
+>>>>>>> master
 public Image Logo(){
     Image retvalue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
     return retvalue;
@@ -221,6 +235,20 @@ public Image Logo(){
         panelRound1.add(btnMinimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 10, -1, -1));
 
         cmbtipoc.setBackground(new java.awt.Color(58, 50, 75));
+<<<<<<< HEAD
+        cmbtipoc.setForeground(new java.awt.Color(255, 255, 255));
+        cmbtipoc.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
+        cmbtipoc.setLabeText("Tipo - contacto");
+        cmbtipoc.setLineColor(new java.awt.Color(253, 255, 254));
+        cmbtipoc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbtipocItemStateChanged(evt);
+            }
+        });
+        panelRound1.add(cmbtipoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 310, 80));
+        panelRound1.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 50, 40, -1));
+        panelRound1.add(txtIDPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, 40, -1));
+=======
         cmbtipoc.setForeground(new java.awt.Color(42, 36, 56));
         cmbtipoc.setFont(new java.awt.Font("Roboto Light", 0, 18)); // NOI18N
         cmbtipoc.setLabeText("Tipo - contacto");
@@ -228,6 +256,7 @@ public Image Logo(){
         panelRound1.add(cmbtipoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 310, 80));
         panelRound1.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 50, -1, -1));
         panelRound1.add(txtIDPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 50, -1, -1));
+>>>>>>> master
 
         btnConfirmar_C.setBackground(new java.awt.Color(42, 36, 56));
         btnConfirmar_C.setForeground(new java.awt.Color(58, 50, 75));
@@ -252,10 +281,89 @@ public Image Logo(){
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+<<<<<<< HEAD
+    String combo_text = "Seleccione el tipo contacto";
+    DefaultComboBoxModel modelcombo = new DefaultComboBoxModel<>();
+    
+    final void CargarTipoC() {
+        Ltipocontacto = new ArrayList();
+        try {
+            ResultSet rs = ControllerContactos.CargarCMBTipoContactos_Controller();
+            if (rs.next()){
+                modelcombo = new DefaultComboBoxModel<>();
+                modelcombo.addElement(combo_text);
+                do {
+                    Ltipocontacto.add(rs.getInt("idTipoContacto"));
+                    modelcombo.addElement(rs.getString("tipo_contacto"));
+                    cmbtipoc.setModel(modelcombo);
+                } while(rs.next());
+            } else {
+                ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Error al cargar datos", "No se han podido cargar datos en la lista Tipo Contactos", 3);
+            }
+        } catch (Exception e){
+            
+        }
+    }
+    
+    void capIDPersonal_tbContactos() {
+        try {
+            ResultSet rs = ControllerContactos.getidPersonal();
+            if (rs.next()) {
+                ControllerContactos.idpersonal = rs.getInt("idPersonal");
+            }
+
+        } catch (SQLException exception) {
+            JOptionPane.showMessageDialog(null, "Error al obtener los datos del personal", "Error", JOptionPane.WARNING_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener los datos de la empresa", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    // falta caputrar el id de la tabla
+    final void RegistrarContacto() {
+        if(txtContacto.getText().trim().isEmpty() || cmbtipoc.getSelectedItem() == ""){
+            JOptionPane.showMessageDialog(null, "Existen campos vacios, favor llenar los campos", "Campos vacios", JOptionPane.WARNING_MESSAGE);
+        } else {
+            ControllerContactos.contacto = txtContacto.getText();
+            ControllerContactos.idtipocontacto = tipocontacto;
+            ControllerContactos.idpersonal = Integer.parseInt(txtID.getText());
+//            capIDPersonal_tbPersonal();
+            boolean a = ControllerContactos.RegistrarContactos_Controller();
+            if(a == true){
+                JOptionPane.showMessageDialog(null, "Registrado con exito");
+            } else {
+                JOptionPane.showMessageDialog(null, "No pudo ser registrado");
+            }
+        }
+    }
+    
+    final void ActualizarContacto() {
+        ControllerContactos.idcontacto = pidcontacto;
+        ControllerContactos.contacto = txtContacto.getText();
+        ControllerContactos.idtipocontacto = tipocontacto;
+        ControllerContactos.idpersonal = personal;
+        capIDPersonal_tbContactos();
+        boolean a = ControllerContactos.ActualizarContactos_Controller();
+        if(a == true){
+//            ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Proceso de actualizacion", "Contacto actualizado con exito", 1);
+            JOptionPane.showMessageDialog(null, "Actualizado con exito");
+        } else {
+//            ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Proceso de actualizacion", "Contacto no fue actualizado", 2);
+            JOptionPane.showMessageDialog(null, "No se pudo actualizar");
+        }
+    }
+    
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        ActualizarContacto();
+        this.dispose();
+        
+=======
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
         // TODO add your handling code here:
         ActualizarContacto();
         this.dispose();
+>>>>>>> master
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
@@ -273,14 +381,39 @@ public Image Logo(){
         this.dispose();
     }//GEN-LAST:event_btnConfirmar_CActionPerformed
 
+<<<<<<< HEAD
+    private void cmbtipocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbtipocItemStateChanged
+         if (evt.getStateChange() == ItemEvent.SELECTED) {
+            int pos = cmbtipoc.getSelectedIndex();
+            if (pos == 0) {
+                tipocontacto = 0;
+            } else {
+                int dim = Ltipocontacto.size();
+                for (int i = 0; i < dim; i++) {
+                    if (i == pos - 1) {
+                        tipocontacto = (int) Ltipocontacto.get(i);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_cmbtipocItemStateChanged
+=======
     private void btnConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmarMouseClicked
         ActualizarContacto();
     }//GEN-LAST:event_btnConfirmarMouseClicked
+>>>>>>> master
 
     private void btnConfirmar_CMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmar_CMouseClicked
         RegistrarContacto();
     }//GEN-LAST:event_btnConfirmar_CMouseClicked
 
+<<<<<<< HEAD
+    private void btnConfirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConfirmarMouseClicked
+        ActualizarContacto();
+    }//GEN-LAST:event_btnConfirmarMouseClicked
+
+=======
+>>>>>>> master
     /**
      * @param args the command line arguments
      */

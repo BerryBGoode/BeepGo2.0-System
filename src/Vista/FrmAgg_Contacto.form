@@ -159,7 +159,7 @@
               <Color blue="4b" green="32" red="3a" type="rgb"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="38" green="24" red="2a" type="rgb"/>
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Roboto Light" size="18" style="0"/>
@@ -169,6 +169,9 @@
               <Color blue="fe" green="ff" red="fd" type="rgb"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cmbtipocItemStateChanged"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="120" y="120" width="310" height="80"/>
@@ -178,14 +181,22 @@
         <Component class="javax.swing.JTextField" name="txtID">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+<<<<<<< HEAD
+              <AbsoluteConstraints x="510" y="50" width="40" height="-1"/>
+=======
               <AbsoluteConstraints x="500" y="50" width="-1" height="-1"/>
+>>>>>>> master
             </Constraint>
           </Constraints>
         </Component>
         <Component class="javax.swing.JTextField" name="txtIDPersonal">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+<<<<<<< HEAD
+              <AbsoluteConstraints x="560" y="50" width="40" height="-1"/>
+=======
               <AbsoluteConstraints x="530" y="50" width="-1" height="-1"/>
+>>>>>>> master
             </Constraint>
           </Constraints>
         </Component>

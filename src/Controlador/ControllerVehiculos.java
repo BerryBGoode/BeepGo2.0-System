@@ -11,80 +11,25 @@ import Modelo.ModelVehiculos;
  */
 public class ControllerVehiculos {
     
-    private int idvehiculo;
-    private int idpersonal;
-    private String placa;
-    private String color;
-
-    public int getIdpersonal() {
-        return idpersonal;
-    }
-
-    public void setIdpersonal(int idpersonal) {
-        this.idpersonal = idpersonal;
-    }
-
-    public String getPlaca() {
-        return placa;
-    }
-
-    public void setPlaca(String placa) {
-        this.placa = placa;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public ControllerVehiculos(int idpersonal, String placa, String color) {
-        this.idpersonal = idpersonal;
-        this.placa = placa;
-        this.color = color;
-    }
-
-    /**
-     * 
-     * @return 
-     */
-    
-    public ControllerVehiculos(int idvehiculo, int idpersonal, String placa, String color) {
-        this.idvehiculo = idvehiculo;
-        this.idpersonal = idpersonal;
-        this.placa = placa;
-        this.color = color;
-    }
-    
-    /**
-     * 
-     * @return 
-     */
-
-    public ControllerVehiculos(int idvehiculo) {
-        this.idvehiculo = idvehiculo;
-    }
-    
-    /**
-     * 
-     * @return 
-     */
-
-    public ControllerVehiculos() {
-    }
+    public static int idvehiculo;
+    public static int idpersonal;
+    public static String placa;
+    public static String color;
 
     public static ResultSet CargarTablaVehiculos_Controller() {
         return ModelVehiculos.CargarTabla();
     }
     
-    public static ResultSet CargarCMBPersonal_Controller() {
-        return ModelVehiculos.CargarCMBPersonal();
+    public static ResultSet CargarTablaPersonal_Controller() {
+        return ModelVehiculos.CargarTablaPersonal();
     }
     
-    public int RegistrarVehiculo_Controller() {
+    public boolean RegistrarVehiculo_Controller() {
         return ModelVehiculos.RegistrarVehiculo(idpersonal, placa, color);
+    }
+    
+    public static ResultSet getIdPersonal() {
+        return ModelVehiculos.Capturar_IDpersonal();
     }
     
     public boolean ActualizarVehiculo_Controller() {

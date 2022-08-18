@@ -8,6 +8,10 @@ package Vista;
 import Controlador.ControllerContactos;
 import Controles_Personalizados.Botones.UWPButton;
 import Controles_Personalizados.RenderTable;
+<<<<<<< HEAD
+import Controles_Personalizados.Tables.Renderer;
+=======
+>>>>>>> master
 import java.awt.geom.RoundRectangle2D;
 import java.awt.Shape;
 import com.sun.awt.AWTUtilities;
@@ -50,6 +54,30 @@ public Image Logo(){
     Image retvalue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
     return retvalue;
 }
+
+    DefaultTableModel modelPersonal;
+    
+    FrmAgg_Contacto add = new FrmAgg_Contacto();
+    
+    UWPButton btnAgregar = new UWPButton();
+    ImageIcon Agregar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/Agregar.png"));
+    
+    final void CargarTablaPersonal() {
+        tbPersonal_Contactos.setModel(modelPersonal);
+        while(modelPersonal.getRowCount() > 0){
+            modelPersonal.removeRow(0);
+        }
+        try {
+            ResultSet rs = ControllerContactos.CargarTablaPersonal_Controller();
+            while(rs.next()){
+                btnAgregar.setIcon(Agregar);
+                btnAgregar.setBackground(new Color(231,234,239));
+                Object[] oValues = {rs.getInt("idPersonal"), rs.getString("Personal"), rs.getString("fecha_nacimiento"), rs.getString("documento"), rs.getString("tipo_personal"), btnAgregar};
+                modelPersonal.addRow(oValues);
+            }
+        }catch(Exception e) {
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -163,6 +191,8 @@ public Image Logo(){
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+<<<<<<< HEAD
+=======
     FrmAgg_Contacto add = new FrmAgg_Contacto();
     
     DefaultTableModel modelPersonal;
@@ -187,6 +217,7 @@ public Image Logo(){
         }
     }
     
+>>>>>>> master
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
         this.dispose();
         add.dispose();
@@ -198,6 +229,11 @@ public Image Logo(){
         this.setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_btnMinimizarMouseClicked
 
+<<<<<<< HEAD
+    FrmAgg_Contacto frmContacto = new FrmAgg_Contacto();
+    
+=======
+>>>>>>> master
     private void tbPersonal_ContactosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPersonal_ContactosMouseClicked
         int column = tbPersonal_Contactos.getColumnModel().getColumnIndexAtX(evt.getX());
         int row = evt.getY() / tbPersonal_Contactos.getRowHeight();
@@ -221,6 +257,12 @@ public Image Logo(){
         }
     }//GEN-LAST:event_tbPersonal_ContactosMouseClicked
 
+<<<<<<< HEAD
+    
+    
+    
+=======
+>>>>>>> master
     /**
      * @param args the command line arguments
      */
