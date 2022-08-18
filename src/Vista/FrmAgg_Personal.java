@@ -21,11 +21,13 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author ferna
  */
 public class FrmAgg_Personal extends javax.swing.JFrame {
+
     private ControllerPersonal objControllerP = new ControllerPersonal();
     private int genero;
     private int tipodocu;
@@ -40,7 +42,10 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
     private DefaultComboBoxModel modeltipodoc;
     private DefaultComboBoxModel modeltipop;
     private int idpersonales;
+    private String nombres;
+    private String apellidos;
     private int identpanel = PanelOpcionesPersonal.showinter;
+
     /**
      * Creates new form FrmAgg_Personal
      */
@@ -58,6 +63,9 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         switch (identpanel) {
             case 1:
                 CmbTipoPersonal.setVisible(false);
+                txtApellidos.setEditable(false);
+                txtNombres.setEditable(false);
+                DtFechaPersonal.setEnabled(false);
                 txtNombres.setText(ValidacionesSistema.Parametros_Personal.getnombre_personal());
                 txtApellidos.setText(ValidacionesSistema.Parametros_Personal.getApellido_personal());
                 txtCorreo.setText(ValidacionesSistema.Parametros_Personal.getCorreo());
@@ -82,7 +90,8 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
                 break;
         }
     }
-        public FrmAgg_Personal() {
+
+    public FrmAgg_Personal() {
         initComponents();
         this.setLocationRelativeTo(null);
         Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
@@ -102,10 +111,12 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
                 break;
         }
     }
-    public Image Logo(){
-    Image retvalue=Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
-    return retvalue;
-}
+
+    public Image Logo() {
+        Image retvalue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Recursos_Proyecto/B&G Morado 2.png"));
+        return retvalue;
+    }
+
     private void cargarGenero() {
         Genero = new ArrayList();
         try {
@@ -182,7 +193,8 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         }
 
     }
-     void capturarIDpersonal() {
+
+    void capturarIDpersonal() {
         objControllerP.nombre = txtNombres.getText();
         ResultSet rs = objControllerP.capturaridpersonalcontroller();
         try {
@@ -196,10 +208,8 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
     }
 
     void IngresarProfesores() {
-        if (txtNombres.getText().trim().isEmpty() || txtApellidos.getText().trim().isEmpty() || txtDocumento.getText().trim().isEmpty() || txtCorreo.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No se permiten campos vacios, verifique la informacion ingresada", "Campos Vacios", JOptionPane.WARNING_MESSAGE);
-        } else if (CmbGenero.getSelectedItem() == "" || CmbTipoDoc.getSelectedItem() == "") {
-            JOptionPane.showMessageDialog(null, "Completar la informacion, verifique la informacion ingresada", "Seleccion de espacios Vacios", JOptionPane.WARNING_MESSAGE);
+        if (txtApellidos.getText().trim().isEmpty() || txtNombres.getText().trim().isEmpty() || txtDocumento.getText().trim().isEmpty() || txtCorreo.getText().trim().isEmpty() || TxtDireccion.getText().trim().isEmpty() || DtFechaPersonal.getFechaSeleccionada() == null || CmbGenero.getSelectedItem() == "" || CmbTipoDoc.getSelectedItem() == "") {
+            JOptionPane.showMessageDialog(null, "Revisar si ha ingresado correctamente, la informacion solicitada", "Verficar campos", JOptionPane.WARNING_MESSAGE);
         } else {
             objControllerP.nombre = txtNombres.getText();
             objControllerP.apellido = txtApellidos.getText();
@@ -235,8 +245,8 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
             char firstl = apellido.charAt(0);
             String nombre = txtNombres.getText();
             char firstn = nombre.charAt(0);
-            String nombres = String.valueOf(firstn);
-            String apellidos = String.valueOf(firstl);
+            nombres = String.valueOf(firstn);
+            apellidos = String.valueOf(firstl);
             String carnetlocal = nombres + apellidos;
             String carnetlocal2 = year + imprimirid;
             String numerocarnet = carnetlocal + carnetlocal2;
@@ -249,54 +259,68 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
     }
 
     void IngreasrEstudiante() {
-        objControllerP.nombre = txtNombres.getText();
-        objControllerP.apellido = txtApellidos.getText();
-        objControllerP.fechanac = DtFechaPersonal.getFechaSeleccionada();
-        objControllerP.direccion = TxtDireccion.getText();
-        objControllerP.documento = txtDocumento.getText();
-        objControllerP.correo = txtCorreo.getText();
-        setIdEmpresa();
-        objControllerP.idgenero = genero;
-        objControllerP.idtipoDoc = tipodocu;
-        if (objControllerP.IngresarEstudiante() == true && AgregarCarnet() == true) {
-            JOptionPane.showMessageDialog(null, "El registro fue agregado", "Proceso de agregar", JOptionPane.INFORMATION_MESSAGE);
+        if (txtApellidos.getText().trim().isEmpty() || txtNombres.getText().trim().isEmpty() || txtDocumento.getText().trim().isEmpty() || txtCorreo.getText().trim().isEmpty() || TxtDireccion.getText().trim().isEmpty() || DtFechaPersonal.getFechaSeleccionada() == null || CmbGenero.getSelectedItem() == "" || CmbTipoDoc.getSelectedItem() == "") {
+            JOptionPane.showMessageDialog(null, "Revisar si ha ingresado correctamente, la informacion solicitada", "Verficar campos", JOptionPane.WARNING_MESSAGE);
+        } else {
+            objControllerP.nombre = txtNombres.getText();
+            objControllerP.apellido = txtApellidos.getText();
+            objControllerP.fechanac = DtFechaPersonal.getFechaSeleccionada();
+            objControllerP.direccion = TxtDireccion.getText();
+            objControllerP.documento = txtDocumento.getText();
+            objControllerP.correo = txtCorreo.getText();
+            setIdEmpresa();
+            objControllerP.idgenero = genero;
+            objControllerP.idtipoDoc = tipodocu;
+            if (objControllerP.IngresarEstudiante() == true && AgregarCarnet() == true) {
+                JOptionPane.showMessageDialog(null, "El registro fue agregado", "Proceso de agregar", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
+
     }
 
     void ActualizarEstudiante() {
-        objControllerP.idpersonal = idpersonales;
-        objControllerP.nombre = txtNombres.getText();
-        objControllerP.apellido = txtApellidos.getText();
-        objControllerP.correo = txtCorreo.getText();
-        objControllerP.documento = txtDocumento.getText();
-        objControllerP.direccion = TxtDireccion.getText();
-        objControllerP.fechanac = DtFechaPersonal.getFechaSeleccionada();
-        objControllerP.idgenero = genero;
-        objControllerP.idtipoDoc = tipodocu;
-        setIdEmpresa();
-        if (objControllerP.ActualizarEstudiantesController() == true) {
-            JOptionPane.showMessageDialog(null, "Proceso Completado", "Registro Actulizado", JOptionPane.INFORMATION_MESSAGE);
+        if (txtApellidos.getText().trim().isEmpty() || txtNombres.getText().trim().isEmpty() || txtDocumento.getText().trim().isEmpty() || txtCorreo.getText().trim().isEmpty() || TxtDireccion.getText().trim().isEmpty() || DtFechaPersonal.getFechaSeleccionada() == null || CmbGenero.getSelectedItem() == "" || CmbTipoDoc.getSelectedItem() == "") {
+            JOptionPane.showMessageDialog(null, "Revisar si ha ingresado correctamente, la informacion solicitada", "Verficar campos", JOptionPane.WARNING_MESSAGE);
         } else {
-            System.out.println("Error al actualizar");
+            objControllerP.idpersonal = idpersonales;
+            objControllerP.nombre = txtNombres.getText();
+            objControllerP.apellido = txtApellidos.getText();
+            objControllerP.correo = txtCorreo.getText();
+            objControllerP.documento = txtDocumento.getText();
+            objControllerP.direccion = TxtDireccion.getText();
+            objControllerP.fechanac = DtFechaPersonal.getFechaSeleccionada();
+            objControllerP.idgenero = genero;
+            objControllerP.idtipoDoc = tipodocu;
+            setIdEmpresa();
+            if (objControllerP.ActualizarEstudiantesController() == true) {
+                JOptionPane.showMessageDialog(null, "Proceso Completado", "Registro Actulizado", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("Error al actualizar");
+            }
         }
+
     }
 
     void ActualizarPersonal() {
-        objControllerP.idpersonal = idpersonales;
-        objControllerP.nombre = txtNombres.getText();
-        objControllerP.apellido = txtApellidos.getText();
-        objControllerP.correo = txtCorreo.getText();
-        objControllerP.documento = txtDocumento.getText();
-        objControllerP.direccion = TxtDireccion.getText();
-        objControllerP.fechanac = DtFechaPersonal.getFechaSeleccionada();
-        objControllerP.idgenero = genero;
-        objControllerP.idtipoDoc = tipodocu;
-        objControllerP.idTipoPersonal = tipopersonal;
-        setIdEmpresa();
-        if (objControllerP.ActualizarPersonalControiller() == true) {
-            JOptionPane.showMessageDialog(null, "Proceso Completado", "Registro Actulizado", JOptionPane.INFORMATION_MESSAGE);
+        if (txtApellidos.getText().trim().isEmpty() || txtNombres.getText().trim().isEmpty() || txtDocumento.getText().trim().isEmpty() || txtCorreo.getText().trim().isEmpty() || TxtDireccion.getText().trim().isEmpty() || DtFechaPersonal.getFechaSeleccionada() == null || CmbGenero.getSelectedItem() == "" || CmbTipoDoc.getSelectedItem() == "") {
+            JOptionPane.showMessageDialog(null, "Revisar si ha ingresado correctamente, la informacion solicitada", "Verficar campos", JOptionPane.WARNING_MESSAGE);
         } else {
-            System.out.println("Error al actualizar");
+            objControllerP.idpersonal = idpersonales;
+            objControllerP.nombre = txtNombres.getText();
+            objControllerP.apellido = txtApellidos.getText();
+            objControllerP.correo = txtCorreo.getText();
+            objControllerP.documento = txtDocumento.getText();
+            objControllerP.direccion = TxtDireccion.getText();
+            objControllerP.fechanac = DtFechaPersonal.getFechaSeleccionada();
+            objControllerP.idgenero = genero;
+            objControllerP.idtipoDoc = tipodocu;
+            objControllerP.idTipoPersonal = tipopersonal;
+            setIdEmpresa();
+            if (objControllerP.ActualizarPersonalControiller() == true) {
+                JOptionPane.showMessageDialog(null, "Proceso Completado", "Registro Actulizado", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("Error al actualizar");
+            }
         }
     }
 
@@ -325,10 +349,11 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
                 break;
         }
     }
-        void ValidarActualizar() {
+
+    void ValidarActualizar() {
         switch (PanelOpcionesPersonal.showinter) {
             case 2:
-                 ActualizarPersonal();
+                ActualizarPersonal();
                 break;
             case 1:
                 ActualizarEstudiante();
@@ -416,6 +441,11 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         txtApellidos.setLineColor(new java.awt.Color(253, 255, 254));
         txtApellidos.setSelectedTextColor(new java.awt.Color(58, 50, 75));
         txtApellidos.setSelectionColor(new java.awt.Color(253, 255, 254));
+        txtApellidos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidosKeyTyped(evt);
+            }
+        });
         panelRound1.add(txtApellidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 310, 70));
 
         txtNombres.setBackground(new java.awt.Color(58, 50, 75));
@@ -427,6 +457,11 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         txtNombres.setLineColor(new java.awt.Color(253, 255, 254));
         txtNombres.setSelectedTextColor(new java.awt.Color(58, 50, 75));
         txtNombres.setSelectionColor(new java.awt.Color(253, 255, 254));
+        txtNombres.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombresKeyTyped(evt);
+            }
+        });
         panelRound1.add(txtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 310, 70));
 
         txtDocumento.setBackground(new java.awt.Color(58, 50, 75));
@@ -438,6 +473,14 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         txtDocumento.setLineColor(new java.awt.Color(253, 255, 254));
         txtDocumento.setSelectedTextColor(new java.awt.Color(58, 50, 75));
         txtDocumento.setSelectionColor(new java.awt.Color(253, 255, 254));
+        txtDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtDocumentoKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDocumentoKeyTyped(evt);
+            }
+        });
         panelRound1.add(txtDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 310, 70));
 
         CmbGenero.setBackground(new java.awt.Color(58, 50, 75));
@@ -500,6 +543,9 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         DtFechaPersonal.setColorBackground(new java.awt.Color(92, 84, 112));
         DtFechaPersonal.setColorButtonHover(new java.awt.Color(58, 50, 75));
         DtFechaPersonal.setColorDiaActual(new java.awt.Color(58, 50, 75));
+        DtFechaPersonal.setEnabled(false);
+        DtFechaPersonal.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        DtFechaPersonal.setFuente(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         panelRound1.add(DtFechaPersonal, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 300, 60));
 
         CmbTipoPersonal.setBackground(new java.awt.Color(58, 50, 75));
@@ -532,14 +578,18 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
-        this.dispose();  
+        this.dispose();
     }//GEN-LAST:event_btnCerrarMousePressed
-
+    public static boolean esMayuscula(String s) {
+        return s.equals(s.toUpperCase());
+    }
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
         // TODO add your handling code here:
-        ValidarMetodos();
-        AgregarCarnet();
-        this.dispose();             
+            ValidarMetodos();
+            AgregarCarnet();
+            this.dispose();
+        
+
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     private void btnMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizarMouseClicked
@@ -551,12 +601,12 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
         // TODO add your handling code here:
         ValidarActualizar();
         this.dispose();
-        
+
     }//GEN-LAST:event_BtnConfirmarActionPerformed
 
     private void CmbTipoPersonalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CmbTipoPersonalItemStateChanged
         // TODO add your handling code here:
-                if (evt.getStateChange() == ItemEvent.SELECTED) {
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
             int pos = CmbTipoPersonal.getSelectedIndex();
             if (pos == 0) {
                 tipopersonal = 0;
@@ -573,7 +623,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
 
     private void CmbTipoDocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CmbTipoDocItemStateChanged
         // TODO add your handling code here:
-                if (evt.getStateChange() == ItemEvent.SELECTED) {
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
             int pos = CmbTipoDoc.getSelectedIndex();
             if (pos == 0) {
                 tipodocu = 0;
@@ -590,7 +640,7 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
 
     private void CmbGeneroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CmbGeneroItemStateChanged
         // TODO add your handling code here:
-                if (evt.getStateChange() == ItemEvent.SELECTED) {
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
             int pos = CmbGenero.getSelectedIndex();
             if (pos == 0) {
                 genero = 0;
@@ -604,6 +654,35 @@ public class FrmAgg_Personal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_CmbGeneroItemStateChanged
+
+    private void txtDocumentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDocumentoKeyPressed
+        // TODO add your handling code here:
+           
+    }//GEN-LAST:event_txtDocumentoKeyPressed
+
+    private void txtDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDocumentoKeyTyped
+        // TODO add your handling code here:
+        char key=evt.getKeyChar();
+        ValidacionesSistema.ValidacionesBeep_Go.SoloNumeros(evt);
+    }//GEN-LAST:event_txtDocumentoKeyTyped
+
+    private void txtNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombresKeyTyped
+        // TODO add your handling code here:
+        char key=evt.getKeyChar();
+        ValidacionesSistema.ValidacionesBeep_Go.SoloLetras(evt);
+        if (txtNombres.getText().length()==0&& !Character.isUpperCase(key)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombresKeyTyped
+
+    private void txtApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidosKeyTyped
+        // TODO add your handling code here:
+        char key=evt.getKeyChar();
+        ValidacionesSistema.ValidacionesBeep_Go.SoloLetras(evt);
+        if (txtApellidos.getText().length()==0&& !Character.isUpperCase(key)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtApellidosKeyTyped
 
     /**
      * @param args the command line arguments

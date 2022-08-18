@@ -44,5 +44,18 @@ public class ModelCarnets {
             return null;
         }
     }
+    public ResultSet generabarra(int idPersonal){
+        try {
+            con=ModelConexion.getConnection();
+            String query="SELECT Carnet FROM tbPersonal WHERE idPersonal=? ";
+            ps=con.prepareStatement(query);
+            ps.setInt(1, idPersonal);
+            ResultSet rs=ps.executeQuery();
+            return  rs;
+        } catch (Exception e) {
+            System.out.println("Error codigo de barras ModelCarnets "+e.toString());
+            return  null;
+        }
+    }
 
 }

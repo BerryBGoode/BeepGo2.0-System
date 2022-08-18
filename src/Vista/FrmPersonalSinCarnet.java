@@ -12,6 +12,7 @@ import Controles_Personalizados.Paneles.PanelRound;
 import Controles_Personalizados.RenderTable;
 import Controles_Personalizados.ScrollBar.ScrollBarCustom;
 import Controles_Personalizados.Tables.Table;
+import static Vista.PanelCarnets.validarImagen;
 import com.sun.awt.AWTUtilities;
 import java.awt.Color;
 import java.awt.Font;
@@ -26,6 +27,7 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -35,8 +37,7 @@ import javax.swing.table.DefaultTableModel;
 public class FrmPersonalSinCarnet extends javax.swing.JFrame {
 
     DefaultTableModel model;
-    private final UWPButton btnupdate = new UWPButton();
-    private final UWPButton btndelete = new UWPButton();
+    private final UWPButton BtnCarnet = new UWPButton();
     ControllerCarnets objController = new ControllerCarnets();
     public Font font = new Font("Roboto Black", Font.PLAIN, 18);
 
@@ -45,17 +46,14 @@ public class FrmPersonalSinCarnet extends javax.swing.JFrame {
      */
     public FrmPersonalSinCarnet() {
         initComponents();
-        String[] Titulos = {"Nombre", "Apellido", "Actualizar", "Eliminar"};
+        String[] Titulos = {"Nombre", "Apellido", "Carnet"};
         model = new DefaultTableModel(null, Titulos);
         TbPersonalSC.setModel(model);
         TbPersonalSC.setDefaultRenderer(Object.class, new RenderTable());
-        btnupdate.setBackground(new Color(231,235,239));
-        btndelete.setForeground(new Color(58, 50, 75));
-        btnupdate.setForeground(new Color(58, 50, 75));
-        btndelete.setFont(font);
-        btnupdate.setFont(font);
-        btndelete.setText("Eliminar");
-        btnupdate.setText("Generar Carné");
+        BtnCarnet.setBackground(new Color(231,235,239));
+        BtnCarnet.setForeground(new Color(58, 50, 75));
+        BtnCarnet.setFont(font);
+        BtnCarnet.setText("Generar");
         setLocationRelativeTo(null);
         Shape forma = new RoundRectangle2D.Double(0, 0, this.getBounds().width, this.getBounds().height, 40, 40);
         AWTUtilities.setWindowShape(this, forma);
@@ -146,6 +144,11 @@ public class FrmPersonalSinCarnet extends javax.swing.JFrame {
         TbPersonalSC.setName(""); // NOI18N
         TbPersonalSC.setSelectionBackground(new java.awt.Color(58, 50, 75));
         TbPersonalSC.setShowVerticalLines(false);
+        TbPersonalSC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TbPersonalSCMouseClicked(evt);
+            }
+        });
         PanelTabla.setViewportView(TbPersonalSC);
 
         panelRound1.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 70, 980, 460));
@@ -191,7 +194,7 @@ public class FrmPersonalSinCarnet extends javax.swing.JFrame {
         try {
             ResultSet rs = objController.SinCarnetController();
             while (rs.next()) {
-                Object[] Valores = {rs.getString("nombre_p"), rs.getString("apellido_p"), btnupdate, btndelete};
+                Object[] Valores = {rs.getString("nombre_p"), rs.getString("apellido_p"), BtnCarnet};
                 model.addRow(Valores);
             }
         } catch (SQLException e) {
@@ -202,6 +205,25 @@ public class FrmPersonalSinCarnet extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_btnMinimizarMouseClicked
+
+    private void TbPersonalSCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbPersonalSCMouseClicked
+        // TODO add your handling code here:
+                int column = TbPersonalSC.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / TbPersonalSC.getRowHeight();
+        BtnCarnet.setName("BtnCarnet");
+        if (evt.getClickCount() == 1) {
+            JTable rcp = (JTable) evt.getSource();
+        }
+        if (row < TbPersonalSC.getRowCount() || row >= 0 || column < TbPersonalSC.getColumnCount() || column >= 0) {
+            Object vals = TbPersonalSC.getValueAt(row, column);
+            if (vals instanceof UWPButton) {
+                ((UWPButton) vals).doClick(); // aqui esta
+                UWPButton btns = (UWPButton) vals;
+                if (btns.getName().equals("BtnCarnet")) {
+                }
+            }
+        }
+    }//GEN-LAST:event_TbPersonalSCMouseClicked
 
     /**
      * @param args the command line arguments
