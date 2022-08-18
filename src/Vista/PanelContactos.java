@@ -233,7 +233,7 @@ public class PanelContactos extends javax.swing.JPanel {
     FrmAgg_Contacto frmContactos = new FrmAgg_Contacto();
     
     private void tbContactosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbContactosMouseClicked
-         int column = tbContactos.getColumnModel().getColumnIndexAtX(evt.getX());
+        int column = tbContactos.getColumnModel().getColumnIndexAtX(evt.getX());
         int row = evt.getY() / tbContactos.getRowHeight();
         btnModificar.setName("btnActualizar");
         btnEliminar.setName("btnEliminar");

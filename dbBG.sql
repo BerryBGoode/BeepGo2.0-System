@@ -338,6 +338,9 @@ create view vwAlumnos AS
 SELECT a.nombre_p,a.apellido_p,a.fecha_nacimiento,a.Carnet,a.documento,b.tipo_personal,a.idPersonal, a.idTipoDocumento, a.idTipoPersonal,a.idGenero, c.genero,d.tipo_documento,a.direccion,a.correo FROM tbPersonal a, tbTipoPersonal b,tbGeneros c ,tbTipoDocumento d WHERE a.idTipoPersonal=b.idTipoPersonal AND a.idTipoPersonal=4 AND a.idGenero=c.idGenero AND a.idTipoDocumento=d.idTipoDocumento
 go
 
+
+-- Vistas para Contactos CRUD
+
 CREATE VIEW vwContactos AS
 SELECT c.idContacto, c.contacto, CONCAT(a.nombre_p, ' ' , a.apellido_p) AS [Personal], b.tipo_contacto, a.idPersonal, b.idTipoContacto
 FROM tbPersonal a, tbTipoContacto b, tbContactos c
@@ -350,3 +353,13 @@ FROM tbPersonal a, tbTipoPersonal b
 WHERE a.idTipoPersonal = b.idTipoPersonal;
 GO
 
+-- Vistas para Vehiculos CRUD
+CREATE VIEW vwVehiculos_g AS
+SELECT  a.idVehiculo, CONCAT(b.nombre_p, ' ', b.apellido_p) AS [Personal], b.Carnet, a.placa, a.color, b.idPersonal
+FROM tbVehiculos a, tbPersonal b
+WHERE a.idPersonal = b.idPersonal
+
+CREATE VIEW vwVehiculos_Personal AS
+SELECT  a.idPersonal, CONCAT(a.nombre_p, ' ', a.apellido_p) AS [Personal], a.documento, c.tipo_documento, d.tipo_personal, a.Carnet
+FROM tbPersonal a, tbTipoDocumento c, tbTipoPersonal d
+WHERE a.idTipoDocumento = c.idTipoDocumento AND a.idTipoPersonal = d.idTipoPersonal
