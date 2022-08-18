@@ -5,12 +5,24 @@
  */
 package Vista;
 
+import Controlador.ControllerCorreo;
+import Controlador.ControllerP_U_Usuarios;
 import com.sun.awt.AWTUtilities;
 import java.awt.Image;
 import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.RoundRectangle2D;
+import java.sql.ResultSet;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Random;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,6 +60,7 @@ public Image Logo(){
         txtCorreo = new Controles_Personalizados.textfields.TextField();
         txtPIN = new Controles_Personalizados.textfields.TextField();
         btnRestablecer = new Controles_Personalizados.Botones.ButtonGradient();
+        btnPIN = new Controles_Personalizados.Botones.ButtonGradient();
         ImagenRecuCorreo = new javax.swing.JLabel();
         btnMinimizar = new javax.swing.JLabel();
         btnCerrar = new javax.swing.JLabel();
@@ -111,7 +124,19 @@ public Image Logo(){
                 btnRestablecerActionPerformed(evt);
             }
         });
-        PanelCampos.add(btnRestablecer, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 560, 300, -1));
+        PanelCampos.add(btnRestablecer, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 620, 300, -1));
+
+        btnPIN.setText("Enviar PIN");
+        btnPIN.setToolTipText("");
+        btnPIN.setColor1(new java.awt.Color(42, 36, 56));
+        btnPIN.setColor2(new java.awt.Color(42, 36, 56));
+        btnPIN.setFont(new java.awt.Font("Roboto Black", 0, 18)); // NOI18N
+        btnPIN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPINActionPerformed(evt);
+            }
+        });
+        PanelCampos.add(btnPIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 560, 300, -1));
 
         PanelImg.add(PanelCampos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -139,6 +164,14 @@ public Image Logo(){
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+   
+    int pin;
+    String Contra;
+    int ID;
+    String nombreU;
+    String correo;
+            String validarcorreo;
+    
     private void btnGoBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGoBackMouseClicked
         // TODO add your handling code here:
         MenuRecu men = new MenuRecu();
@@ -146,12 +179,127 @@ public Image Logo(){
         this.dispose();
     }//GEN-LAST:event_btnGoBackMouseClicked
 
-    private void btnRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerActionPerformed
-        // TODO add your handling code here:
-        FrmRestablecimiento fr = new FrmRestablecimiento();
-        fr.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnRestablecerActionPerformed
+    final void Proceso_Enviado()
+    {
+        ControllerCorreo cc = new ControllerCorreo();
+        cc.Usuario = txtCorreo.getText();
+        if (cc.Usuario == txtCorreo.getText()) {
+            
+        }
+        try 
+        {
+            
+            try 
+            {
+                ResultSet res = cc.Recuperar();
+                while(res.next())
+                {
+                     ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Procesando Solicitud", "Espere un momento", 1);
+                }
+            } catch (Exception e) 
+            {
+                ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Error al enviar correo", "Ha ocurrido un error al momento de enviar el correo electronico, vuelva a intentarlo", 1);
+            }
+            
+            Properties p = new Properties();
+            p.setProperty("mail.smtp.host", "smtp.gmail.com");
+            p.setProperty("mail.smtp.starttls.enable", "true");
+            p.setProperty("mail.smtp.port", "587");
+            p.setProperty("mail.smtp.auth", "true");
+            
+            Session ses = Session.getDefaultInstance(p);
+          
+            Random random = new Random();
+            pin = random.nextInt(9999 + 1000) + 1000;
+            
+            String correoRemitente = "soportebeepgo@gmail.com";
+            String contraRemitente = "dxebkxolinjdimjw";
+            String correoRes = txtCorreo.getText();
+            String asunto = "Restablecimiento de contraseña";
+            String mensaje = "<table style=\"max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;\">\n" +
+"  <tr>\n" +
+"    <td style=\"background-color: #FAFAFA; text-align: left; padding: 0\">\n" +
+"      \n" +
+"        <center><img width=\"20%\" style=\"display:block; margin: 1.5% 3%\" src=\"https://i.postimg.cc/ncGVM3Bm/Logo-B-GLogin.png\"></center>        \n" +
+"      </a>\n" +
+"    </td>\n" +
+"  </tr>\n" +
+"\n" +
+"  <tr>\n" +
+"    <td style=\"padding: 0; background-color: #5C5470;\">      \n" +
+"      <center><img style=\"padding: 0; display: block\" src=\"https://i.postimg.cc/Wb9NMXbJ/Envelope-cuate.png\" width=\"300px\"></center>\n" +
+"    </td>\n" +
+"  </tr>\n" +
+"  \n" +
+"  <tr>\n" +
+"    <td style=\"background-color: #FAFAFA\">\n" +
+"      <div style=\"color: #B3B3B3; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif\">\n" +
+"        <h2 style=\"color: #352F44; margin: 0 0 7px\">PIN "+" de Restablecimiento</h2>\n" +
+"        <p style=\"margin: 2px; font-size: 15px; font-weight: bold\">        \n" +
+"          Hola usuario, el equipo de Beep&Go recibio una solicitud de restablecimiento de credenciales por correo, a continuacion te brindamos un pin aleatorio para que puedas completar el proceso de restablecimiento de forma correcta.\n" +
+"          <br>\n" +
+"          <br>\n" +
+"          Tu pin de restablecimiento es: \n" +
+"          <br>\n" +
+"          <br>\n" +
+"          <div style=\"width: 100%; text-align: center\">\n" +
+"          <a style=\"text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #352F44\" > "+pin+" </a>\n" +
+"        </div>\n" +
+"          <br>\n" +
+"          <br>\n" +
+"        <br>\n" +
+"        <p style=\"color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0\">Beep&Go System ®</p>\n" +
+"      </div>\n" +
+"    </td>\n" +
+"  </tr>\n" +
+"</table>";
+
+
+
+
+            
+            MimeMessage message = new MimeMessage(ses);
+            message.setFrom(new InternetAddress(correoRemitente));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(correoRes));
+            message.setSubject(asunto);
+            message.setText(mensaje, "ISO-8859-1", "html");
+
+
+            
+            Transport t = ses.getTransport("smtp");
+            t.connect(correoRemitente, contraRemitente);
+            t.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+            t.close();
+            
+            ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Correo enviado", "El correo con el pin de restablecimiento ha sido enviado con exito " + pin, 1);
+            
+        } catch (Exception e) 
+        {
+            JOptionPane.showMessageDialog(null, "Error al enviar correo");
+        }
+    }
+    
+    final void capturrarCorreo()
+    {
+         ControllerCorreo objC = new ControllerCorreo();
+         try 
+         {
+            
+         } catch (Exception e)
+        {
+            
+        }
+            
+    }
+    
+    
+    private void btnPINActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPINActionPerformed
+
+                    Proceso_Enviado();   
+//        FrmRestablecimiento fr = new FrmRestablecimiento();
+//        fr.setVisible(true);
+//        this.dispose();
+    }//GEN-LAST:event_btnPINActionPerformed
 
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed
         System.exit(0);
@@ -161,6 +309,58 @@ public Image Logo(){
         // TODO add your handling code here:
         this.setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_btnMinimizarMouseClicked
+
+    private void btnRestablecerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestablecerActionPerformed
+        
+        int PinIn = Integer.parseInt(txtPIN.getText());
+        
+        if (PinIn == pin ) 
+        {
+            ControllerCorreo objC = new ControllerCorreo();
+            ResultSet rs;
+            objC.setCorreo(txtCorreo.getText());
+            rs = objC.capturar();
+            try 
+            {
+                if (rs.next()) 
+                {
+                    ID = rs.getInt("idUsuario");
+                    nombreU = rs.getString("nombre_usuario");
+                    Contra = rs.getString("contraseña");
+                    ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Captura Exitosa", "Los datos han sido capturados\n" + ID + "\n" + nombreU + "\n" + Contra, 1);
+                    rs = objC.ComprobarCorreo();
+                    correo = rs.getString("correo");
+                    try 
+                    {
+                        if (txtCorreo.getText()== objC.getCorreo()) 
+                        {
+                            objC.setId(ID);
+                            objC.setUsuario(nombreU);
+                            String clave = nombreU + "123";
+                            objC.setClave(ValidacionesSistema.ValidacionesBeep_Go.EncriptarContra(clave));
+                            if (objC.Actualizar()==true) {
+                                ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Actualizacion Exitosa", "La contraseña ha sido actualizada, vuelva al login para iniciar sesion.", 1);
+                                }
+                            else
+                            {
+                                ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Actualizacion Fallida", "La contraseña no ha sido actualizada.", 2);
+                            }
+                        }
+                    } catch (Exception e) 
+                    {
+                        ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Correo inexistente", "No se encontro ningun correo electronico con ese nombre.", SOMEBITS);
+                    }
+                }
+            } catch (Exception e) 
+            {
+                ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Error al capturar datos", "Verifique el Resultset en el evento del boton.", 2);
+            }
+        }
+        else
+        {
+            ValidacionesSistema.ValidacionesBeep_Go.Notificacion("No es", "Pin incorrecto", 2);
+        }
+    }//GEN-LAST:event_btnRestablecerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,6 +405,7 @@ public Image Logo(){
     private javax.swing.JLabel btnCerrar;
     private javax.swing.JLabel btnGoBack;
     private javax.swing.JLabel btnMinimizar;
+    private Controles_Personalizados.Botones.ButtonGradient btnPIN;
     private Controles_Personalizados.Botones.ButtonGradient btnRestablecer;
     private javax.swing.JLabel textoRest;
     private Controles_Personalizados.textfields.TextField txtCorreo;

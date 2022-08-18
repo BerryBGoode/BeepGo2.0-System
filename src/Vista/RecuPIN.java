@@ -224,7 +224,7 @@ public Image Logo(){
 
     void RecuperarContra(){
         if (txtUsuario.getText().equals("") || txtPIN.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Existen campos vacios", "Error de procesamiento", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Existen campos vacios", "Error de proceso", JOptionPane.WARNING_MESSAGE);
         } else {
             ControllerRecuperacionContra obj = new ControllerRecuperacionContra();
             obj.setUsuario(txtUsuario.getText());
