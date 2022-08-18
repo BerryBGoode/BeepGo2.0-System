@@ -74,10 +74,18 @@ public class ControllerParqueo {
     }
     
     public boolean insertPark(){
-        return mdpark.insertPark(getIDParqueo(), getIDAcceso(), getIDVehiculo());
+        return mdpark.insertPark(getIDParqueo(), getIDAcceso(), getIDVehiculo(),getNumberPark());
     }
     
-    /*public static boolean checkStatePark(){
-        
-    }*/
+    public int checkStatePark(){
+        return mdpark.checkState(getNumberPark());
+    }
+    
+    public ResultSet getIDStation(){
+        return mdpark.getIDStation();
+    }
+    
+    public boolean deletePark(){
+        return mdpark.deletePark(getID());
+    }
 }
