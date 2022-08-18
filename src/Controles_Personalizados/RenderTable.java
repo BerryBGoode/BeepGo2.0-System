@@ -9,9 +9,12 @@ package Controles_Personalizados;
 import javax.swing.JTable;
 import javax.swing.JCheckBox;
 import java.awt.Component;
+<<<<<<< HEAD
+=======
 import javax.swing.JLabel;
 import Controles_Personalizados.Botones.UWPButton;
 import Controles_Personalizados.Botones.ButtonGradient;
+>>>>>>> master
 import Controles_Personalizados.Botones.UWPButton;
 /**
  *

@@ -6,11 +6,26 @@
 package Vista;
 
 import Controlador.ControllerContactos;
+import Controles_Personalizados.Botones.UWPButton;
+import Controles_Personalizados.RenderTable;
+<<<<<<< HEAD
+import Controles_Personalizados.Tables.Renderer;
+=======
+>>>>>>> master
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+<<<<<<< HEAD
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+=======
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+>>>>>>> master
 
 import javax.swing.table.DefaultTableModel;
 
@@ -26,10 +41,18 @@ public class PanelContactos extends javax.swing.JPanel {
     public PanelContactos() {
         initComponents();
         
-        String[] headerContactos = {"Id Contacto", "contacto", "id Personal", "id TipoContacto", "Modificar", "Eliminar"};
-        model = new DefaultTableModel(null, headerContactos);
+        String[] headerContactos = {"Id Contacto", "contacto", "Personal", "Tipo Contacto", "idPersonal", "idTipoContacto", "Modificar", "Eliminar"};
+        model = new DefaultTableModel(null, headerContactos){
+            @Override
+            public boolean isCellEditable(int row, int column){ // aqui esta
+                return false;
+            }
+        };
         CargarTabla();
-        CenterTableContent();
+        tbContactos.removeColumn(tbContactos.getColumnModel().getColumn(0));
+        tbContactos.removeColumn(tbContactos.getColumnModel().getColumn(3));
+        tbContactos.removeColumn(tbContactos.getColumnModel().getColumn(3));
+        tbContactos.setDefaultRenderer(Object.class, new RenderTable());
     }
     
     DefaultTableModel model;
@@ -37,6 +60,11 @@ public class PanelContactos extends javax.swing.JPanel {
     ArrayList list;
     int tipo_contacto = 0;
     int idpersonal = 0;
+    
+    UWPButton btnModificar = new UWPButton(); 
+    UWPButton btnEliminar = new UWPButton();
+    ImageIcon Modificar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/editar.png"));
+    ImageIcon Eliminar = new ImageIcon(getClass().getResource("/Recursos_Proyecto/Eliminar.png"));
     
     final void CargarTabla() {
         
@@ -48,24 +76,16 @@ public class PanelContactos extends javax.swing.JPanel {
         try {
             ResultSet rs = ControllerContactos.CargarTablaContactos_Controller();
             while(rs.next()){
-                Object[] oValues = {rs.getInt("idContacto"), rs.getString("contacto"), rs.getInt("idPersonal"), rs.getInt("idTipoContacto")};
+                btnModificar.setIcon(Modificar);
+                btnEliminar.setIcon(Eliminar);
+                btnModificar.setBackground(new Color(231,234,239));
+                btnEliminar.setBackground(new Color(231,234,239));
+                Object[] oValues = {rs.getInt("idContacto"), rs.getString("contacto"), rs.getString("Personal"), rs.getString("tipo_contacto"), rs.getInt("idPersonal"), rs.getInt("idTipoContacto"),btnModificar, btnEliminar};
                 model.addRow(oValues);
             }
         } catch(Exception e){
         }
         
-    }
-    
-    final void CenterTableContent() {
-        DefaultTableCellRenderer centerRende = new DefaultTableCellRenderer();
-        centerRende.setHorizontalAlignment(JLabel.CENTER);
-        tbContactos.getColumnModel().getColumn(0).setCellRenderer(centerRende);
-        tbContactos.getColumnModel().getColumn(1).setCellRenderer(centerRende);
-        tbContactos.getColumnModel().getColumn(2).setCellRenderer(centerRende);
-        tbContactos.getColumnModel().getColumn(3).setCellRenderer(centerRende);
-        tbContactos.getColumnModel().getColumn(4).setCellRenderer(centerRende);
-        tbContactos.getColumnModel().getColumn(5).setCellRenderer(centerRende);
-
     }
 
     /**
@@ -168,6 +188,11 @@ public class PanelContactos extends javax.swing.JPanel {
         tbContactos.setName(""); // NOI18N
         tbContactos.setSelectionBackground(new java.awt.Color(58, 50, 75));
         tbContactos.setShowVerticalLines(false);
+        tbContactos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbContactosMouseClicked(evt);
+            }
+        });
         PanelTabla.setViewportView(tbContactos);
 
         PanelFondo.add(PanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 1230, 480));
@@ -212,6 +237,51 @@ public class PanelContactos extends javax.swing.JPanel {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+<<<<<<< HEAD
+    FrmAgg_Contacto frmContactos = new FrmAgg_Contacto();
+    
+=======
+>>>>>>> master
+    private void tbContactosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbContactosMouseClicked
+        int column = tbContactos.getColumnModel().getColumnIndexAtX(evt.getX());
+        int row = evt.getY() / tbContactos.getRowHeight();
+        btnModificar.setName("btnActualizar");
+        btnEliminar.setName("btnEliminar");
+        if (evt.getClickCount() == 1){
+            JTable rcp = (JTable) evt.getSource();
+            ValidacionesSistema.Parametros_Contactos.setIdcontacto((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 0));
+            ValidacionesSistema.Parametros_Contactos.setContacto(rcp.getModel().getValueAt(rcp.getSelectedRow(), 1).toString());
+            ValidacionesSistema.Parametros_Contactos.setPersonal(rcp.getModel().getValueAt(rcp.getSelectedRow(), 2).toString());
+            ValidacionesSistema.Parametros_Contactos.setTipocontacto(rcp.getModel().getValueAt(rcp.getSelectedRow(), 3).toString());
+            ValidacionesSistema.Parametros_Contactos.setIdpersonal((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 4));
+            ValidacionesSistema.Parametros_Contactos.setIdtipocontacto((int) rcp.getModel().getValueAt(rcp.getSelectedRow(), 5));
+        }
+        if (row < tbContactos.getRowCount() || row >= 0 || column < tbContactos.getColumnCount() || column >= 0) {
+            Object vals = tbContactos.getValueAt(row, column);
+            if (vals instanceof UWPButton) {
+                ((UWPButton) vals).doClick(); // aqui esta
+                UWPButton btns = (UWPButton) vals;
+                if (btns.getName().equals("btnActualizar")) {
+                    FrmAgg_Contacto frmAgg_Contacto = new FrmAgg_Contacto(ValidacionesSistema.Parametros_Contactos.getIdcontacto());
+                    frmAgg_Contacto.setVisible(true);
+                    CargarTabla();
+                    //Actualizar Contacto metodo
+                }
+                if (btns.getName().equals("btnEliminar")) {
+                    int confirmar = JOptionPane.YES_NO_OPTION;
+                    int a = JOptionPane.showConfirmDialog(this, "¿Desea eliminar el contacto: " + ValidacionesSistema.Parametros_Contactos.getContacto() + "?", "Proceso de Eliminar", confirmar);
+                    if (a == 0) {
+                        ControllerContactos.idcontacto = ValidacionesSistema.Parametros_Contactos.getIdcontacto();
+                        if (ControllerContactos.EliminarContactos_Controller() == true) {
+                            ValidacionesSistema.ValidacionesBeep_Go.Notificacion("Proceso de eliminacion", "Contacto eliminado con exito", 1);
+                            CargarTabla();
+                        }
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_tbContactosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
