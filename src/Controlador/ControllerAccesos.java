@@ -66,4 +66,8 @@ public class ControllerAccesos {
     public static boolean insertAccess(){
         return ModelAccesos.insertAccess(getID(), getTypeAccess(),getDate(), getHour(), getJustification());
     }
+    
+    public static boolean deleteAccess(){
+        return ModelAccesos.deleteAccess(getID());
+    }
 }
