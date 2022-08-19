@@ -113,9 +113,7 @@ public Image Logo(){
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnContinuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContinuarActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-        PanelOpcionesPersonal.showinter =0;
+        
     }//GEN-LAST:event_btnContinuarActionPerformed
 
     private void btnCerrarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCerrarMousePressed

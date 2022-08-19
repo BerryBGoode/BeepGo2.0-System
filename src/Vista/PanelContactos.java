@@ -26,47 +26,10 @@ public class PanelContactos extends javax.swing.JPanel {
     public PanelContactos() {
         initComponents();
         
-        String[] headerContactos = {"Id Contacto", "contacto", "id Personal", "id TipoContacto", "Modificar", "Eliminar"};
-        model = new DefaultTableModel(null, headerContactos);
-        CargarTabla();
-        CenterTableContent();
-    }
-    
-    DefaultTableModel model;
-    DefaultComboBoxModel<String> modelcombo = new DefaultComboBoxModel<>();
-    ArrayList list;
-    int tipo_contacto = 0;
-    int idpersonal = 0;
-    
-    final void CargarTabla() {
-        
-        tbContactos.setModel(model);
-        
-        while(model.getRowCount() > 0){
-            model.removeRow(0);
-        }
-        try {
-            ResultSet rs = ControllerContactos.CargarTablaContactos_Controller();
-            while(rs.next()){
-                Object[] oValues = {rs.getInt("idContacto"), rs.getString("contacto"), rs.getInt("idPersonal"), rs.getInt("idTipoContacto")};
-                model.addRow(oValues);
-            }
-        } catch(Exception e){
-        }
         
     }
     
-    final void CenterTableContent() {
-        DefaultTableCellRenderer centerRende = new DefaultTableCellRenderer();
-        centerRende.setHorizontalAlignment(JLabel.CENTER);
-        tbContactos.getColumnModel().getColumn(0).setCellRenderer(centerRende);
-        tbContactos.getColumnModel().getColumn(1).setCellRenderer(centerRende);
-        tbContactos.getColumnModel().getColumn(2).setCellRenderer(centerRende);
-        tbContactos.getColumnModel().getColumn(3).setCellRenderer(centerRende);
-        tbContactos.getColumnModel().getColumn(4).setCellRenderer(centerRende);
-        tbContactos.getColumnModel().getColumn(5).setCellRenderer(centerRende);
-
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
